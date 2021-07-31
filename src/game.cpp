@@ -1,5 +1,9 @@
-#include "game.h"
+﻿#include "game.h"
+#include "SDL_image.h"
 #include <iostream>
+
+SDL_Texture* g_playerTex;
+SDL_Rect g_srcRect, g_dstRect;
 
 Game::Game()
 {
@@ -28,7 +32,7 @@ void Game::init(const char *title, int xpos, int ypos, int widht, int heigth, bo
 
         m_renderer = SDL_CreateRenderer(m_win, -1, 0);
         if(m_renderer){
-            SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 0);
+            SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 0);
             std::cout << "SDL_CreateRenderer OK" << std::endl;
         }
 
@@ -38,6 +42,12 @@ void Game::init(const char *title, int xpos, int ypos, int widht, int heigth, bo
     }else{
         m_running = false;
     }
+
+    SDL_Surface* tmp = IMG_Load("assets/player.png");
+    g_playerTex = SDL_CreateTextureFromSurface(m_renderer, tmp);
+    SDL_FreeSurface(tmp);
+
+
 }
 
 void Game::handleEvents()
@@ -48,6 +58,10 @@ void Game::handleEvents()
     case SDL_QUIT:
         m_running = false;
         break;
+    case SDL_KEYDOWN:
+    case SDL_KEYUP:
+        onKeyPress(&evt.key);
+        break;
     default:
         break;
     }
@@ -56,12 +70,16 @@ void Game::handleEvents()
 
 void Game::update()
 {
+    cnt++;
 
+    g_dstRect.h = 64;
+    g_dstRect.w = 64;
 }
 
 void Game::render()
 {
     SDL_RenderClear(m_renderer);
+    SDL_RenderCopy(m_renderer, g_playerTex, NULL, &g_dstRect);
     SDL_RenderPresent(m_renderer);
 
 }
@@ -77,4 +95,31 @@ void Game::clean()
 bool Game::running()
 {
     return m_running;
+}
+
+void Game::onKeyPress(SDL_KeyboardEvent *key)
+{
+    SDL_Keycode kc = key->keysym.sym;
+
+    std::cout << "Key pressed" << kc  << std::endl;
+    int speed = 10;
+
+    switch (kc) {
+    case SDLK_LEFT:
+        g_dstRect.x -= speed;
+        break;
+    case SDLK_RIGHT:
+        g_dstRect.x += speed;
+        break;
+
+    case SDLK_UP:
+        g_dstRect.y -= speed;
+        break;
+
+    case SDLK_DOWN:
+        g_dstRect.y += speed;
+        break;
+    default:
+        break;
+    }
 }
