@@ -59,7 +59,6 @@ void Game::handleEvents()
         m_running = false;
         break;
     case SDL_KEYDOWN:
-    case SDL_KEYUP:
         onKeyPress(&evt.key);
         break;
     default:
@@ -106,17 +105,21 @@ void Game::onKeyPress(SDL_KeyboardEvent *key)
 
     switch (kc) {
     case SDLK_LEFT:
+    case SDLK_a:
         g_dstRect.x -= speed;
         break;
     case SDLK_RIGHT:
+    case SDLK_d:
         g_dstRect.x += speed;
         break;
 
     case SDLK_UP:
+    case SDLK_w:
         g_dstRect.y -= speed;
         break;
 
     case SDLK_DOWN:
+    case SDLK_s:
         g_dstRect.y += speed;
         break;
     default:
