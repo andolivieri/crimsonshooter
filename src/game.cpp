@@ -4,10 +4,14 @@
 #include "texturemanager.h"
 #include "gameobject.h"
 #include "gamemap.h"
+#include "ecs.h"
+#include "Components.h"
 
 GameObject* g_player = nullptr;
 GameMap* g_map = nullptr;
 
+EntityManager manager;
+auto& newPlayer(manager.addEntity());
 
 Game::Game()
 {
@@ -53,6 +57,8 @@ void Game::init(const char *title, int xpos, int ypos, int widht, int heigth, bo
     g_player->x = 300;
     g_player->y = 300;
 
+    newPlayer.addComponent<PositionComponent>();
+
 }
 
 void Game::handleEvents()
@@ -74,14 +80,14 @@ void Game::handleEvents()
 
 void Game::update()
 {
-    g_player->update();
+    manager.update();
 }
 
 void Game::render()
 {
     SDL_RenderClear(m_renderer);
     g_map->DrawMap();
-    g_player->render();
+    manager.update();
     SDL_RenderPresent(m_renderer);
 
 }

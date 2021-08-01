@@ -6,12 +6,15 @@ CONFIG -= qt
 DESTDIR=$$PWD/dist
 
 HEADERS += \
+    src/Components.h \
+    src/ecs.h \
     src/game.h \
     src/gamemap.h \
     src/gameobject.h \
     src/texturemanager.h
 
 SOURCES += \
+        src/ecs.cpp \
         src/game.cpp \
         src/gamemap.cpp \
         src/gameobject.cpp \

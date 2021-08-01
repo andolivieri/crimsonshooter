@@ -11,7 +11,6 @@ public:
     void update();
     void render();
 
-
     int x;
     int y;
 
