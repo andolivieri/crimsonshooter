@@ -3,8 +3,11 @@
 #include "SDL_image.h"
 #include "texturemanager.h"
 #include "gameobject.h"
+#include "gamemap.h"
 
 GameObject* g_player = nullptr;
+GameMap* g_map = nullptr;
+
 
 Game::Game()
 {
@@ -45,7 +48,10 @@ void Game::init(const char *title, int xpos, int ypos, int widht, int heigth, bo
     }
 
     g_player = new GameObject("assets/player.png", m_renderer);
+    g_map = new GameMap(m_renderer);
 
+    g_player->x = 300;
+    g_player->y = 300;
 
 }
 
@@ -74,6 +80,7 @@ void Game::update()
 void Game::render()
 {
     SDL_RenderClear(m_renderer);
+    g_map->DrawMap();
     g_player->render();
     SDL_RenderPresent(m_renderer);
 
@@ -102,21 +109,21 @@ void Game::onKeyPress(SDL_KeyboardEvent *key)
     switch (kc) {
     case SDLK_LEFT:
     case SDLK_a:
-        g_player->m_xpos -= speed;
+        g_player->x -= speed;
         break;
     case SDLK_RIGHT:
     case SDLK_d:
-        g_player->m_xpos += speed;
+        g_player->x += speed;
         break;
 
     case SDLK_UP:
     case SDLK_w:
-        g_player->m_ypos -= speed;
+        g_player->y -= speed;
         break;
 
     case SDLK_DOWN:
     case SDLK_s:
-        g_player->m_ypos += speed;
+        g_player->y += speed;
         break;
     default:
         break;

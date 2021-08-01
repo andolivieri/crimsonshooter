@@ -7,7 +7,7 @@ int main(int argc, char* argv[])
     g->init("NiceGame",
             SDL_WINDOWPOS_CENTERED,
             SDL_WINDOWPOS_CENTERED,
-            1024, 768,
+            600, 600,
             false
             );
 

@@ -7,8 +7,8 @@ GameObject::GameObject(const char *textureSheet, SDL_Renderer *ren):
 {
     m_texture = TextureManager::loadTexture(textureSheet, m_renderer);
 
-    m_xpos = 0;
-    m_ypos = 0;
+    x = 0;
+    y = 0;
 
     m_srcRect.h = 32;
     m_srcRect.w = 32;
@@ -20,8 +20,8 @@ GameObject::GameObject(const char *textureSheet, SDL_Renderer *ren):
 
 void GameObject::update()
 {
-    m_dstRect.x = m_xpos;
-    m_dstRect.y = m_ypos;
+    m_dstRect.x = x;
+    m_dstRect.y = y;
     m_dstRect.w = m_srcRect.w * 2;
     m_dstRect.h = m_srcRect.h * 2;
 

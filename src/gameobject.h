@@ -12,8 +12,8 @@ public:
     void render();
 
 
-    int m_xpos;
-    int m_ypos;
+    int x;
+    int y;
 
 private:
     SDL_Texture* m_texture;

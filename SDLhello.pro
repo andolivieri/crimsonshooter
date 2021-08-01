@@ -1,5 +1,5 @@
 TEMPLATE = app
-CONFIG += console c++11
+CONFIG += console c++17
 CONFIG -= app_bundle
 CONFIG -= qt
 
@@ -7,11 +7,13 @@ DESTDIR=$$PWD/dist
 
 HEADERS += \
     src/game.h \
+    src/gamemap.h \
     src/gameobject.h \
     src/texturemanager.h
 
 SOURCES += \
         src/game.cpp \
+        src/gamemap.cpp \
         src/gameobject.cpp \
         src/main.cpp \
         src/texturemanager.cpp

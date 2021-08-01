@@ -8,3 +8,8 @@ SDL_Texture *TextureManager::loadTexture(const char *filename, SDL_Renderer *ren
     SDL_FreeSurface(tmp);
     return tex;
 }
+
+void TextureManager::drawTexture(SDL_Texture *tex, SDL_Rect src, SDL_Rect dst, SDL_Renderer *ren)
+{
+    SDL_RenderCopy(ren, tex, &src, &dst);
+}
