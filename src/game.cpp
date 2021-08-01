@@ -100,6 +100,7 @@ void Game::update()
 
     g_enemy->update();
     manager.update();
+
 }
 
 void Game::render()
