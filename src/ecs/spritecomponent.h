@@ -2,13 +2,13 @@
 #define SPRITECOMPONENT_H
 #include "SDL.h"
 #include "ecs.h"
-#include "positioncomponent.h"
+#include "transformcomponent.h"
 #include "texturemanager.h"
 
 class SpriteComponent : public Component
 {
 private:
-    PositionComponent* m_position;
+    TransformComponent* m_position;
     SDL_Texture *m_texture;
     SDL_Rect srcRect, dstRect;
 
@@ -22,7 +22,7 @@ public:
     void init() override
     {
 
-        m_position = &entity->getComponent<PositionComponent>();
+        m_position = &entity->getComponent<TransformComponent>();
 
         srcRect.x = srcRect.y = 0;
         srcRect.w = srcRect.h = 32;

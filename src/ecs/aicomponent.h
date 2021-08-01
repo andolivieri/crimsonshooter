@@ -3,12 +3,12 @@
 
 #include "ecs.h"
 #include "gameobject.h"
-#include "positioncomponent.h"
+#include "transformcomponent.h"
 
 class AIComponent : public Component
 {
 private:
-    PositionComponent* m_position;
+    TransformComponent* m_position;
     const GameObject& m_player;
 
 public:
@@ -21,7 +21,7 @@ public:
 
     void init() override
     {
-        m_position = &entity->getComponent<PositionComponent>();
+        m_position = &entity->getComponent<TransformComponent>();
     }
 
     void update() override

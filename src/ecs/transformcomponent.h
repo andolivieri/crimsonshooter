@@ -3,7 +3,7 @@
 
 #include "ecs.h"
 
-class PositionComponent : public Component
+class TransformComponent : public Component
 {
 public:
 

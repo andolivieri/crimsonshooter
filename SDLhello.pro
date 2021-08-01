@@ -8,23 +8,26 @@ DESTDIR=$$PWD/dist
 HEADERS += \
     src/ecs.h \
     src/ecs/aicomponent.h \
+    src/ecs/components.h \
     src/ecs/spritecomponent.h \
+    src/ecs/transformcomponent.h \
     src/game.h \
     src/gamemap.h \
     src/gameobject.h \
-    src/ecs/positioncomponent.h \
-    src/texturemanager.h
+    src/texturemanager.h \
+    src/vector2d.h
 
 SOURCES += \
         src/ecs.cpp \
         src/ecs/aicomponent.cpp \
         src/ecs/spritecomponent.cpp \
+        src/ecs/transformcomponent.cpp \
         src/game.cpp \
         src/gamemap.cpp \
         src/gameobject.cpp \
         src/main.cpp \
-        src/ecs/positioncomponent.cpp \
-        src/texturemanager.cpp
+        src/texturemanager.cpp \
+        src/vector2d.cpp
 
 
 INCLUDEPATH += libs/SDL2/include/

@@ -5,9 +5,7 @@
 #include "gameobject.h"
 #include "gamemap.h"
 #include "ecs.h"
-#include "ecs/positioncomponent.h"
-#include "ecs/spritecomponent.h"
-#include "ecs/aicomponent.h"
+#include "ecs/components.h"
 
 GameObject* g_player = nullptr;
 GameMap* g_map = nullptr;
@@ -62,7 +60,7 @@ void Game::init(const char *title, int xpos, int ypos, int widht, int heigth, bo
     g_player->y = 300;
 
 
-    newEnemy.addComponent<PositionComponent>();
+    newEnemy.addComponent<TransformComponent>();
     newEnemy.addComponent<AIComponent>(*g_player);
     newEnemy.addComponent<SpriteComponent>("assets/enemy.png");
 
