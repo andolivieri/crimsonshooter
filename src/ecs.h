@@ -53,11 +53,10 @@ private:
     ComponentArray m_compsArray;
     ComponentBitSet m_compsBitset;
 public:
-    void update();
-    void draw();
-    bool active();
-    void destroy();
-
+    void update(){ for(auto& c : m_comps) c->update();}
+    void draw(){ for(auto& c : m_comps) c->draw();}
+    bool active(){ return m_active; }
+    void destroy(){ m_active = false; }
 
     template <typename T> bool hasComponent();
 

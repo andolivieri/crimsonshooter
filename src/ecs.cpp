@@ -1,25 +1,13 @@
 #include "ecs.h"
 
 
-void Entity::update()
-{
-    for(auto& c : m_comps) c->update();
-}
 
-void Entity::draw()
-{
-    for(auto& c : m_comps) c->draw();
-}
 
-bool Entity::active()
-{
-    return m_active;
-}
 
-void Entity::destroy()
-{
-    m_active = false;
-}
+
+
+
+
 
 template<typename T>
 bool Entity::hasComponent()

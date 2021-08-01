@@ -15,7 +15,7 @@ public:
         y = 0;
     }
 
-    void update()
+    void update() override
     {
         x+= 1;
         y+= 1;
