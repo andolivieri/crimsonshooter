@@ -6,11 +6,15 @@ CONFIG -= qt
 DESTDIR=$$PWD/dist
 
 HEADERS += \
-    src/game.h
+    src/game.h \
+    src/gameobject.h \
+    src/texturemanager.h
 
 SOURCES += \
         src/game.cpp \
-        src/main.cpp
+        src/gameobject.cpp \
+        src/main.cpp \
+        src/texturemanager.cpp
 
 
 INCLUDEPATH += libs/SDL2/include/

@@ -1,9 +1,10 @@
 ﻿#include "game.h"
-#include "SDL_image.h"
 #include <iostream>
+#include "SDL_image.h"
+#include "texturemanager.h"
+#include "gameobject.h"
 
-SDL_Texture* g_playerTex;
-SDL_Rect g_srcRect, g_dstRect;
+GameObject* g_player = nullptr;
 
 Game::Game()
 {
@@ -43,9 +44,7 @@ void Game::init(const char *title, int xpos, int ypos, int widht, int heigth, bo
         m_running = false;
     }
 
-    SDL_Surface* tmp = IMG_Load("assets/player.png");
-    g_playerTex = SDL_CreateTextureFromSurface(m_renderer, tmp);
-    SDL_FreeSurface(tmp);
+    g_player = new GameObject("assets/player.png", m_renderer);
 
 
 }
@@ -69,16 +68,13 @@ void Game::handleEvents()
 
 void Game::update()
 {
-    cnt++;
-
-    g_dstRect.h = 64;
-    g_dstRect.w = 64;
+    g_player->update();
 }
 
 void Game::render()
 {
     SDL_RenderClear(m_renderer);
-    SDL_RenderCopy(m_renderer, g_playerTex, NULL, &g_dstRect);
+    g_player->render();
     SDL_RenderPresent(m_renderer);
 
 }
@@ -100,27 +96,27 @@ void Game::onKeyPress(SDL_KeyboardEvent *key)
 {
     SDL_Keycode kc = key->keysym.sym;
 
-    std::cout << "Key pressed" << kc  << std::endl;
+    std::cout << "Key pressed: " << SDL_GetKeyName(kc)  << std::endl;
     int speed = 10;
 
     switch (kc) {
     case SDLK_LEFT:
     case SDLK_a:
-        g_dstRect.x -= speed;
+        g_player->m_xpos -= speed;
         break;
     case SDLK_RIGHT:
     case SDLK_d:
-        g_dstRect.x += speed;
+        g_player->m_xpos += speed;
         break;
 
     case SDLK_UP:
     case SDLK_w:
-        g_dstRect.y -= speed;
+        g_player->m_ypos -= speed;
         break;
 
     case SDLK_DOWN:
     case SDLK_s:
-        g_dstRect.y += speed;
+        g_player->m_ypos += speed;
         break;
     default:
         break;
