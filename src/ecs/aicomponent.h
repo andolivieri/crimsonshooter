@@ -27,15 +27,15 @@ public:
     void update() override
     {
 
-            if(m_position->x > m_player.x)
-                m_position->x--;
+            if(m_position->pos.x > m_player.x)
+                m_position->pos.x--;
             else
-                m_position->x++;
+                m_position->pos.x++;
 
-            if(m_position->y > m_player.y)
-                m_position->y--;
+            if(m_position->pos.y > m_player.y)
+                m_position->pos.y--;
             else
-                m_position->y++;
+                m_position->pos.y++;
 
     }
 

@@ -2,21 +2,18 @@
 #define POSITIONCOMPONENT_H
 
 #include "ecs.h"
+#include "vector2d.h"
 
 class TransformComponent : public Component
 {
 public:
 
-
-    //~PositionComponent(){};
-
-    int x;
-    int y;
+    Vector2D pos;
 
     void init() override
     {
-        x = 0;
-        y = 0;
+        pos.x = 0;
+        pos.y = 0;
     }
 
     void update() override
