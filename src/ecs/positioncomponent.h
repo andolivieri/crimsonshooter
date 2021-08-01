@@ -1,5 +1,5 @@
-#ifndef COMPONENTS_H
-#define COMPONENTS_H
+#ifndef POSITIONCOMPONENT_H
+#define POSITIONCOMPONENT_H
 
 #include "ecs.h"
 
@@ -21,8 +21,7 @@ public:
 
     void update() override
     {
-        x+= 1;
-        y+= 1;
+
     }
 
     void draw() override
@@ -33,4 +32,4 @@ public:
 
 };
 
-#endif // COMPONENTS_H
+#endif // POSITIONCOMPONENT_H

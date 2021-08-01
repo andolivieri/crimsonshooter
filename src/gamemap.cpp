@@ -38,9 +38,9 @@ GameMap::GameMap(SDL_Renderer* ren):
     m_renderer(ren)
 {
     LoadMap(lvl1);
-    dirt = TextureManager::loadTexture("assets/dirt.png", m_renderer);
-    grass = TextureManager::loadTexture("assets/grass.png", m_renderer);
-    water = TextureManager::loadTexture("assets/water.png", m_renderer);
+    dirt = TextureManager::loadTexture("assets/dirt.png");
+    grass = TextureManager::loadTexture("assets/grass.png");
+    water = TextureManager::loadTexture("assets/water.png");
 }
 
 GameMap::~GameMap()
@@ -77,7 +77,7 @@ void GameMap::DrawMap()
             dst.x = zoom*TILESIZE*j;
             dst.y = zoom*TILESIZE*i;
 
-            TextureManager::drawTexture(tex, src, dst, m_renderer);
+            TextureManager::drawTexture(tex, src, dst);
         }
     }
 }

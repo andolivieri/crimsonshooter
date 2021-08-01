@@ -5,14 +5,15 @@
 #include "gameobject.h"
 #include "gamemap.h"
 #include "ecs.h"
-#include "Components.h"
+#include "ecs/positioncomponent.h"
+#include "ecs/spritecomponent.h"
+#include "ecs/aicomponent.h"
 
 GameObject* g_player = nullptr;
-GameObject* g_enemy = nullptr;
 GameMap* g_map = nullptr;
 
 EntityManager manager;
-auto& newPlayer(manager.addEntity());
+auto& newEnemy(manager.addEntity());
 
 Game::Game()
 {
@@ -45,6 +46,8 @@ void Game::init(const char *title, int xpos, int ypos, int widht, int heigth, bo
             std::cout << "SDL_CreateRenderer OK" << std::endl;
         }
 
+        TextureManager::renderer = m_renderer;
+
 
         m_running = true;
 
@@ -53,16 +56,15 @@ void Game::init(const char *title, int xpos, int ypos, int widht, int heigth, bo
     }
 
     g_player = new GameObject("assets/player.png", m_renderer);
-    g_enemy = new GameObject("assets/enemy.png", m_renderer);
     g_map = new GameMap(m_renderer);
 
     g_player->x = 300;
     g_player->y = 300;
-    g_enemy->x = 80;
-    g_enemy->y = 80;
 
 
-    newPlayer.addComponent<PositionComponent>();
+    newEnemy.addComponent<PositionComponent>();
+    newEnemy.addComponent<AIComponent>(*g_player);
+    newEnemy.addComponent<SpriteComponent>("assets/enemy.png");
 
 }
 
@@ -86,19 +88,6 @@ void Game::handleEvents()
 void Game::update()
 {
     g_player->update();
-
-    if(g_enemy->x > g_player->x)
-        g_enemy->x--;
-    else
-        g_enemy->x++;
-
-    if(g_enemy->y > g_player->y)
-        g_enemy->y--;
-    else
-        g_enemy->y++;
-
-
-    g_enemy->update();
     manager.update();
 
 }
@@ -108,7 +97,6 @@ void Game::render()
     SDL_RenderClear(m_renderer);
     g_map->DrawMap();
     g_player->render();
-    g_enemy->render();
     manager.draw();
     SDL_RenderPresent(m_renderer);
 

@@ -6,24 +6,30 @@ CONFIG -= qt
 DESTDIR=$$PWD/dist
 
 HEADERS += \
-    src/Components.h \
     src/ecs.h \
+    src/ecs/aicomponent.h \
+    src/ecs/spritecomponent.h \
     src/game.h \
     src/gamemap.h \
     src/gameobject.h \
+    src/ecs/positioncomponent.h \
     src/texturemanager.h
 
 SOURCES += \
         src/ecs.cpp \
+        src/ecs/aicomponent.cpp \
+        src/ecs/spritecomponent.cpp \
         src/game.cpp \
         src/gamemap.cpp \
         src/gameobject.cpp \
         src/main.cpp \
+        src/ecs/positioncomponent.cpp \
         src/texturemanager.cpp
 
 
 INCLUDEPATH += libs/SDL2/include/
 INCLUDEPATH += libs/SDL2_image/include/
+INCLUDEPATH += src/
 
 OTHER_FILES += README.md
 

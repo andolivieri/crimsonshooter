@@ -1,0 +1,2 @@
+#include "spritecomponent.h"
+
