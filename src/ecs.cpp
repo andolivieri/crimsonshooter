@@ -9,33 +9,9 @@
 
 
 
-template<typename T>
-bool Entity::hasComponent()
-{
-    return m_compsBitset[getComponentTypeID<T>()];
-}
 
-template<typename T, typename... TArgs>
-T& Entity::addComponent(TArgs&&...mArgs)
-{
-    T* c(new T(std::forward<TArgs>)(mArgs)...);
 
-    c->entity = this;
-    std::unique_ptr<Component> uPtr(c);
-    m_comps.emplace_back(uPtr);
 
-    m_compsArray[getComponentTypeID<T>()] = c;
-    m_compsBitset[getComponentTypeID<T>()] = true;
-
-    c->init();
-}
-
-template<typename T>
-T& Entity::getComponent() const
-{
-    auto ptr(m_compsArray[getComponentTypeID<T>()]);
-    return *static_cast<T*>(ptr);
-}
 
 void EntityManager::update()
 {

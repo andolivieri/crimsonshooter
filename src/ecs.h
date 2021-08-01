@@ -22,7 +22,7 @@ inline ComponentID getComponentTypeID()
 
 template <typename T> inline ComponentID getComponentTypeID() noexcept
 {
-    static ComponentID typeID = getComponentID();
+    static ComponentID typeID = getComponentTypeID();
     return typeID;
 }
 
@@ -37,11 +37,10 @@ class Component
 public:
     Entity* entity;
 
-    virtual void init();
-    virtual void update();
-    virtual void draw();
+    virtual void init() = 0;
+    virtual void update() = 0;
+    virtual void draw() = 0;
 
-    virtual ~Component();
 };
 
 class Entity
@@ -58,11 +57,33 @@ public:
     bool active(){ return m_active; }
     void destroy(){ m_active = false; }
 
-    template <typename T> bool hasComponent();
+    template <typename T> bool hasComponent()
+    {
+        return m_compsBitset[getComponentTypeID<T>()];
+    }
 
-    template <typename T, typename...TArgs>
-    T& addComponent(TArgs&&... mArgs);
-    template <typename T> T& getComponent() const;
+    template <typename T, typename... TArgs>
+    T& addComponent(TArgs&&... mArgs)
+    {
+        T* c(new T(std::forward<TArgs>(mArgs)...));
+
+        c->entity = this;
+        std::unique_ptr<Component> uPtr(c);
+        m_comps.emplace_back(std::move(uPtr));
+
+        m_compsArray[getComponentTypeID<T>()] = c;
+        m_compsBitset[getComponentTypeID<T>()] = true;
+
+        c->init();
+
+        return *c;
+    }
+
+    template <typename T> T& getComponent() const
+    {
+        auto ptr(m_compsArray[getComponentTypeID<T>()]);
+        return *static_cast<T*>(ptr);
+    }
 };
 
 class EntityManager

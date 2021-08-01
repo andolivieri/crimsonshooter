@@ -80,6 +80,7 @@ void Game::handleEvents()
 
 void Game::update()
 {
+    g_player->update();
     manager.update();
 }
 
@@ -87,7 +88,8 @@ void Game::render()
 {
     SDL_RenderClear(m_renderer);
     g_map->DrawMap();
-    manager.update();
+    manager.draw();
+    g_player->render();
     SDL_RenderPresent(m_renderer);
 
 }

@@ -6,6 +6,10 @@
 class PositionComponent : public Component
 {
 public:
+
+
+    //~PositionComponent(){};
+
     int x;
     int y;
 
@@ -20,6 +24,12 @@ public:
         x+= 1;
         y+= 1;
     }
+
+    void draw() override
+    {
+
+    }
+
 
 };
 
