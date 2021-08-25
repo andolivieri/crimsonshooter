@@ -53,7 +53,9 @@ INSTALLS += SDLdll
 
 assets.path  = $${DESTDIR}
 assets.commands  += \
-        $$quote(xcopy /Y /S $$system_path($$PWD\assets\ ) $$system_path($$DESTDIR\assets\ ) $$escape_expand(\n\t))
+        $$quote(mkdir $$system_path($$DESTDIR\assets\ ) $$escape_expand(\n\t))
+assets.commands  += \
+        $$quote(xcopy /Y /S $$system_path($$PWD\assets\* ) $$system_path($$DESTDIR\assets\ ) $$escape_expand(\n\t))
 INSTALLS += assets
 
 LIBS += $$PWD/libs/SDL2/lib/x64/SDL2.lib
