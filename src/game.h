@@ -17,13 +17,14 @@ public:
     void clean();
 
     bool running();
+
+    static SDL_Event event;
 private:
     unsigned long cnt = 0;
     bool m_running = false;
     SDL_Window* m_win = nullptr;
     SDL_Renderer *m_renderer = nullptr;
 
-    void onKeyPress(SDL_KeyboardEvent *key);
 
 };
 

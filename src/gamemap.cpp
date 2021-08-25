@@ -45,6 +45,9 @@ GameMap::GameMap(SDL_Renderer* ren):
 
 GameMap::~GameMap()
 {
+    SDL_DestroyTexture(dirt);
+    SDL_DestroyTexture(grass);
+    SDL_DestroyTexture(water);
 }
 
 void GameMap::DrawMap()

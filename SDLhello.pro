@@ -6,25 +6,29 @@ CONFIG -= qt
 DESTDIR=$$PWD/dist
 
 HEADERS += \
+    src/collision.h \
     src/ecs.h \
     src/ecs/aicomponent.h \
+    src/ecs/collidercomponent.h \
     src/ecs/components.h \
+    src/ecs/inputcomponent.h \
     src/ecs/spritecomponent.h \
     src/ecs/transformcomponent.h \
     src/game.h \
     src/gamemap.h \
-    src/gameobject.h \
     src/texturemanager.h \
     src/vector2d.h
 
 SOURCES += \
+        src/collision.cpp \
         src/ecs.cpp \
         src/ecs/aicomponent.cpp \
+        src/ecs/collidercomponent.cpp \
+        src/ecs/inputcomponent.cpp \
         src/ecs/spritecomponent.cpp \
         src/ecs/transformcomponent.cpp \
         src/game.cpp \
         src/gamemap.cpp \
-        src/gameobject.cpp \
         src/main.cpp \
         src/texturemanager.cpp \
         src/vector2d.cpp

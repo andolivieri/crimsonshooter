@@ -2,16 +2,18 @@
 #include <iostream>
 #include "SDL_image.h"
 #include "texturemanager.h"
-#include "gameobject.h"
 #include "gamemap.h"
 #include "ecs.h"
 #include "ecs/components.h"
 
-GameObject* g_player = nullptr;
 GameMap* g_map = nullptr;
+
+SDL_Event Game::event;
 
 EntityManager manager;
 auto& newEnemy(manager.addEntity());
+auto& wall(manager.addEntity());
+auto& newPlayer(manager.addEntity());
 
 Game::Game()
 {
@@ -53,16 +55,24 @@ void Game::init(const char *title, int xpos, int ypos, int widht, int heigth, bo
         m_running = false;
     }
 
-    g_player = new GameObject("assets/player.png", m_renderer);
     g_map = new GameMap(m_renderer);
 
-    g_player->x = 300;
-    g_player->y = 300;
 
 
-    newEnemy.addComponent<TransformComponent>();
-    newEnemy.addComponent<AIComponent>(*g_player);
-    newEnemy.addComponent<SpriteComponent>("assets/enemy.png");
+    newPlayer.addComponent<TransformComponent>(300.f,300.f, 64,64);
+    newPlayer.addComponent<SpriteComponent>("assets/player.png");
+    newPlayer.addComponent<InputComponent>();
+    newPlayer.addComponent<ColliderComponent>();
+
+
+    newEnemy.addComponent<TransformComponent>(0.f,0.f, 128,128);
+    newEnemy.addComponent<AIComponent>(newPlayer);
+    newEnemy.addComponent<SpriteComponent>("assets/foe.png");
+
+    wall.addComponent<ColliderComponent>();
+    wall.addComponent<TransformComponent>(155, 250, 32, 512);
+    wall.addComponent<SpriteComponent>("assets/wall.png");
+    wall.addComponent<ColliderComponent>();
 
 }
 
@@ -74,18 +84,17 @@ void Game::handleEvents()
     case SDL_QUIT:
         m_running = false;
         break;
-    case SDL_KEYDOWN:
-        onKeyPress(&evt.key);
-        break;
     default:
         break;
     }
+
+
+    event = evt;
 
 }
 
 void Game::update()
 {
-    g_player->update();
     manager.update();
 
 }
@@ -94,7 +103,6 @@ void Game::render()
 {
     SDL_RenderClear(m_renderer);
     g_map->DrawMap();
-    g_player->render();
     manager.draw();
     SDL_RenderPresent(m_renderer);
 
@@ -113,33 +121,3 @@ bool Game::running()
     return m_running;
 }
 
-void Game::onKeyPress(SDL_KeyboardEvent *key)
-{
-    SDL_Keycode kc = key->keysym.sym;
-
-    std::cout << "Key pressed: " << SDL_GetKeyName(kc)  << std::endl;
-    int speed = 10;
-
-    switch (kc) {
-    case SDLK_LEFT:
-    case SDLK_a:
-        g_player->x -= speed;
-        break;
-    case SDLK_RIGHT:
-    case SDLK_d:
-        g_player->x += speed;
-        break;
-
-    case SDLK_UP:
-    case SDLK_w:
-        g_player->y -= speed;
-        break;
-
-    case SDLK_DOWN:
-    case SDLK_s:
-        g_player->y += speed;
-        break;
-    default:
-        break;
-    }
-}

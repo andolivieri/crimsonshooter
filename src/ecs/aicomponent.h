@@ -2,19 +2,18 @@
 #define AICOMPONENT_H
 
 #include "ecs.h"
-#include "gameobject.h"
 #include "transformcomponent.h"
 
 class AIComponent : public Component
 {
 private:
     TransformComponent* m_position;
-    const GameObject& m_player;
+    const Entity& m_target;
 
 public:
     AIComponent() = default;
-    AIComponent(const GameObject& player):
-        m_player(player)
+    AIComponent(const Entity& player):
+        m_target(player)
     {
 
     }
@@ -27,19 +26,23 @@ public:
     void update() override
     {
 
-            if(m_position->pos.x > m_player.x)
-                m_position->pos.x--;
-            else
-                m_position->pos.x++;
+            TransformComponent* m_player =  &m_target.getComponent<TransformComponent>();
 
-            if(m_position->pos.y > m_player.y)
-                m_position->pos.y--;
+            if(m_position->pos.x > m_player->pos.x)
+                m_position->velocity.x = -1;
+            else if (m_position->pos.x < m_player->pos.x)
+                m_position->velocity.x = 1;
             else
-                m_position->pos.y++;
+                m_position->velocity.x = 0;
+
+            if(m_position->pos.y > m_player->pos.y)
+                m_position->velocity.y = -1;
+            else if (m_position->pos.y < m_player->pos.y)
+                m_position->velocity.y = 1;
+            else
+                m_position->velocity.y = 0;
 
     }
-
-    void draw() override {}
 
 };
 

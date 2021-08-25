@@ -9,22 +9,36 @@ class TransformComponent : public Component
 public:
 
     Vector2D pos;
+    Vector2D velocity;
 
-    void init() override
+    int speed = 1;
+    int width = 32;
+    int height = 32;
+    int scale  = 1;
+
+    TransformComponent()
     {
-        pos.x = 0;
-        pos.y = 0;
     }
 
-    void update() override
+    TransformComponent(const float x, const float y)
     {
-
+        pos.x = x;
+        pos.y = y;
+        velocity.x = velocity.y = 0;
     }
 
-    void draw() override
+    TransformComponent(const float x, const float y, const int w, const int h):
+        TransformComponent(x,y)
     {
-
+        width = w;
+        height = h;
     }
+
+    void update() override {
+        pos.x += velocity.x * speed;
+        pos.y += velocity.y * speed;
+    }
+
 
 
 };
