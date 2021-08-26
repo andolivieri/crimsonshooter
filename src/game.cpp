@@ -8,7 +8,7 @@
 
 GameMap* g_map = nullptr;
 
-SDL_Event Game::event;
+std::set<SDL_Keycode> Game::pressedKeys;
 
 EntityManager manager;
 auto& newEnemy(manager.addEntity());
@@ -57,18 +57,17 @@ void Game::init(const char *title, int xpos, int ypos, int widht, int heigth, bo
 
     g_map = new GameMap(m_renderer);
 
-
-
-    newPlayer.addComponent<TransformComponent>(300.f,300.f, 64,64);
+    newPlayer.addComponent<TransformComponent>(100.f,100.f, 64,64);
+    newPlayer.getComponent<TransformComponent>().speed = 2;
     newPlayer.addComponent<SpriteComponent>("assets/player.png");
     newPlayer.addComponent<InputComponent>();
     newPlayer.addComponent<ColliderComponent>();
 
-
+/*
     newEnemy.addComponent<TransformComponent>(0.f,0.f, 128,128);
     newEnemy.addComponent<AIComponent>(newPlayer);
     newEnemy.addComponent<SpriteComponent>("assets/foe.png");
-
+*/
     wall.addComponent<ColliderComponent>();
     wall.addComponent<TransformComponent>(155, 250, 32, 512);
     wall.addComponent<SpriteComponent>("assets/wall.png");
@@ -79,17 +78,27 @@ void Game::init(const char *title, int xpos, int ypos, int widht, int heigth, bo
 void Game::handleEvents()
 {
     SDL_Event evt;
-    SDL_PollEvent(&evt);
-    switch (evt.type) {
-    case SDL_QUIT:
-        m_running = false;
-        break;
-    default:
-        break;
+    while(SDL_PollEvent(&evt)){
+        switch (evt.type) {
+        case SDL_QUIT:
+            m_running = false;
+            break;
+        case SDL_KEYUP:
+            if(Game::pressedKeys.count(evt.key.keysym.sym))
+                Game::pressedKeys.erase(evt.key.keysym.sym);
+            break;
+        case SDL_KEYDOWN:
+            Game::pressedKeys.insert(evt.key.keysym.sym);
+            break;
+        default:
+            break;
+        }
     }
 
 
-    event = evt;
+    // TODO dispatch eventi? Intanto filtro solo key up/down
+
+    //event = evt;
 
 }
 

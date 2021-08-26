@@ -16,7 +16,9 @@ HEADERS += \
     src/ecs/transformcomponent.h \
     src/game.h \
     src/gamemap.h \
+    src/math2d.h \
     src/texturemanager.h \
+    src/utils.h \
     src/vector2d.h
 
 SOURCES += \
@@ -30,7 +32,9 @@ SOURCES += \
         src/game.cpp \
         src/gamemap.cpp \
         src/main.cpp \
+        src/math2d.cpp \
         src/texturemanager.cpp \
+        src/utils.cpp \
         src/vector2d.cpp
 
 
@@ -53,7 +57,7 @@ INSTALLS += SDLdll
 
 assets.path  = $${DESTDIR}
 assets.commands  += \
-        $$quote(mkdir $$system_path($$DESTDIR\assets\ ) $$escape_expand(\n\t))
+        $$quote(if not exist $$system_path($$DESTDIR\assets\ ) mkdir $$system_path($$DESTDIR\assets\ ) $$escape_expand(\n\t))
 assets.commands  += \
         $$quote(xcopy /Y /S $$system_path($$PWD\assets\* ) $$system_path($$DESTDIR\assets\ ) $$escape_expand(\n\t))
 INSTALLS += assets

@@ -12,29 +12,9 @@ class InputComponent : public Component
 {
 
 public:
-    void init() override
-    {
-        if(!entity->hasComponent<TransformComponent>())
-        {
-            entity->addComponent<TransformComponent>();
-        }
-        transform = &entity->getComponent<TransformComponent>();
-    }
-
-    void update() override
-    {
-
-        switch (Game::event.type) {
-        case SDL_KEYDOWN:
-            onKeyDown(&Game::event.key);
-            break;
-        case SDL_KEYUP:
-            onKeyUp(&Game::event.key);
-            break;
-        default:
-            break;
-        }
-    }
+    void init() override;
+    void update() override;
+    void draw() override;
 
 private:
 
@@ -42,8 +22,8 @@ private:
     std::string tag;
 
     TransformComponent* transform;
-    void onKeyDown(SDL_KeyboardEvent *key);
-    void onKeyUp(SDL_KeyboardEvent *key);
+    void handleInput(double angle);
+    SDL_Point getPlayerCenter();
 };
 
 #endif // INPUTCOMPONENT_H

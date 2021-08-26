@@ -15,6 +15,7 @@ public:
     int width = 32;
     int height = 32;
     int scale  = 1;
+    double rotation = 0;
 
     TransformComponent()
     {
@@ -35,8 +36,16 @@ public:
     }
 
     void update() override {
-        pos.x += velocity.x * speed;
-        pos.y += velocity.y * speed;
+        pos.x += velocity.x;
+        pos.y += velocity.y;
+    }
+
+    int scaledWidth() const {
+        return width * scale;
+    }
+
+    int scaledHeight() const {
+        return height * scale;
     }
 
 
