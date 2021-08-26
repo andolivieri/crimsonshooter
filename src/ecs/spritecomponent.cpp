@@ -3,11 +3,33 @@
 SpriteComponent::SpriteComponent(const char *path)
 {
     m_texture = TextureManager::loadTexture(path);
+    srcRect.x = 0;
+    srcRect.y = 0;
+    srcRect.w = 32;
+    srcRect.h = 32;
+}
+
+SpriteComponent::SpriteComponent(SDL_Texture *t)
+{
+    m_texture = t;
+}
+
+SpriteComponent::SpriteComponent(SDL_Texture *t, const SDL_Rect &src, SDL_RendererFlip f):
+    SpriteComponent(t)
+{
+    srcRect = src;
+    flip = f;
+}
+
+SpriteComponent::SpriteComponent(const char *path, const SDL_Rect &src):
+    SpriteComponent(path)
+{
+    srcRect = src;
 }
 
 SpriteComponent::~SpriteComponent()
 {
-    SDL_DestroyTexture(m_texture);
+    //SDL_DestroyTexture(m_texture);
 }
 
 void SpriteComponent::init()
@@ -15,10 +37,6 @@ void SpriteComponent::init()
 
     transform = &entity->getComponent<TransformComponent>();
 
-    srcRect.x = 0;
-    srcRect.y = 0;
-    srcRect.w = 32;
-    srcRect.h = 32;
 
     _update();
 }
@@ -30,7 +48,7 @@ void SpriteComponent::update()
 
 void SpriteComponent::draw()
 {
-    TextureManager::drawTexture(m_texture, srcRect, dstRect, transform->rotation);
+    TextureManager::drawTexture(m_texture, srcRect, dstRect, transform->rotation, flip);
 
 #ifdef __DEBUG
     SDL_RenderDrawRect(TextureManager::renderer, &dstRect);

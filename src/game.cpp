@@ -17,10 +17,6 @@ auto& newEnemy(manager.addEntity());
 auto& wall(manager.addEntity());
 auto& newPlayer(manager.addEntity());
 
-auto& tile0(manager.addEntity());
-auto& tile1(manager.addEntity());
-auto& tile2(manager.addEntity());
-
 Game::Game()
 {
 
@@ -61,16 +57,14 @@ void Game::init(const char *title, int xpos, int ypos, int widht, int heigth, bo
         m_running = false;
     }
 
-    g_map = new GameMap(m_renderer);
+    g_map = new GameMap();
 
-    tile0.addComponent<TileComponent>(200, 200, 32,32, 0);
-    tile1.addComponent<TileComponent>(250, 250, 32,32, 1);
-    tile2.addComponent<TileComponent>(150, 150, 32,32, 2);
+    GameMap::LoadMap("assets/themap.json");
 
     newPlayer.addComponent<TransformComponent>(100.f,100.f, 64,64);
     newPlayer.getComponent<TransformComponent>().speed = 1.5;
-    newPlayer.getComponent<TransformComponent>().width = 32;
-    newPlayer.getComponent<TransformComponent>().height = 32;
+    newPlayer.getComponent<TransformComponent>().width = 64;
+    newPlayer.getComponent<TransformComponent>().height = 64;
     newPlayer.addComponent<SpriteComponent>("assets/player.png");
     newPlayer.addComponent<InputComponent>();
     newPlayer.addComponent<ColliderComponent>("player");
@@ -142,6 +136,12 @@ void Game::clean()
     SDL_DestroyRenderer(m_renderer);
     SDL_Quit();
     std::cout << "SDL_Quit()" << std::endl;
+}
+
+void Game::addTile(SDL_Texture* sdlTexture, const SDL_Rect& src, const SDL_Rect& dst, SDL_RendererFlip flip)
+{
+    auto& tile(manager.addEntity());
+    tile.addComponent<TileComponent>(sdlTexture, src, dst, flip);
 }
 
 bool Game::running()

@@ -34,7 +34,7 @@ void InputComponent::update()
 
 void InputComponent::draw()
 {
-#ifdef _DEBUG
+#ifdef __DEBUG
     SDL_Point p = getPlayerCenter();
     SDL_Color col;
     memset(&col, 0, sizeof(SDL_Color));

@@ -24,6 +24,7 @@ public:
     static bool KEYS[322];
     static std::set<SDL_Keycode> pressedKeys;
     static std::vector<ColliderComponent*> colliders;
+    static void addTile(SDL_Texture *sdlTexture, const SDL_Rect &src, const SDL_Rect &dst, SDL_RendererFlip flip);
 private:
     unsigned long cnt = 0;
     bool m_running = false;

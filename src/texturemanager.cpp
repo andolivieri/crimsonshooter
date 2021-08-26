@@ -12,12 +12,12 @@ SDL_Texture *TextureManager::loadTexture(const char *filename)
     return tex;
 }
 
-void TextureManager::drawTexture(SDL_Texture *tex, SDL_Rect src, SDL_Rect dst, double rotation)
+void TextureManager::drawTexture(SDL_Texture *tex, SDL_Rect src, SDL_Rect dst, double rotation, SDL_RendererFlip flip)
 {
     SDL_Point center;
     center.x = (dst.w) / 2;
     center.y = (dst.h) / 2;
 
-    SDL_RenderCopyEx(TextureManager::renderer, tex, &src, &dst, rotation, &center, SDL_FLIP_NONE);
+    SDL_RenderCopyEx(TextureManager::renderer, tex, &src, &dst, rotation, &center, flip);
 
 }
