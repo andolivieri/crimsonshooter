@@ -6,5 +6,6 @@
 #include "spritecomponent.h"
 #include "collidercomponent.h"
 #include "inputcomponent.h"
+#include "tilecomponent.h"
 
 #endif // COMPONENTS_H

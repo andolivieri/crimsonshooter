@@ -5,15 +5,21 @@
 #include "gamemap.h"
 #include "ecs.h"
 #include "ecs/components.h"
+#include "collision.h"
 
 GameMap* g_map = nullptr;
 
 std::set<SDL_Keycode> Game::pressedKeys;
+std::vector<ColliderComponent*> Game::colliders;
 
 EntityManager manager;
 auto& newEnemy(manager.addEntity());
 auto& wall(manager.addEntity());
 auto& newPlayer(manager.addEntity());
+
+auto& tile0(manager.addEntity());
+auto& tile1(manager.addEntity());
+auto& tile2(manager.addEntity());
 
 Game::Game()
 {
@@ -57,13 +63,17 @@ void Game::init(const char *title, int xpos, int ypos, int widht, int heigth, bo
 
     g_map = new GameMap(m_renderer);
 
+    tile0.addComponent<TileComponent>(200, 200, 32,32, 0);
+    tile1.addComponent<TileComponent>(250, 250, 32,32, 1);
+    tile2.addComponent<TileComponent>(150, 150, 32,32, 2);
+
     newPlayer.addComponent<TransformComponent>(100.f,100.f, 64,64);
     newPlayer.getComponent<TransformComponent>().speed = 1.5;
     newPlayer.getComponent<TransformComponent>().width = 32;
     newPlayer.getComponent<TransformComponent>().height = 32;
     newPlayer.addComponent<SpriteComponent>("assets/player.png");
     newPlayer.addComponent<InputComponent>();
-    newPlayer.addComponent<ColliderComponent>();
+    newPlayer.addComponent<ColliderComponent>("player");
 
 /*
     newEnemy.addComponent<TransformComponent>(0.f,0.f, 128,128);
@@ -74,7 +84,7 @@ void Game::init(const char *title, int xpos, int ypos, int widht, int heigth, bo
     wall.addComponent<ColliderComponent>();
     wall.addComponent<TransformComponent>(155, 250, 32, 512);
     wall.addComponent<SpriteComponent>("assets/wall.png");
-    wall.addComponent<ColliderComponent>();
+    wall.addComponent<ColliderComponent>("wall");
 
 }
 
@@ -114,8 +124,14 @@ void Game::update()
 void Game::render()
 {
     SDL_RenderClear(m_renderer);
-    g_map->DrawMap();
     manager.draw();
+
+    for(auto& c : colliders)
+        if(c != &newPlayer.getComponent<ColliderComponent>() &&
+                Collision::AABB(*c, newPlayer.getComponent<ColliderComponent>())){
+            std::cout << "Player hit: " << c->tag << std::endl;
+        }
+
     SDL_RenderPresent(m_renderer);
 
 }

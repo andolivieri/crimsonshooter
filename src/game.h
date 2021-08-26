@@ -2,7 +2,9 @@
 #define GAME_H
 
 #include <set>
+#include <vector>
 #include "SDL.h"
+#include "ecs/components.h"
 
 class Game
 {
@@ -21,6 +23,7 @@ public:
 
     static bool KEYS[322];
     static std::set<SDL_Keycode> pressedKeys;
+    static std::vector<ColliderComponent*> colliders;
 private:
     unsigned long cnt = 0;
     bool m_running = false;

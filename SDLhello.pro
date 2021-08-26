@@ -13,6 +13,7 @@ HEADERS += \
     src/ecs/components.h \
     src/ecs/inputcomponent.h \
     src/ecs/spritecomponent.h \
+    src/ecs/tilecomponent.h \
     src/ecs/transformcomponent.h \
     src/game.h \
     src/gamemap.h \
@@ -28,6 +29,7 @@ SOURCES += \
         src/ecs/collidercomponent.cpp \
         src/ecs/inputcomponent.cpp \
         src/ecs/spritecomponent.cpp \
+        src/ecs/tilecomponent.cpp \
         src/ecs/transformcomponent.cpp \
         src/game.cpp \
         src/gamemap.cpp \
