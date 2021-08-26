@@ -58,7 +58,9 @@ void Game::init(const char *title, int xpos, int ypos, int widht, int heigth, bo
     g_map = new GameMap(m_renderer);
 
     newPlayer.addComponent<TransformComponent>(100.f,100.f, 64,64);
-    newPlayer.getComponent<TransformComponent>().speed = 2;
+    newPlayer.getComponent<TransformComponent>().speed = 1.5;
+    newPlayer.getComponent<TransformComponent>().width = 32;
+    newPlayer.getComponent<TransformComponent>().height = 32;
     newPlayer.addComponent<SpriteComponent>("assets/player.png");
     newPlayer.addComponent<InputComponent>();
     newPlayer.addComponent<ColliderComponent>();
@@ -68,6 +70,7 @@ void Game::init(const char *title, int xpos, int ypos, int widht, int heigth, bo
     newEnemy.addComponent<AIComponent>(newPlayer);
     newEnemy.addComponent<SpriteComponent>("assets/foe.png");
 */
+
     wall.addComponent<ColliderComponent>();
     wall.addComponent<TransformComponent>(155, 250, 32, 512);
     wall.addComponent<SpriteComponent>("assets/wall.png");

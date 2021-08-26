@@ -47,43 +47,47 @@ void InputComponent::draw()
 SDL_Point InputComponent::getPlayerCenter()
 {
     SDL_Point playerPt;
-    playerPt.x = transform->pos.x + (transform->scaledWidth() / 2);
-    playerPt.y = transform->pos.y + (transform->scaledHeight()) / 2;
+    playerPt.x = static_cast<int>(transform->pos.x + (transform->scaledWidth() / 2));
+    playerPt.y = static_cast<int>(transform->pos.y + (transform->scaledHeight()) / 2);
     return playerPt;
 }
 
 void InputComponent::handleInput(double angle)
 {
+
     const std::set<SDL_Keycode>& gg = Game::pressedKeys;
 
     transform->velocity.x = 0;
     transform->velocity.y = 0;
 
-    if(gg.count(SDLK_LEFT) || gg.count(SDLK_a))
-    {
-        transform->velocity.x = -(float)transform->speed;
-    }
 
-    if(gg.count(SDLK_RIGHT)|| gg.count(SDLK_d))
-    {
-        transform->velocity.x = (float)transform->speed;
-    }
+    double radAngle = Math2D::deg2rad(angle);
+
+    // n.b. ordine
 
     if(gg.count(SDLK_UP)|| gg.count(SDLK_w))
     {
-        int xdirection = (angle <= 90 && angle >= -90) ? -1 : 1;
-        int ydirection = (angle <= 180 && angle >= 0) ? 1 : -1;
-        xdirection = ydirection = 1;
-
-        double radAngle = Math2D::deg2rad(angle);
-
-        transform->velocity.y = transform->speed * std::sin(radAngle) * ydirection;
-        transform->velocity.x = transform->speed * std::cos(radAngle) * xdirection;
+        transform->velocity.y = transform->speed * static_cast<float>(std::sin(radAngle));
+        transform->velocity.x = transform->speed * static_cast<float>(std::cos(radAngle));
     }
 
     if(gg.count(SDLK_DOWN)|| gg.count(SDLK_s))
     {
-        transform->velocity.y = (float)transform->speed;
+        transform->velocity.y = -transform->speed * static_cast<float>(std::sin(radAngle));
+        transform->velocity.x = -transform->speed * static_cast<float>(std::cos(radAngle));
+    }
+
+
+    if(gg.count(SDLK_LEFT) || gg.count(SDLK_a))
+    {
+        transform->velocity.y = -transform->speed * static_cast<float>(std::sin(radAngle + M_PI/2));
+        transform->velocity.x = -transform->speed * static_cast<float>(std::cos(radAngle + M_PI/2));
+    }
+
+    if(gg.count(SDLK_RIGHT)|| gg.count(SDLK_d))
+    {
+        transform->velocity.y = transform->speed * static_cast<float>(std::sin(radAngle + M_PI/2));
+        transform->velocity.x = transform->speed * static_cast<float>(std::cos(radAngle + M_PI/2));
     }
 
 }

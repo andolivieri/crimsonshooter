@@ -32,7 +32,7 @@ void SpriteComponent::draw()
 {
     TextureManager::drawTexture(m_texture, srcRect, dstRect, transform->rotation);
 
-#ifdef _DEBUG
+#ifdef __DEBUG
     SDL_RenderDrawRect(TextureManager::renderer, &dstRect);
 #endif
 }
