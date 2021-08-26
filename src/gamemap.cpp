@@ -56,8 +56,8 @@ void GameMap::LoadMap(const std::string &path)
                 flip |= SDL_FLIP_VERTICAL;
 
 
-            if(flipped_diagonally)
-                flip |= SDL_FLIP_VERTICAL | SDL_FLIP_HORIZONTAL;
+            //if(flipped_diagonally)
+            //    flip |= SDL_FLIP_VERTICAL | SDL_FLIP_HORIZONTAL;
 
             // Clear the flags
             tileid &= ~(FLIPPED_HORIZONTALLY_FLAG |
