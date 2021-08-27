@@ -11,8 +11,12 @@
 
 class Component; // Position, AI, Physics, Input, etc
 class Entity;
+class EntityManager;
+
+
 
 using ComponentID = std::size_t;
+using Group = std::size_t;
 
 inline ComponentID getComponentTypeID()
 {
@@ -27,8 +31,10 @@ template <typename T> inline ComponentID getComponentTypeID() noexcept
 }
 
 constexpr std::size_t maxComponents = 32;
+constexpr std::size_t maxGroups = 32;
 // Serve per sapere se una entity ha un dato component
 using ComponentBitSet = std::bitset<maxComponents>;
+using GroupBitSet = std::bitset<maxGroups>;
 using ComponentArray = std::array<Component*, maxComponents>;
 
 
@@ -46,16 +52,24 @@ public:
 class Entity
 {
 private:
+    EntityManager& m_manager;
     bool m_active = true; // false = remove from game
     std::vector<std::unique_ptr<Component>> m_comps;
 
     ComponentArray m_compsArray;
     ComponentBitSet m_compsBitset;
+    GroupBitSet m_groupBitset;
 public:
+    Entity(EntityManager& m) : m_manager(m) {}
     void update(){ for(auto& c : m_comps) c->update();}
     void draw(){ for(auto& c : m_comps) c->draw();}
     bool active(){ return m_active; }
     void destroy(){ m_active = false; }
+
+    bool hasGroup(Group g);
+    void addGroup(Group g);
+    void delGroup(Group g);
+
 
     template <typename T> bool hasComponent()
     {
@@ -90,11 +104,16 @@ class EntityManager
 {
 private:
     std::vector<std::unique_ptr<Entity>> m_entities;
-
+    std::array<std::vector<Entity*>, maxGroups> m_groupedEntities;
 public:
     void update();
     void draw();
-    void prune();
+    void refresh();
+
+
+    void addToGroup(Entity* e, Group g);
+
+    std::vector<Entity*>& getGroup(Group g);
 
     Entity& addEntity();
 };

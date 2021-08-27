@@ -17,6 +17,15 @@ auto& newEnemy(manager.addEntity());
 auto& wall(manager.addEntity());
 auto& newPlayer(manager.addEntity());
 
+enum groupLabels
+{
+    groupMap,
+    groupPlayers,
+    groupEnemies,
+    groupColliders,
+    groupLast
+};
+
 Game::Game()
 {
 
@@ -63,11 +72,12 @@ void Game::init(const char *title, int xpos, int ypos, int widht, int heigth, bo
 
     newPlayer.addComponent<TransformComponent>(100.f,100.f, 64,64);
     newPlayer.getComponent<TransformComponent>().speed = 1.5;
-    newPlayer.getComponent<TransformComponent>().width = 64;
-    newPlayer.getComponent<TransformComponent>().height = 64;
+    newPlayer.getComponent<TransformComponent>().width = 32;
+    newPlayer.getComponent<TransformComponent>().height = 32;
     newPlayer.addComponent<SpriteComponent>("assets/player.png");
     newPlayer.addComponent<InputComponent>();
     newPlayer.addComponent<ColliderComponent>("player");
+    newPlayer.addGroup(groupPlayers);
 
 /*
     newEnemy.addComponent<TransformComponent>(0.f,0.f, 128,128);
@@ -79,6 +89,7 @@ void Game::init(const char *title, int xpos, int ypos, int widht, int heigth, bo
     wall.addComponent<TransformComponent>(155, 250, 32, 512);
     wall.addComponent<SpriteComponent>("assets/wall.png");
     wall.addComponent<ColliderComponent>("wall");
+    wall.addGroup(groupMap);
 
 }
 
@@ -118,14 +129,21 @@ void Game::update()
 void Game::render()
 {
     SDL_RenderClear(m_renderer);
-    manager.draw();
+    //manager.draw();
 
+    for(int g = 0; g != groupLast; g++)
+    {
+        auto& entities = manager.getGroup(g);
+        for(auto e : entities) e->draw();
+    }
+
+    /*
     for(auto& c : colliders)
         if(c != &newPlayer.getComponent<ColliderComponent>() &&
                 Collision::AABB(*c, newPlayer.getComponent<ColliderComponent>())){
             std::cout << "Player hit: " << c->tag << std::endl;
         }
-
+*/
     SDL_RenderPresent(m_renderer);
 
 }
@@ -142,6 +160,7 @@ void Game::addTile(SDL_Texture* sdlTexture, const SDL_Rect& src, const SDL_Rect&
 {
     auto& tile(manager.addEntity());
     tile.addComponent<TileComponent>(sdlTexture, src, dst, flip);
+    tile.addGroup(groupMap);
 }
 
 bool Game::running()
