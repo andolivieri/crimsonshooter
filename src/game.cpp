@@ -72,9 +72,12 @@ void Game::init(const char *title, int xpos, int ypos, int widht, int heigth, bo
 
     newPlayer.addComponent<TransformComponent>(100.f,100.f, 64,64);
     newPlayer.getComponent<TransformComponent>().speed = 1.5;
-    newPlayer.getComponent<TransformComponent>().width = 32;
-    newPlayer.getComponent<TransformComponent>().height = 32;
-    newPlayer.addComponent<SpriteComponent>("assets/player.png");
+    newPlayer.getComponent<TransformComponent>().width = 64;
+    newPlayer.getComponent<TransformComponent>().height = 64;
+    newPlayer.addComponent<SpriteComponent>("assets/player.png")
+            .setSrcRect({0,0,16,16})
+            .addAnimation("idle", {0, 2, 600 })
+            .addAnimation("moving", {1, 4, 200 });
     newPlayer.addComponent<InputComponent>();
     newPlayer.addComponent<ColliderComponent>("player");
     newPlayer.addGroup(groupPlayers);
@@ -129,7 +132,6 @@ void Game::update()
 void Game::render()
 {
     SDL_RenderClear(m_renderer);
-    //manager.draw();
 
     for(int g = 0; g != groupLast; g++)
     {

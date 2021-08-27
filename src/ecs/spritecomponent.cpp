@@ -48,12 +48,43 @@ void SpriteComponent::update()
 
 void SpriteComponent::draw()
 {
+
+    if(m_animated){
+        Animation a = m_animation[m_currentAnimation];
+        srcRect.x = srcRect.w * static_cast<int>((SDL_GetTicks() / a.speed) % a.frames);
+        srcRect.y = a.index * srcRect.h;
+    }
+
     TextureManager::drawTexture(m_texture, srcRect, dstRect, transform->rotation, flip);
 
 #ifdef __DEBUG
     SDL_RenderDrawRect(TextureManager::renderer, &dstRect);
 #endif
 }
+
+void SpriteComponent::play(const std::string &anim)
+{
+    m_animated = true;
+    m_currentAnimation = anim;
+}
+
+void SpriteComponent::stop()
+{
+    m_animated = false;
+}
+
+SpriteComponent &SpriteComponent::setSrcRect(const SDL_Rect &s)
+{
+    srcRect = s;
+    return *this;
+}
+
+SpriteComponent &SpriteComponent::addAnimation(const char *name, const Animation &a)
+{
+    m_animation.emplace(name, a);
+    return *this;
+}
+
 
 void SpriteComponent::_update()
 {

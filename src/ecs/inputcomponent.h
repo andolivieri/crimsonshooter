@@ -22,6 +22,7 @@ private:
     std::string tag;
 
     TransformComponent* transform;
+    SpriteComponent* sprite;
     void handleInput(double angle);
     SDL_Point getPlayerCenter();
 };

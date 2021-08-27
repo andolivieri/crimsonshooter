@@ -16,6 +16,7 @@ void InputComponent::init()
         entity->addComponent<TransformComponent>();
     }
     transform = &entity->getComponent<TransformComponent>();
+    sprite = &entity->getComponent<SpriteComponent>();
 }
 
 void InputComponent::update()
@@ -88,6 +89,12 @@ void InputComponent::handleInput(double angle)
     {
         transform->velocity.y = transform->speed * static_cast<float>(std::sin(radAngle + M_PI/2));
         transform->velocity.x = transform->speed * static_cast<float>(std::cos(radAngle + M_PI/2));
+    }
+
+    if(transform->velocity.y || transform->velocity.x){
+        sprite->play("moving");
+    }else{
+        sprite->play("idle");
     }
 
 }

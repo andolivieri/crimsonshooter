@@ -9,6 +9,7 @@ HEADERS += \
     src/collision.h \
     src/ecs.h \
     src/ecs/aicomponent.h \
+    src/ecs/animation.h \
     src/ecs/collidercomponent.h \
     src/ecs/components.h \
     src/ecs/inputcomponent.h \
@@ -26,6 +27,7 @@ SOURCES += \
         src/collision.cpp \
         src/ecs.cpp \
         src/ecs/aicomponent.cpp \
+        src/ecs/animation.cpp \
         src/ecs/collidercomponent.cpp \
         src/ecs/inputcomponent.cpp \
         src/ecs/spritecomponent.cpp \
