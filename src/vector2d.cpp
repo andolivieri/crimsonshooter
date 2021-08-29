@@ -7,11 +7,18 @@ Vector2D::Vector2D()
     y = 0.f;
 }
 
+Vector2D::Vector2D(int x, int y)
+{
+    this->x = static_cast<int>(x);
+    this->y = static_cast<int>(y);
+}
+
 Vector2D::Vector2D(float x, float y)
 {
     this->x = x;
     this->y = y;
 }
+
 
 Vector2D& Vector2D::add(const Vector2D &vec)
 {

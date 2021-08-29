@@ -26,19 +26,20 @@ public:
     void update() override
     {
 
+            float speed = 0.5;
             TransformComponent* m_player =  &m_target.getComponent<TransformComponent>();
 
             if(m_position->pos.x > m_player->pos.x)
-                m_position->velocity.x = -1;
+                m_position->velocity.x = -speed;
             else if (m_position->pos.x < m_player->pos.x)
-                m_position->velocity.x = 1;
+                m_position->velocity.x = speed;
             else
                 m_position->velocity.x = 0;
 
             if(m_position->pos.y > m_player->pos.y)
-                m_position->velocity.y = -1;
+                m_position->velocity.y = -speed;
             else if (m_position->pos.y < m_player->pos.y)
-                m_position->velocity.y = 1;
+                m_position->velocity.y = speed;
             else
                 m_position->velocity.y = 0;
 

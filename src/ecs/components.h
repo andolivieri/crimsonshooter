@@ -7,5 +7,6 @@
 #include "collidercomponent.h"
 #include "inputcomponent.h"
 #include "tilecomponent.h"
+#include "projectilecomponent.h"
 
 #endif // COMPONENTS_H

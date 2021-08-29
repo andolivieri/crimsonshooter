@@ -17,7 +17,6 @@ public:
     ColliderComponent(const std::string& t): tag(t){}
 
     void init() override;
-
     void update() override;
 
 };

@@ -65,36 +65,44 @@ void InputComponent::handleInput(double angle)
     double radAngle = Math2D::deg2rad(angle);
 
     // n.b. ordine
+    float speedMult = 1;
+    if(gg.count(SDLK_LSHIFT)|| gg.count(SDLK_RSHIFT))
+        speedMult = 2;
 
     if(gg.count(SDLK_UP)|| gg.count(SDLK_w))
     {
-        transform->velocity.y = transform->speed * static_cast<float>(std::sin(radAngle));
-        transform->velocity.x = transform->speed * static_cast<float>(std::cos(radAngle));
+        transform->velocity.y = transform->speed * static_cast<float>(std::sin(radAngle)) * speedMult;
+        transform->velocity.x = transform->speed * static_cast<float>(std::cos(radAngle))* speedMult;
     }
 
     if(gg.count(SDLK_DOWN)|| gg.count(SDLK_s))
     {
-        transform->velocity.y = -transform->speed * static_cast<float>(std::sin(radAngle));
-        transform->velocity.x = -transform->speed * static_cast<float>(std::cos(radAngle));
+        transform->velocity.y = -transform->speed * static_cast<float>(std::sin(radAngle))* speedMult;
+        transform->velocity.x = -transform->speed * static_cast<float>(std::cos(radAngle))* speedMult;
     }
 
 
     if(gg.count(SDLK_LEFT) || gg.count(SDLK_a))
     {
-        transform->velocity.y = -transform->speed * static_cast<float>(std::sin(radAngle + M_PI/2));
-        transform->velocity.x = -transform->speed * static_cast<float>(std::cos(radAngle + M_PI/2));
+        transform->velocity.y = -transform->speed * static_cast<float>(std::sin(radAngle + M_PI/2))* speedMult;
+        transform->velocity.x = -transform->speed * static_cast<float>(std::cos(radAngle + M_PI/2))* speedMult;
     }
 
     if(gg.count(SDLK_RIGHT)|| gg.count(SDLK_d))
     {
-        transform->velocity.y = transform->speed * static_cast<float>(std::sin(radAngle + M_PI/2));
-        transform->velocity.x = transform->speed * static_cast<float>(std::cos(radAngle + M_PI/2));
+        transform->velocity.y = transform->speed * static_cast<float>(std::sin(radAngle + M_PI/2))* speedMult;
+        transform->velocity.x = transform->speed * static_cast<float>(std::cos(radAngle + M_PI/2))* speedMult;
     }
 
     if(transform->velocity.y || transform->velocity.x){
-        sprite->play("moving");
+        if(speedMult > 1)
+            sprite->play("fast");
+        else
+            sprite->play("moving");
     }else{
         sprite->play("idle");
     }
+
+
 
 }

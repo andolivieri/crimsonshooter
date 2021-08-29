@@ -28,6 +28,12 @@ public:
         velocity.x = velocity.y = 0;
     }
 
+    TransformComponent(const Vector2D& v):
+        TransformComponent(v.x, v.y)
+    {
+    }
+
+
     TransformComponent(const float x, const float y, const int w, const int h):
         TransformComponent(x,y)
     {

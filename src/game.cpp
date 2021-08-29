@@ -23,6 +23,7 @@ enum groupLabels
     groupPlayers,
     groupEnemies,
     groupColliders,
+    groupProjectiles,
     groupLast
 };
 
@@ -71,22 +72,26 @@ void Game::init(const char *title, int xpos, int ypos, int widht, int heigth, bo
     GameMap::LoadMap("assets/themap.json");
 
     newPlayer.addComponent<TransformComponent>(100.f,100.f, 64,64);
-    newPlayer.getComponent<TransformComponent>().speed = 1.5;
+    newPlayer.getComponent<TransformComponent>().speed = 2;
     newPlayer.getComponent<TransformComponent>().width = 64;
     newPlayer.getComponent<TransformComponent>().height = 64;
+    newPlayer.getComponent<TransformComponent>().pos.x = widht / 2.f;
+    newPlayer.getComponent<TransformComponent>().pos.y = heigth / 2.f;
     newPlayer.addComponent<SpriteComponent>("assets/player.png")
             .setSrcRect({0,0,16,16})
             .addAnimation("idle", {0, 2, 600 })
+            .addAnimation("fast", {1, 4, 100 })
             .addAnimation("moving", {1, 4, 200 });
     newPlayer.addComponent<InputComponent>();
     newPlayer.addComponent<ColliderComponent>("player");
     newPlayer.addGroup(groupPlayers);
 
-/*
+
     newEnemy.addComponent<TransformComponent>(0.f,0.f, 128,128);
     newEnemy.addComponent<AIComponent>(newPlayer);
     newEnemy.addComponent<SpriteComponent>("assets/foe.png");
-*/
+    newEnemy.addGroup(groupEnemies);
+
 
     wall.addComponent<ColliderComponent>();
     wall.addComponent<TransformComponent>(155, 250, 32, 512);
@@ -111,6 +116,19 @@ void Game::handleEvents()
         case SDL_KEYDOWN:
             Game::pressedKeys.insert(evt.key.keysym.sym);
             break;
+        case SDL_MOUSEBUTTONDOWN:
+
+            SDL_Point mousePt;
+            SDL_GetMouseState(&mousePt.x,&mousePt.y);
+            {
+            auto& e = manager.addEntity();
+            e.addComponent<TransformComponent>(newPlayer.getComponent<TransformComponent>().pos);
+            e.addComponent<ProjectileComponent>(
+                newPlayer.getComponent<TransformComponent>().pos,
+                Vector2D{mousePt.x, mousePt.y});
+            e.addGroup(groupProjectiles);
+            }
+            break;
         default:
             break;
         }
@@ -126,6 +144,7 @@ void Game::handleEvents()
 void Game::update()
 {
     manager.update();
+    manager.refresh();
 
 }
 
