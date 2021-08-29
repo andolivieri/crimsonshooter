@@ -15,9 +15,13 @@ public:
 
     ColliderComponent() {}
     ColliderComponent(const std::string& t): tag(t){}
+    ColliderComponent& setBox(const SDL_Rect& r) {
+        collider = r;
+    }
 
     void init() override;
     void update() override;
+    void draw() override;
 
 };
 

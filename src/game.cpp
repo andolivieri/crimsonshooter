@@ -1,5 +1,8 @@
 ﻿#include "game.h"
 #include <iostream>
+#include <random>
+#include <time.h>
+#include <random>
 #include "SDL_image.h"
 #include "texturemanager.h"
 #include "gamemap.h"
@@ -17,15 +20,6 @@ auto& newEnemy(manager.addEntity());
 auto& wall(manager.addEntity());
 auto& newPlayer(manager.addEntity());
 
-enum groupLabels
-{
-    groupMap,
-    groupPlayers,
-    groupEnemies,
-    groupColliders,
-    groupProjectiles,
-    groupLast
-};
 
 Game::Game()
 {
@@ -40,6 +34,7 @@ Game::~Game()
 void Game::init(const char *title, int xpos, int ypos, int widht, int heigth, bool fullscreen)
 {
 
+    srand(time(NULL));
     int flags = 0;
     if(fullscreen)
         flags |= SDL_WINDOW_FULLSCREEN;
@@ -49,6 +44,9 @@ void Game::init(const char *title, int xpos, int ypos, int widht, int heigth, bo
         std::cout << "SDL_Init OK" << std::endl;
 
         m_win = SDL_CreateWindow(title, xpos, ypos, widht, heigth, flags);
+        winHeigth = heigth;
+        winWidth = widht;
+
         if(m_win)
             std::cout << "SDL_CreateWindow OK" << std::endl;
 
@@ -86,13 +84,6 @@ void Game::init(const char *title, int xpos, int ypos, int widht, int heigth, bo
     newPlayer.addComponent<ColliderComponent>("player");
     newPlayer.addGroup(groupPlayers);
 
-
-    newEnemy.addComponent<TransformComponent>(0.f,0.f, 128,128);
-    newEnemy.addComponent<AIComponent>(newPlayer);
-    newEnemy.addComponent<SpriteComponent>("assets/foe.png");
-    newEnemy.addGroup(groupEnemies);
-
-
     wall.addComponent<ColliderComponent>();
     wall.addComponent<TransformComponent>(155, 250, 32, 512);
     wall.addComponent<SpriteComponent>("assets/wall.png");
@@ -122,12 +113,14 @@ void Game::handleEvents()
             SDL_GetMouseState(&mousePt.x,&mousePt.y);
             {
             auto& e = manager.addEntity();
-            e.addComponent<TransformComponent>(newPlayer.getComponent<TransformComponent>().pos);
+            auto& tr = newPlayer.getComponent<TransformComponent>();
+            e.addComponent<TransformComponent>(tr.pos.x, tr.pos.y, 3,3);
             e.addComponent<ProjectileComponent>(
                 newPlayer.getComponent<TransformComponent>().pos,
                 Vector2D{mousePt.x, mousePt.y});
             e.addGroup(groupProjectiles);
             }
+            std::cout << "Shoot" << std::endl;
             break;
         default:
             break;
@@ -143,6 +136,37 @@ void Game::handleEvents()
 
 void Game::update()
 {
+
+    auto& projectiles = manager.getGroup(groupProjectiles);
+    auto& enemies = manager.getGroup(groupEnemies);
+
+    for(auto bullet : projectiles)
+    {
+        for(auto enemy : enemies){
+
+            DamageModelComponent& enemyDamage = enemy->getComponent<DamageModelComponent>();
+
+            TransformComponent& tc = bullet->getComponent<TransformComponent>();
+            ProjectileComponent& pc = bullet->getComponent<ProjectileComponent>();
+            ColliderComponent& cc = bullet->getComponent<ColliderComponent>();
+            if(Collision::AABB(cc, enemy->getComponent<ColliderComponent>()))
+            {
+                enemyDamage.health -= pc.damage;
+                std::cout << "Enemy hit. Damage=" << pc.damage << " Enemy health: " << enemyDamage.health << std::endl;
+                bullet->setActive(false);
+            }
+
+        }
+
+    }
+
+    auto howManyEnemies = enemies.size();
+    while(howManyEnemies++ < 10)
+    {
+        spawnFoe();
+    }
+
+
     manager.update();
     manager.refresh();
 
@@ -158,14 +182,57 @@ void Game::render()
         for(auto e : entities) e->draw();
     }
 
-    /*
-    for(auto& c : colliders)
-        if(c != &newPlayer.getComponent<ColliderComponent>() &&
-                Collision::AABB(*c, newPlayer.getComponent<ColliderComponent>())){
-            std::cout << "Player hit: " << c->tag << std::endl;
-        }
-*/
     SDL_RenderPresent(m_renderer);
+
+}
+
+void Game::spawnFoe()
+{
+    auto& theFoe = manager.addEntity();
+    theFoe.addComponent<TransformComponent>(0.f,0.f, 64,64);
+    theFoe.addComponent<SpriteComponent>("assets/player.png")
+            .setSrcRect({0,0,16,16})
+            .addAnimation("idle", {0, 2, 600 })
+            .addAnimation("fast", {1, 4, 100 })
+            .addAnimation("moving", {1, 4, 200 });
+    theFoe.addComponent<DamageModelComponent>();
+    theFoe.addComponent<ColliderComponent>();
+    theFoe.addComponent<AIComponent>(newPlayer);
+    theFoe.addGroup(groupEnemies);
+
+    Vector2D spawnPt;
+
+    switch (rand()% 4) {
+    case 0:
+        // CENTER
+        spawnPt.y = -128;
+        spawnPt.x = rand() % winWidth;
+        break;
+    case 1:
+        // LEFT
+        spawnPt.y = rand() % winHeigth;
+        spawnPt.x = 0;
+        break;
+    case 2:
+        // RIGHT
+        spawnPt.y = rand() % winHeigth;
+        spawnPt.x = winWidth;
+        break;
+    case 3:
+        // BOTTOM
+        spawnPt.y = winHeigth;
+        spawnPt.x = rand() % winWidth;
+        break;
+    default:
+        break;
+    }
+
+
+    theFoe.getComponent<TransformComponent>().pos = spawnPt;
+    float speed = .5f + (rand() / (float)RAND_MAX );
+    theFoe.getComponent<AIComponent>().speed = speed;
+
+
 
 }
 

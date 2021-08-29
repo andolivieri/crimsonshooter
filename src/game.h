@@ -6,6 +6,17 @@
 #include "SDL.h"
 #include "ecs/components.h"
 
+enum groupLabels
+{
+    groupMap,
+    groupPlayers,
+    groupEnemies,
+    groupColliders,
+    groupProjectiles,
+    groupLast
+};
+
+
 class Game
 {
 public:
@@ -31,7 +42,11 @@ private:
     SDL_Window* m_win = nullptr;
     SDL_Renderer *m_renderer = nullptr;
 
+    int winWidth;
+    int winHeigth;
 
+
+    void spawnFoe();
 };
 
 #endif // GAME_H

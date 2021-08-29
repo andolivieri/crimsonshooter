@@ -52,7 +52,6 @@ public:
 class Entity
 {
 private:
-    EntityManager& m_manager;
     bool m_active = true; // false = remove from game
     std::vector<std::unique_ptr<Component>> m_comps;
 
@@ -60,6 +59,7 @@ private:
     ComponentBitSet m_compsBitset;
     GroupBitSet m_groupBitset;
 public:
+    EntityManager& m_manager;
     Entity(EntityManager& m) : m_manager(m) {}
     void update(){ for(auto& c : m_comps) c->update();}
     void draw(){ for(auto& c : m_comps) c->draw();}

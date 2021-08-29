@@ -12,6 +12,7 @@ HEADERS += \
     src/ecs/animation.h \
     src/ecs/collidercomponent.h \
     src/ecs/components.h \
+    src/ecs/damagemodel.h \
     src/ecs/inputcomponent.h \
     src/ecs/projectilecomponent.h \
     src/ecs/spritecomponent.h \
@@ -30,6 +31,7 @@ SOURCES += \
         src/ecs/aicomponent.cpp \
         src/ecs/animation.cpp \
         src/ecs/collidercomponent.cpp \
+        src/ecs/damagemodel.cpp \
         src/ecs/inputcomponent.cpp \
         src/ecs/projectilecomponent.cpp \
         src/ecs/spritecomponent.cpp \

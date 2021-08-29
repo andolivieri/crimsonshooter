@@ -8,7 +8,6 @@ void ColliderComponent::init()
         entity->addComponent<TransformComponent>();
     }
     transform = &entity->getComponent<TransformComponent>();
-    Game::colliders.push_back(this);
 
 }
 
@@ -18,4 +17,12 @@ void ColliderComponent::update()
     collider.y = (int)transform->pos.y;
     collider.w = transform->width * transform->scale;
     collider.h = transform->height  * transform->scale;
+}
+
+void ColliderComponent::draw()
+{
+
+#ifdef _DEBUG
+    SDL_RenderDrawRect(TextureManager::renderer, &collider);
+#endif
 }

@@ -8,5 +8,6 @@
 #include "inputcomponent.h"
 #include "tilecomponent.h"
 #include "projectilecomponent.h"
+#include "damagemodel.h"
 
 #endif // COMPONENTS_H
