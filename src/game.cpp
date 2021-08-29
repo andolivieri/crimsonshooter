@@ -118,7 +118,6 @@ void Game::handleEvents()
             e.addComponent<ProjectileComponent>(
                 newPlayer.getComponent<TransformComponent>().pos,
                 Vector2D{mousePt.x, mousePt.y});
-            e.addGroup(groupProjectiles);
             }
             std::cout << "Shoot" << std::endl;
             break;
@@ -145,14 +144,15 @@ void Game::update()
         for(auto enemy : enemies){
 
             DamageModelComponent& enemyDamage = enemy->getComponent<DamageModelComponent>();
+            ColliderComponent& enemyCC = enemy->getComponent<ColliderComponent>();
 
-            TransformComponent& tc = bullet->getComponent<TransformComponent>();
             ProjectileComponent& pc = bullet->getComponent<ProjectileComponent>();
             ColliderComponent& cc = bullet->getComponent<ColliderComponent>();
-            if(Collision::AABB(cc, enemy->getComponent<ColliderComponent>()))
+
+            if(Collision::AABB(cc, enemyCC))
             {
                 enemyDamage.health -= pc.damage;
-                std::cout << "Enemy hit. Damage=" << pc.damage << " Enemy health: " << enemyDamage.health << std::endl;
+                std::cout << "Tag " << enemyCC.tag << " Enemy hit. Damage=" << pc.damage << " Enemy health: " << enemyDamage.health << std::endl;
                 bullet->setActive(false);
             }
 
@@ -188,6 +188,9 @@ void Game::render()
 
 void Game::spawnFoe()
 {
+
+    static long enemyCount = 0;
+
     auto& theFoe = manager.addEntity();
     theFoe.addComponent<TransformComponent>(0.f,0.f, 64,64);
     theFoe.addComponent<SpriteComponent>("assets/player.png")
@@ -196,7 +199,7 @@ void Game::spawnFoe()
             .addAnimation("fast", {1, 4, 100 })
             .addAnimation("moving", {1, 4, 200 });
     theFoe.addComponent<DamageModelComponent>();
-    theFoe.addComponent<ColliderComponent>();
+    theFoe.addComponent<ColliderComponent>("foe" + std::to_string(enemyCount++));
     theFoe.addComponent<AIComponent>(newPlayer);
     theFoe.addGroup(groupEnemies);
 
@@ -229,7 +232,7 @@ void Game::spawnFoe()
 
 
     theFoe.getComponent<TransformComponent>().pos = spawnPt;
-    float speed = .5f + (rand() / (float)RAND_MAX );
+    float speed = .1f + (rand() / (float)RAND_MAX );
     theFoe.getComponent<AIComponent>().speed = speed;
 
 

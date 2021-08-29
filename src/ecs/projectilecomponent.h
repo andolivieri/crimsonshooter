@@ -44,7 +44,7 @@ public:
     int range = 1000;
 
     int m_speed = 30;
-    int damage = 20;
+    int damage = 50;
 
 };
 

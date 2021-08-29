@@ -2,6 +2,6 @@
 
 void DamageModelComponent::update()
 {
-    if(health < 0)
+    if(health <= 0)
         entity->setActive(false);
 }
