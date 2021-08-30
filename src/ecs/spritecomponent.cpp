@@ -1,8 +1,9 @@
 #include "spritecomponent.h"
+#include "assetmanager.h"
 
-SpriteComponent::SpriteComponent(const char *path)
+SpriteComponent::SpriteComponent(const std::string& path)
 {
-    m_texture = TextureManager::loadTexture(path);
+    m_texture = AssetManager::getTexture(path);
     srcRect.x = 0;
     srcRect.y = 0;
     srcRect.w = 32;
@@ -21,7 +22,7 @@ SpriteComponent::SpriteComponent(SDL_Texture *t, const SDL_Rect &src, SDL_Render
     flip = f;
 }
 
-SpriteComponent::SpriteComponent(const char *path, const SDL_Rect &src):
+SpriteComponent::SpriteComponent(const std::string& path, const SDL_Rect &src):
     SpriteComponent(path)
 {
     srcRect = src;

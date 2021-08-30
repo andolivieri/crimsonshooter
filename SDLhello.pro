@@ -6,10 +6,12 @@ CONFIG -= qt
 DESTDIR=$$PWD/dist
 
 HEADERS += \
+    src/assetmanager.h \
     src/collision.h \
     src/ecs.h \
     src/ecs/aicomponent.h \
     src/ecs/animation.h \
+    src/ecs/bloodpatch.h \
     src/ecs/collidercomponent.h \
     src/ecs/components.h \
     src/ecs/damagemodel.h \
@@ -26,10 +28,12 @@ HEADERS += \
     src/vector2d.h
 
 SOURCES += \
+        src/assetmanager.cpp \
         src/collision.cpp \
         src/ecs.cpp \
         src/ecs/aicomponent.cpp \
         src/ecs/animation.cpp \
+        src/ecs/bloodpatch.cpp \
         src/ecs/collidercomponent.cpp \
         src/ecs/damagemodel.cpp \
         src/ecs/inputcomponent.cpp \

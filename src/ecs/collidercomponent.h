@@ -9,15 +9,16 @@
 class ColliderComponent : public Component
 {
 public:
+    int paddingX = 0;
+    int paddingY = 0;
+    float scale = 1;
     SDL_Rect collider;
     std::string tag;
     TransformComponent* transform;
 
     ColliderComponent() {}
     ColliderComponent(const std::string& t): tag(t){}
-    ColliderComponent& setBox(const SDL_Rect& r) {
-        collider = r;
-    }
+    ColliderComponent(const std::string& t, int paddingX, int paddingY, float scale);
 
     void init() override;
     void update() override;

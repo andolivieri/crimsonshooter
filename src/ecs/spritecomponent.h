@@ -12,8 +12,8 @@ class SpriteComponent : public Component
 {
 public:
     SpriteComponent() = default;
-    SpriteComponent(const char* path);
-    SpriteComponent(const char* path, const SDL_Rect& src);
+    SpriteComponent(const std::string& path);
+    SpriteComponent(const std::string&, const SDL_Rect& src);
     SpriteComponent(SDL_Texture* t);
     SpriteComponent(SDL_Texture* t, const SDL_Rect& src, SDL_RendererFlip flip);
     ~SpriteComponent();

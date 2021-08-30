@@ -10,7 +10,7 @@
 class AIComponent : public Component
 {
 private:
-    TransformComponent* m_position;
+    TransformComponent* transform;
     SpriteComponent* sprite;
     DamageModelComponent* damage;
     const Entity& m_target;
@@ -26,7 +26,7 @@ public:
 
     void init() override
     {
-        m_position = &entity->getComponent<TransformComponent>();
+        transform = &entity->getComponent<TransformComponent>();
         sprite = &entity->getComponent<SpriteComponent>();
         damage = &entity->getComponent<DamageModelComponent>();
     }

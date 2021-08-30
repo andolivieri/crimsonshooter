@@ -9,5 +9,6 @@
 #include "tilecomponent.h"
 #include "projectilecomponent.h"
 #include "damagemodel.h"
+#include "bloodpatch.h"
 
 #endif // COMPONENTS_H

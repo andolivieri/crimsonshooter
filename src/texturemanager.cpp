@@ -4,9 +4,9 @@
 SDL_Renderer* TextureManager::renderer = 0;
 
 
-SDL_Texture *TextureManager::loadTexture(const char *filename)
+SDL_Texture *TextureManager::loadTexture(const std::string& filename)
 {
-    SDL_Surface* tmp = IMG_Load(filename);
+    SDL_Surface* tmp = IMG_Load(filename.c_str());
     SDL_Texture* tex = SDL_CreateTextureFromSurface(TextureManager::renderer, tmp);
     SDL_FreeSurface(tmp);
     return tex;

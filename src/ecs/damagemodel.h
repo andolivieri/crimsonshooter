@@ -12,17 +12,9 @@ class DamageModelComponent : public Component
 public:
 
     DamageModelComponent(){}
-    DamageModelComponent(const int h)
-    {
-        health = h;
-        lastHealth = health;
-        deceaseTime = 0;
-    }
+    DamageModelComponent(const int h);
 
-    void init() override
-    {
-        lastHealth = health;
-    }
+    void init() override;
 
     void update() override;
 
@@ -32,6 +24,9 @@ public:
     }
 
 
+    bool diedNow();
+
+
 
     int health = 100;
     int projectileSpeedLoss = 10;
@@ -39,6 +34,7 @@ public:
 
 private:
     int lastHealth;
+    bool justDied = false;
     time_t deceaseTime;
 
 };

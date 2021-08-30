@@ -199,7 +199,7 @@ void Game::spawnFoe()
             .addAnimation("dying", {1, 4, 300 })
             .addAnimation("moving", {0, 4, 200 });
     theFoe.addComponent<DamageModelComponent>(30);
-    theFoe.addComponent<ColliderComponent>("foe" + std::to_string(enemyCount++));
+    theFoe.addComponent<ColliderComponent>("foe" + std::to_string(enemyCount++), 4, 4, .8f);
     theFoe.addComponent<AIComponent>(newPlayer);
     theFoe.addGroup(groupEnemies);
 

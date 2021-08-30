@@ -14,7 +14,6 @@ public:
     float speed = 1;
     int width = 32;
     int height = 32;
-    int scale  = 1;
     double rotation = 0;
 
     TransformComponent()
@@ -59,7 +58,9 @@ public:
         return Vector2D{pos.x + width/2, pos.y+height/2};
     }
 
+private:
 
+    int scale  = 1;
 
 
 
