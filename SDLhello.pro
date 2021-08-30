@@ -15,11 +15,13 @@ HEADERS += \
     src/ecs/collidercomponent.h \
     src/ecs/components.h \
     src/ecs/damagemodel.h \
+    src/ecs/decaycomponent.h \
     src/ecs/inputcomponent.h \
     src/ecs/projectilecomponent.h \
     src/ecs/spritecomponent.h \
     src/ecs/tilecomponent.h \
     src/ecs/transformcomponent.h \
+    src/ecs/weaponcomponent.h \
     src/game.h \
     src/gamemap.h \
     src/math2d.h \
@@ -36,11 +38,13 @@ SOURCES += \
         src/ecs/bloodpatch.cpp \
         src/ecs/collidercomponent.cpp \
         src/ecs/damagemodel.cpp \
+        src/ecs/decaycomponent.cpp \
         src/ecs/inputcomponent.cpp \
         src/ecs/projectilecomponent.cpp \
         src/ecs/spritecomponent.cpp \
         src/ecs/tilecomponent.cpp \
         src/ecs/transformcomponent.cpp \
+        src/ecs/weaponcomponent.cpp \
         src/game.cpp \
         src/gamemap.cpp \
         src/main.cpp \

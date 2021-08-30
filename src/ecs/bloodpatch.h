@@ -8,17 +8,17 @@
 #include "transformcomponent.h"
 #include "vector2d.h"
 
-class BloodPatchComponent : public Component
+class BloodSplatComponent : public Component
 {
 public:
 
-    BloodPatchComponent(const Vector2D& v);
+    BloodSplatComponent(const Vector2D& v);
 
     void init() override;
     void update() override;
 
-    BloodPatchComponent &setStartSize(int w, int h);
-    BloodPatchComponent& setMaxSize(int w, int h);
+    BloodSplatComponent &setStartSize(int w, int h);
+    BloodSplatComponent& setMaxSize(int w, int h);
 
 
 private:

@@ -57,6 +57,7 @@ void InputComponent::handleInput(double angle)
 {
 
     const std::set<SDL_Keycode>& gg = Game::pressedKeys;
+    const std::set<uint8_t>& mouse = Game::pressedMouseButtons;
 
     transform->velocity.x = 0;
     transform->velocity.y = 0;
@@ -101,6 +102,17 @@ void InputComponent::handleInput(double angle)
             sprite->play("moving");
     }else{
         sprite->play("idle");
+    }
+
+
+    if(entity->hasComponent<WeaponComponent>())
+    {
+        WeaponComponent& w = entity->getComponent<WeaponComponent>();
+        if(mouse.count(SDL_BUTTON_LEFT))
+            w.triggerPull();
+        else
+            w.triggerRelease();
+
     }
 
 

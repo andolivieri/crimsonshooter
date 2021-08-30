@@ -13,6 +13,7 @@
 GameMap* g_map = nullptr;
 
 std::set<SDL_Keycode> Game::pressedKeys;
+std::set<Uint8> Game::pressedMouseButtons;
 std::vector<ColliderComponent*> Game::colliders;
 
 EntityManager manager;
@@ -70,6 +71,7 @@ void Game::init(const char *title, int xpos, int ypos, int widht, int heigth, bo
     GameMap::LoadMap("assets/themap.json");
 
     newPlayer.addComponent<TransformComponent>(100.f,100.f, 64,64);
+
     newPlayer.getComponent<TransformComponent>().speed = 2;
     newPlayer.getComponent<TransformComponent>().width = 64;
     newPlayer.getComponent<TransformComponent>().height = 64;
@@ -82,13 +84,9 @@ void Game::init(const char *title, int xpos, int ypos, int widht, int heigth, bo
             .addAnimation("moving", {1, 4, 200 });
     newPlayer.addComponent<InputComponent>();
     newPlayer.addComponent<ColliderComponent>("player");
+    newPlayer.addComponent<WeaponComponent>("uberweapon");
     newPlayer.addGroup(groupPlayers);
 
-    wall.addComponent<ColliderComponent>();
-    wall.addComponent<TransformComponent>(155, 250, 32, 512);
-    wall.addComponent<SpriteComponent>("assets/wall.png");
-    wall.addComponent<ColliderComponent>("wall");
-    wall.addGroup(groupMap);
 
 }
 
@@ -108,19 +106,13 @@ void Game::handleEvents()
             Game::pressedKeys.insert(evt.key.keysym.sym);
             break;
         case SDL_MOUSEBUTTONDOWN:
-
-            SDL_Point mousePt;
-            SDL_GetMouseState(&mousePt.x,&mousePt.y);
-            {
-            auto& e = manager.addEntity();
-            e.addComponent<ProjectileComponent>(
-                newPlayer.getComponent<TransformComponent>().center(),
-                Vector2D{mousePt.x, mousePt.y});
-            e.addComponent<SpriteComponent>("assets/projectile.png")
-                    .setSrcRect({2,2,4,4});
-            std::cout << "Shoot" << std::endl;
-            }
+            pressedMouseButtons.insert(evt.button.button);
             break;
+        case SDL_MOUSEBUTTONUP:
+            if(Game::pressedMouseButtons.count(evt.button.button))
+                Game::pressedMouseButtons.erase(evt.button.button);
+            break;
+
         default:
             break;
         }

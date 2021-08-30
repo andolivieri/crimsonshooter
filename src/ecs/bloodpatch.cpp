@@ -2,7 +2,7 @@
 #include "game.h"
 
 
-BloodPatchComponent::BloodPatchComponent(const Vector2D &v):
+BloodSplatComponent::BloodSplatComponent(const Vector2D &v):
     centeredIn(v)
 {
     startSize = {32,32};
@@ -10,7 +10,7 @@ BloodPatchComponent::BloodPatchComponent(const Vector2D &v):
 
 }
 
-void BloodPatchComponent::init()
+void BloodSplatComponent::init()
 {
     if(!entity->hasComponent<TransformComponent>())
         entity->addComponent<TransformComponent>(centeredIn);
@@ -27,7 +27,7 @@ void BloodPatchComponent::init()
 
 }
 
-void BloodPatchComponent::update()
+void BloodSplatComponent::update()
 {
 
     int increment = (time(NULL) - startTime) * 2;
@@ -44,14 +44,14 @@ void BloodPatchComponent::update()
 
 }
 
-BloodPatchComponent &BloodPatchComponent::setStartSize(int w, int h)
+BloodSplatComponent &BloodSplatComponent::setStartSize(int w, int h)
 {
     startSize.x = w;
     startSize.y = h;
     return *this;
 }
 
-BloodPatchComponent &BloodPatchComponent::setMaxSize(int w, int h)
+BloodSplatComponent &BloodSplatComponent::setMaxSize(int w, int h)
 {
     maxSize.x = w;
     maxSize.y = h;

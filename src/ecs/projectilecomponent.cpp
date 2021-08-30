@@ -9,8 +9,16 @@ ProjectileComponent& ProjectileComponent::setDamage(int value)
     return *this;
 }
 
+ProjectileComponent &ProjectileComponent::setRange(int value)
+{
+    range = value;
+    return *this;
+}
+
 ProjectileComponent &ProjectileComponent::setSize(int w, int h)
 {
+    transform->width = w;
+    transform->height = h;
     collider->collider.w = w;
     collider->collider.h = h;
     return *this;
@@ -25,10 +33,6 @@ void ProjectileComponent::init()
 
     transform = &entity->getComponent<TransformComponent>();
     collider = &entity->addComponent<ColliderComponent>();
-    collider->collider.w = 2;
-    collider->collider.h = 2;
-    transform->width = 8;
-    transform->height = 8;
 
 
 
@@ -36,8 +40,22 @@ void ProjectileComponent::init()
     transform->speed = m_speed;
     transform->pos.x = src.x;
     transform->pos.y = src.y;
+    transform->width = width;
+    transform->height = height;
+    collider->collider.w = width;
+    collider->collider.h = height;
     transform->velocity.y = m_speed * static_cast<float>(std::sin(radAngle));
     transform->velocity.x = m_speed * static_cast<float>(std::cos(radAngle));
 
     entity->addGroup(groupProjectiles);
+}
+
+void ProjectileComponent::update()
+{
+
+    auto distance = Math2D::distanceBetweenPoints(transform->pos, src);
+    if(distance > range){
+        entity->setActive(false);
+    }
+
 }

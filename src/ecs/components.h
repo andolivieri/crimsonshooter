@@ -10,5 +10,7 @@
 #include "projectilecomponent.h"
 #include "damagemodel.h"
 #include "bloodpatch.h"
+#include "decaycomponent.h"
+#include "weaponcomponent.h"
 
 #endif // COMPONENTS_H

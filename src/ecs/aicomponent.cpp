@@ -5,20 +5,22 @@ void AIComponent::update()
 {
 
     if(damage->isDead()){
-        sprite->play("dying", 1);
-        transform->velocity.x = 0;
-        transform->velocity.y = 0;
-        entity->delGroup(groupEnemies);
-        entity->addGroup(groupDeadEnemies);
         if(damage->diedNow()){
-            std::cout << "Adding bloodpatches" << std::endl;
-
+            sprite->play("dying", 1);
+            transform->velocity.x = 0;
+            transform->velocity.y = 0;
+            entity->delGroup(groupEnemies);
+            entity->addGroup(groupDeadEnemies);
             for(int i=0; i<3; i++){
                 auto& e = entity->m_manager.enqueueEntity();
-                int startSize = 16 + rand() % 16;
-                e.addComponent<BloodPatchComponent>(Math2D::randomAround(8, transform->center()))
-                        .setStartSize(startSize,startSize);
+                int startSize = 8 + rand() % 16;
+                int endsize = startSize + 8 +  rand() % 16;
+                e.addComponent<BloodSplatComponent>(Math2D::randomAround(8, transform->center()))
+                        .setStartSize(startSize,startSize)
+                        .setMaxSize(endsize, endsize);
+                e.addComponent<DecayComponent>(60);
             }
+            entity->addComponent<DecayComponent>(60);
         }
         return;
     }

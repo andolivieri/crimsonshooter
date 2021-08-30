@@ -21,8 +21,6 @@ void DamageModelComponent::update()
         deceaseTime = time(NULL);
     lastHealth = health;
 
-    if(health <= 0 && time(NULL) - deceaseTime > decayTimeSeconds)
-        entity->setActive(false);
 }
 
 bool DamageModelComponent::diedNow()

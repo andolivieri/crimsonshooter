@@ -30,7 +30,6 @@ public:
 
     int health = 100;
     int projectileSpeedLoss = 10;
-    int decayTimeSeconds = 60;
 
 private:
     int lastHealth;

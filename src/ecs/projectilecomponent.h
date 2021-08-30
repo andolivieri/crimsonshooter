@@ -1,5 +1,5 @@
-#ifndef WEAPONCOMPONENT_H
-#define WEAPONCOMPONENT_H
+#ifndef PROJECTILECOMPONENT_H
+#define PROJECTILECOMPONENT_H
 
 #include "ecs.h"
 #include "transformcomponent.h"
@@ -15,28 +15,20 @@ private:
     ColliderComponent* collider;
 
 public:
-    ProjectileComponent() = default;
     ProjectileComponent(const Vector2D& s, const Vector2D& t):
-        src(s), target(t)
+        src(s),
+        target(t)
     {
 
     }
 
 
     ProjectileComponent& setDamage(int value);
+    ProjectileComponent& setRange(int value);
     ProjectileComponent& setSize(int w, int h);
 
     void init() override;
-
-    void update() override
-    {
-
-        auto distance = Math2D::distanceBetweenPoints(transform->pos, src);
-        if(distance > range){
-            entity->setActive(false);
-        }
-
-    }
+    void update() override;
 
     Vector2D src;
     Vector2D target;
@@ -44,8 +36,10 @@ public:
 
     int m_speed = 30;
     int damage = 50;
+    int width = 4;
+    int height = 4;
 
 };
 
 
-#endif // WEAPONCOMPONENT_H
+#endif // PROJECTILECOMPONENT_H

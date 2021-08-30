@@ -64,7 +64,7 @@ void SpriteComponent::draw()
         srcRect.y = a.index * srcRect.h;
     }
 
-    TextureManager::drawTexture(m_texture, srcRect, dstRect, transform->rotation, flip);
+    TextureManager::drawTexture(m_texture, srcRect, dstRect, transform->rotation, flip, alpha);
 
 #ifdef __DEBUG
     SDL_RenderDrawRect(TextureManager::renderer, &dstRect);
@@ -94,6 +94,12 @@ SpriteComponent &SpriteComponent::setSrcRect(const SDL_Rect &s)
 SpriteComponent &SpriteComponent::addAnimation(const char *name, const Animation &a)
 {
     m_animation.emplace(name, a);
+    return *this;
+}
+
+SpriteComponent &SpriteComponent::setAlpha(uint8_t a)
+{
+    alpha = a;
     return *this;
 }
 

@@ -50,6 +50,7 @@ void EntityManager::refresh()
                 ),
                 std::end(m_entities));
 
+    // New entities queued for addition
     while(m_queuedEntities.size() > 0){
         m_entities.push_back(std::move(m_queuedEntities.front()));
         m_queuedEntities.pop_front();
