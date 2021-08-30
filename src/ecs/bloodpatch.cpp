@@ -21,7 +21,6 @@ void BloodPatchComponent::init()
 
 
     transform = &entity->getComponent<TransformComponent>();
-
     entity->addGroup(groupBloodPatches);
 
     startTime = time(NULL);

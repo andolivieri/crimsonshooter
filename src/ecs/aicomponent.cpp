@@ -11,9 +11,14 @@ void AIComponent::update()
         entity->delGroup(groupEnemies);
         entity->addGroup(groupDeadEnemies);
         if(damage->diedNow()){
-            std::cout << "Adding bloodpatch" << std::endl;
-            auto& e = entity->m_manager.addEntity();
-            e.addComponent<BloodPatchComponent>(transform->center());
+            std::cout << "Adding bloodpatches" << std::endl;
+
+            for(int i=0; i<3; i++){
+                auto& e = entity->m_manager.enqueueEntity();
+                int startSize = 16 + rand() % 16;
+                e.addComponent<BloodPatchComponent>(Math2D::randomAround(8, transform->center()))
+                        .setStartSize(startSize,startSize);
+            }
         }
         return;
     }

@@ -49,6 +49,12 @@ void EntityManager::refresh()
                     [](const std::unique_ptr<Entity> &e){return !e->active();}
                 ),
                 std::end(m_entities));
+
+    while(m_queuedEntities.size() > 0){
+        m_entities.push_back(std::move(m_queuedEntities.front()));
+        m_queuedEntities.pop_front();
+    }
+
 }
 
 void EntityManager::addToGroup(Entity *e, Group g)
@@ -66,6 +72,14 @@ Entity& EntityManager::addEntity()
     Entity *e = new Entity(*this);
     std::unique_ptr<Entity> uPtr(e);
     m_entities.emplace_back(std::move(uPtr));
+    return *e;
+}
+
+Entity& EntityManager::enqueueEntity()
+{
+    Entity *e = new Entity(*this);
+    std::unique_ptr<Entity> uPtr(e);
+    m_queuedEntities.push_back(std::move(uPtr));
     return *e;
 }
 

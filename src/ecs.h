@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <bitset>
 #include <array>
+#include <queue>
 #include <set>
 
 class Component; // Position, AI, Physics, Input, etc
@@ -62,7 +63,8 @@ private:
 public:
     EntityManager& m_manager;
     Entity(EntityManager& m) : m_manager(m) {}
-    void update(){ for(auto& c : m_comps) c->update();}
+    void update(){ for(auto& c : m_comps) c->update();
+    }
     void draw(){ for(auto& c : m_comps) c->draw();}
     bool active(){ return m_active; }
     void setActive(bool b) {m_active = b;}
@@ -106,18 +108,17 @@ class EntityManager
 {
 private:
     std::vector<std::unique_ptr<Entity>> m_entities;
+    std::deque<std::unique_ptr<Entity>> m_queuedEntities;
     std::array<std::vector<Entity*>, maxGroups> m_groupedEntities;
 public:
     void update();
     void draw();
     void refresh();
 
-
     void addToGroup(Entity* e, Group g);
-
     std::vector<Entity*>& getGroup(Group g);
-
     Entity& addEntity();
+    Entity& enqueueEntity();
 };
 
 #endif // ECS_H

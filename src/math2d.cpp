@@ -37,3 +37,12 @@ double Math2D::deg2rad(const double deg)
     return deg*M_PI / 180;
 }
 
+Vector2D &Math2D::randomAround(int radius, const Vector2D &a)
+{
+    Vector2D r = a;
+    int m = rand() > RAND_MAX / 2 ? -1 : 1;
+    r.x += (rand() % radius) * m;
+    r.y += (rand() % radius) * m;
+    return r;
+}
+
