@@ -8,7 +8,7 @@ int main(int argc, char* argv[])
             SDL_WINDOWPOS_CENTERED,
             SDL_WINDOWPOS_CENTERED,
             1280, 720,
-            true
+            false
             );
 
     const int FPS = 60;

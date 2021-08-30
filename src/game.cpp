@@ -153,7 +153,7 @@ void Game::update()
     }
 
     auto howManyEnemies = enemies.size();
-    while(howManyEnemies++ < 10)
+    while(howManyEnemies++ < 20)
     {
         spawnFoe();
     }
