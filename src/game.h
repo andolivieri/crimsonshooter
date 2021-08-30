@@ -9,6 +9,7 @@
 enum groupLabels
 {
     groupMap,
+    groupDeadEnemies,
     groupPlayers,
     groupEnemies,
     groupColliders,

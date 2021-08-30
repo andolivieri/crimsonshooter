@@ -7,8 +7,9 @@ bool Entity::hasGroup(Group g)
 
 void Entity::addGroup(Group g)
 {
+    if(!hasGroup(g))
+        m_manager.addToGroup(this, g);
     m_groupBitset[g] = true;
-    m_manager.addToGroup(this, g);
 }
 
 void Entity::delGroup(Group g)

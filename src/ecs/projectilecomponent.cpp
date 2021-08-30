@@ -24,15 +24,18 @@ void ProjectileComponent::init()
         entity->addComponent<ColliderComponent>();
 
     transform = &entity->getComponent<TransformComponent>();
-    sprite = &entity->getComponent<SpriteComponent>();
     collider = &entity->addComponent<ColliderComponent>();
     collider->collider.w = 2;
     collider->collider.h = 2;
+    transform->width = 8;
+    transform->height = 8;
 
 
 
     double radAngle = Math2D::deg2rad(Math2D::angleBetweenPoints(src, target));
     transform->speed = m_speed;
+    transform->pos.x = src.x;
+    transform->pos.y = src.y;
     transform->velocity.y = m_speed * static_cast<float>(std::sin(radAngle));
     transform->velocity.x = m_speed * static_cast<float>(std::cos(radAngle));
 

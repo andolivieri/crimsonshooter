@@ -113,13 +113,13 @@ void Game::handleEvents()
             SDL_GetMouseState(&mousePt.x,&mousePt.y);
             {
             auto& e = manager.addEntity();
-            auto& tr = newPlayer.getComponent<TransformComponent>();
-            e.addComponent<TransformComponent>(tr.pos.x, tr.pos.y, 3,3);
             e.addComponent<ProjectileComponent>(
-                newPlayer.getComponent<TransformComponent>().pos,
+                newPlayer.getComponent<TransformComponent>().center(),
                 Vector2D{mousePt.x, mousePt.y});
-            }
+            e.addComponent<SpriteComponent>("assets/projectile.png")
+                    .setSrcRect({2,2,4,4});
             std::cout << "Shoot" << std::endl;
+            }
             break;
         default:
             break;
@@ -193,12 +193,12 @@ void Game::spawnFoe()
 
     auto& theFoe = manager.addEntity();
     theFoe.addComponent<TransformComponent>(0.f,0.f, 64,64);
-    theFoe.addComponent<SpriteComponent>("assets/player.png")
-            .setSrcRect({0,0,16,16})
-            .addAnimation("idle", {0, 2, 600 })
-            .addAnimation("fast", {1, 4, 100 })
-            .addAnimation("moving", {1, 4, 200 });
-    theFoe.addComponent<DamageModelComponent>();
+    theFoe.addComponent<SpriteComponent>("assets/foe.png")
+            .setSrcRect({0,0,32,32})
+            .addAnimation("idle", {0, 1, 100 })
+            .addAnimation("dying", {1, 4, 300 })
+            .addAnimation("moving", {0, 4, 200 });
+    theFoe.addComponent<DamageModelComponent>(30);
     theFoe.addComponent<ColliderComponent>("foe" + std::to_string(enemyCount++));
     theFoe.addComponent<AIComponent>(newPlayer);
     theFoe.addGroup(groupEnemies);

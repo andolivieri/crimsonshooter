@@ -12,7 +12,6 @@ class ProjectileComponent : public Component
 {
 private:
     TransformComponent* transform;
-    SpriteComponent* sprite;
     ColliderComponent* collider;
 
 public:

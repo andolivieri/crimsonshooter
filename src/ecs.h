@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <bitset>
 #include <array>
+#include <set>
 
 class Component; // Position, AI, Physics, Input, etc
 class Entity;

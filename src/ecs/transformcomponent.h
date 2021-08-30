@@ -54,6 +54,13 @@ public:
         return height * scale;
     }
 
+    Vector2D center()
+    {
+        return Vector2D{pos.x + width/2, pos.y+height/2};
+    }
+
+
+
 
 
 };

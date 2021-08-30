@@ -7,7 +7,6 @@ struct Animation
     int index;
     int frames;
     int speed;
-
 };
 
 #endif // ANIMATION_H

@@ -49,9 +49,17 @@ void SpriteComponent::update()
 void SpriteComponent::draw()
 {
 
-    if(m_animated){
+
+    if(m_animated && (m_animationIndex < m_animationLoops || m_animationLoops <= 0)){
         Animation a = m_animation[m_currentAnimation];
-        srcRect.x = srcRect.w * static_cast<int>((SDL_GetTicks() / a.speed) % a.frames);
+
+        int frame = static_cast<int>((SDL_GetTicks() / a.speed) % a.frames);
+
+        if(frame == a.frames - 1)
+            m_animationIndex++;
+
+
+        srcRect.x = srcRect.w * frame;
         srcRect.y = a.index * srcRect.h;
     }
 
@@ -62,10 +70,13 @@ void SpriteComponent::draw()
 #endif
 }
 
-void SpriteComponent::play(const std::string &anim)
+void SpriteComponent::play(const std::string &anim, int repeat)
 {
     m_animated = true;
+    if(anim != m_currentAnimation)
+        m_animationIndex = 0;
     m_currentAnimation = anim;
+    m_animationLoops = repeat;
 }
 
 void SpriteComponent::stop()

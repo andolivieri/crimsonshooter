@@ -21,7 +21,7 @@ public:
     void init() override;
     void update() override;
     void draw() override;
-    void play(const std::string& anim);
+    void play(const std::string& anim, int repeat=-1);
     void stop();
 
     SDL_Rect srcRect, dstRect;
@@ -41,6 +41,8 @@ private:
 
     bool m_animated = false;
     std::string m_currentAnimation;
+    int m_animationLoops = 0; // 0  = infinite
+    int m_animationIndex = 0;
 
 
 

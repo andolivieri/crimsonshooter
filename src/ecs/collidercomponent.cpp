@@ -22,7 +22,7 @@ void ColliderComponent::update()
 void ColliderComponent::draw()
 {
 
-#ifdef _DEBUG
+#ifdef ____DEBUG
     SDL_RenderDrawRect(TextureManager::renderer, &collider);
 #endif
 }
