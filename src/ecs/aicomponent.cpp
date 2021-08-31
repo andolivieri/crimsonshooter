@@ -18,9 +18,10 @@ void AIComponent::update()
                 e.addComponent<BloodSplatComponent>(Math2D::randomAround(8, transform->center()))
                         .setStartSize(startSize,startSize)
                         .setMaxSize(endsize, endsize);
-                e.addComponent<DecayComponent>(60);
+                e.addComponent<DecayComponent>(5);
+                entity->getComponent<RelationshipComponent>().addChildren(&e);
             }
-            entity->addComponent<DecayComponent>(60);
+            entity->addComponent<DecayComponent>(5);
         }
         return;
     }

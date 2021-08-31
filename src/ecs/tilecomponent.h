@@ -36,8 +36,8 @@ public:
 
     void init() override
     {
-        entity->addComponent<TransformComponent>(dstRect.x,
-                                                 dstRect.y,
+        entity->addComponent<TransformComponent>(static_cast<float>(dstRect.x),
+                                                 static_cast<float>(dstRect.y),
                                                  dstRect.w,
                                                  dstRect.h);
         transform = &entity->getComponent<TransformComponent>();

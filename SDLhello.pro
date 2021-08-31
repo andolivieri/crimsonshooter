@@ -18,6 +18,7 @@ HEADERS += \
     src/ecs/decaycomponent.h \
     src/ecs/inputcomponent.h \
     src/ecs/projectilecomponent.h \
+    src/ecs/relationshipcomponent.h \
     src/ecs/spritecomponent.h \
     src/ecs/tilecomponent.h \
     src/ecs/transformcomponent.h \
@@ -41,6 +42,7 @@ SOURCES += \
         src/ecs/decaycomponent.cpp \
         src/ecs/inputcomponent.cpp \
         src/ecs/projectilecomponent.cpp \
+        src/ecs/relationshipcomponent.cpp \
         src/ecs/spritecomponent.cpp \
         src/ecs/tilecomponent.cpp \
         src/ecs/transformcomponent.cpp \

@@ -85,6 +85,7 @@ void Game::init(const char *title, int xpos, int ypos, int widht, int heigth, bo
     newPlayer.addComponent<InputComponent>();
     newPlayer.addComponent<ColliderComponent>("player");
     newPlayer.addComponent<WeaponComponent>("uberweapon");
+    newPlayer.addComponent<RelationshipComponent>();
     newPlayer.addGroup(groupPlayers);
 
 
@@ -144,7 +145,7 @@ void Game::update()
             if(Collision::AABB(cc, enemyCC))
             {
                 enemyDamage.health -= pc.damage;
-                std::cout << "Tag " << enemyCC.tag << " Enemy hit. Damage=" << pc.damage << " Enemy health: " << enemyDamage.health << std::endl;
+                //std::cout << "Tag " << enemyCC.tag << " Enemy hit. Damage=" << pc.damage << " Enemy health: " << enemyDamage.health << std::endl;
                 bullet->setActive(false);
             }
 
@@ -193,6 +194,7 @@ void Game::spawnFoe()
     theFoe.addComponent<DamageModelComponent>(30);
     theFoe.addComponent<ColliderComponent>("foe" + std::to_string(enemyCount++), 4, 4, .8f);
     theFoe.addComponent<AIComponent>(newPlayer);
+    theFoe.addComponent<RelationshipComponent>();
     theFoe.addGroup(groupEnemies);
 
     Vector2D spawnPt;

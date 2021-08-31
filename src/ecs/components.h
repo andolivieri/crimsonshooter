@@ -12,5 +12,6 @@
 #include "bloodpatch.h"
 #include "decaycomponent.h"
 #include "weaponcomponent.h"
+#include "relationshipcomponent.h"
 
 #endif // COMPONENTS_H
