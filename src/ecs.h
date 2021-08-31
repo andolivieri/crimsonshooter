@@ -63,7 +63,13 @@ private:
 public:
     EntityManager& m_manager;
     Entity(EntityManager& m) : m_manager(m) {}
-    void update(){ for(auto& c : m_comps) c->update();
+    void update(){
+        //for(auto& c : m_comps) c->update();
+
+        for(auto i{0}; i < m_comps.size(); i++)
+        {
+            m_comps[i]->update();
+        }
     }
     void draw(){ for(auto& c : m_comps) c->draw();}
     bool active(){ return m_active; }
@@ -117,7 +123,7 @@ public:
 
     void addToGroup(Entity* e, Group g);
     std::vector<Entity*>& getGroup(Group g);
-    Entity& addEntity();
+    //Entity& addEntity();
     Entity& enqueueEntity();
 };
 

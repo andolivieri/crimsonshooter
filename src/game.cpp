@@ -17,9 +17,9 @@ std::set<Uint8> Game::pressedMouseButtons;
 std::vector<ColliderComponent*> Game::colliders;
 
 EntityManager manager;
-auto& newEnemy(manager.addEntity());
-auto& wall(manager.addEntity());
-auto& newPlayer(manager.addEntity());
+auto& newEnemy(manager.enqueueEntity());
+auto& wall(manager.enqueueEntity());
+auto& newPlayer(manager.enqueueEntity());
 
 
 Game::Game()
@@ -184,7 +184,7 @@ void Game::spawnFoe()
 
     static long enemyCount = 0;
 
-    auto& theFoe = manager.addEntity();
+    auto& theFoe = manager.enqueueEntity();
     theFoe.addComponent<TransformComponent>(0.f,0.f, 64,64);
     theFoe.addComponent<SpriteComponent>("assets/foe.png")
             .setSrcRect({0,0,32,32})
@@ -192,7 +192,7 @@ void Game::spawnFoe()
             .addAnimation("dying", {1, 4, 300 })
             .addAnimation("moving", {0, 4, 200 });
     theFoe.addComponent<DamageModelComponent>(30);
-    theFoe.addComponent<ColliderComponent>("foe" + std::to_string(enemyCount++), 4, 4, .8f);
+    theFoe.addComponent<ColliderComponent>("foe_" + std::to_string(enemyCount++), 4, 4, .8f);
     theFoe.addComponent<AIComponent>(newPlayer);
     theFoe.addComponent<RelationshipComponent>();
     theFoe.addGroup(groupEnemies);
@@ -243,7 +243,7 @@ void Game::clean()
 
 void Game::addTile(SDL_Texture* sdlTexture, const SDL_Rect& src, const SDL_Rect& dst, SDL_RendererFlip flip)
 {
-    auto& tile(manager.addEntity());
+    auto& tile(manager.enqueueEntity());
     tile.addComponent<TileComponent>(sdlTexture, src, dst, flip);
     tile.addGroup(groupMap);
 }

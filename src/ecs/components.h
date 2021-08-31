@@ -13,5 +13,6 @@
 #include "decaycomponent.h"
 #include "weaponcomponent.h"
 #include "relationshipcomponent.h"
+#include "dumbcomponent.h"
 
 #endif // COMPONENTS_H

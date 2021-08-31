@@ -16,6 +16,7 @@ HEADERS += \
     src/ecs/components.h \
     src/ecs/damagemodel.h \
     src/ecs/decaycomponent.h \
+    src/ecs/dumbcomponent.h \
     src/ecs/inputcomponent.h \
     src/ecs/projectilecomponent.h \
     src/ecs/relationshipcomponent.h \
@@ -40,6 +41,7 @@ SOURCES += \
         src/ecs/collidercomponent.cpp \
         src/ecs/damagemodel.cpp \
         src/ecs/decaycomponent.cpp \
+        src/ecs/dumbcomponent.cpp \
         src/ecs/inputcomponent.cpp \
         src/ecs/projectilecomponent.cpp \
         src/ecs/relationshipcomponent.cpp \

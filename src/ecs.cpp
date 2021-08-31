@@ -67,7 +67,7 @@ std::vector<Entity *> &EntityManager::getGroup(Group g)
 {
     return m_groupedEntities[g];
 }
-
+/*
 Entity& EntityManager::addEntity()
 {
     Entity *e = new Entity(*this);
@@ -75,7 +75,7 @@ Entity& EntityManager::addEntity()
     m_entities.emplace_back(std::move(uPtr));
     return *e;
 }
-
+*/
 Entity& EntityManager::enqueueEntity()
 {
     Entity *e = new Entity(*this);

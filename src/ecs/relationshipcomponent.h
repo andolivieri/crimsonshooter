@@ -18,11 +18,13 @@ public:
     }
     void update() override
     {
-        if(parent)
-            entity->setActive(parent->active());
+
+        if(parent != nullptr)
+           entity->setActive(parent->active());
 
         for(auto child : children)
             child->setActive(entity->active());
+
     }
 
 
