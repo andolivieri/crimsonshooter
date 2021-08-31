@@ -21,8 +21,10 @@ int main(int argc, char* argv[])
         frameStart = SDL_GetTicks();
 
         g->handleEvents();
-        g->update();
-        g->render();
+        if(!g->paused()){
+            g->update();
+            g->render();
+        }
 
         frameTime = SDL_GetTicks() - frameStart;
 

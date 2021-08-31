@@ -1,6 +1,12 @@
 #ifndef COMPONENTS_H
 #define COMPONENTS_H
 
+
+
+
+
+
+
 #include "aicomponent.h"
 #include "transformcomponent.h"
 #include "spritecomponent.h"
@@ -14,5 +20,7 @@
 #include "weaponcomponent.h"
 #include "relationshipcomponent.h"
 #include "dumbcomponent.h"
+#include "foespawnercomponent.h"
+#include "timercomponent.h"
 
 #endif // COMPONENTS_H

@@ -13,16 +13,11 @@ private:
     TransformComponent* transform;
     SpriteComponent* sprite;
     DamageModelComponent* damage;
-    const Entity& m_target;
 
 public:
     float speed = 0.5;
     AIComponent() = default;
-    AIComponent(const Entity& player):
-        m_target(player)
-    {
 
-    }
 
     void init() override
     {

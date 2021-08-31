@@ -34,22 +34,26 @@ public:
 
     bool running();
 
+    static int winWidth;
+    static int winHeigth;
     static bool KEYS[322];
     static std::set<SDL_Keycode> pressedKeys;
     static std::set<Uint8> pressedMouseButtons;
     static std::vector<ColliderComponent*> colliders;
     static void addTile(SDL_Texture *sdlTexture, const SDL_Rect &src, const SDL_Rect &dst, SDL_RendererFlip flip);
+    bool paused();
 private:
+
     unsigned long cnt = 0;
     bool m_running = false;
+    bool m_paused = false;
     SDL_Window* m_win = nullptr;
     SDL_Renderer *m_renderer = nullptr;
 
-    int winWidth;
-    int winHeigth;
 
 
     void spawnFoe();
+    void togglePause();
 };
 
 #endif // GAME_H

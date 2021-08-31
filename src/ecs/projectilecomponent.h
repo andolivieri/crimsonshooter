@@ -22,7 +22,6 @@ public:
 
     }
 
-
     ProjectileComponent& setDamage(int value);
     ProjectileComponent& setRange(int value);
     ProjectileComponent& setSize(int w, int h);

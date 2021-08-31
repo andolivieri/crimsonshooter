@@ -4,6 +4,8 @@
 void AIComponent::update()
 {
 
+    Entity* player = entity->m_manager.getGroup(groupPlayers)[0];
+
     if(damage->isDead()){
         if(damage->diedNow()){
             sprite->play("dying", 1);
@@ -12,32 +14,32 @@ void AIComponent::update()
             entity->delGroup(groupEnemies);
             entity->addGroup(groupDeadEnemies);
             for(int i=0; i<3; i++){
-                auto& e = entity->m_manager.enqueueEntity();
+                auto& e = entity->m_manager.addEntity();
                 int startSize = 8 + rand() % 16;
                 int endsize = startSize + 8 +  rand() % 16;
                 e.addComponent<BloodSplatComponent>(Math2D::randomAround(8, transform->center()))
                         .setStartSize(startSize,startSize)
                         .setMaxSize(endsize, endsize);
-                e.addComponent<DecayComponent>(65);
+                e.addComponent<DecayComponent>(9965);
             }
-            entity->addComponent<DecayComponent>(60);
+            entity->addComponent<DecayComponent>(9960);
         }
         return;
     }
 
 
-    TransformComponent* m_player =  &m_target.getComponent<TransformComponent>();
+    auto& target_pos =  player->getComponent<TransformComponent>();
 
-    if(transform->pos.x > m_player->pos.x)
+    if(transform->pos.x > target_pos.pos.x)
         transform->velocity.x = -speed;
-    else if (transform->pos.x < m_player->pos.x)
+    else if (transform->pos.x < target_pos.pos.x)
         transform->velocity.x = speed;
     else
         transform->velocity.x = 0;
 
-    if(transform->pos.y > m_player->pos.y)
+    if(transform->pos.y > target_pos.pos.y)
         transform->velocity.y = -speed;
-    else if (transform->pos.y < m_player->pos.y)
+    else if (transform->pos.y < target_pos.pos.y)
         transform->velocity.y = speed;
     else
         transform->velocity.y = 0;
@@ -49,6 +51,6 @@ void AIComponent::update()
         sprite->play("idle");
     }
 
-    transform->rotation = Math2D::angleBetweenPoints(transform->pos, m_player->pos);
+    transform->rotation = Math2D::angleBetweenPoints(transform->pos, target_pos.pos);
 
 }

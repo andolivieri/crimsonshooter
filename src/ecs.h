@@ -124,7 +124,7 @@ public:
     void addToGroup(Entity* e, Group g);
     std::vector<Entity*>& getGroup(Group g);
     //Entity& addEntity();
-    Entity& enqueueEntity();
+    Entity& addEntity();
 };
 
 #endif // ECS_H

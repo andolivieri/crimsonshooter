@@ -9,17 +9,16 @@
 #include "ecs.h"
 #include "ecs/components.h"
 #include "collision.h"
+#include "scenes/scenes.h"
 
-GameMap* g_map = nullptr;
 
+int Game::winWidth = 0;
+int Game::winHeigth = 0;
 std::set<SDL_Keycode> Game::pressedKeys;
 std::set<Uint8> Game::pressedMouseButtons;
 std::vector<ColliderComponent*> Game::colliders;
 
 EntityManager manager;
-auto& newEnemy(manager.enqueueEntity());
-auto& wall(manager.enqueueEntity());
-auto& newPlayer(manager.enqueueEntity());
 
 
 Game::Game()
@@ -66,28 +65,7 @@ void Game::init(const char *title, int xpos, int ypos, int widht, int heigth, bo
         m_running = false;
     }
 
-    g_map = new GameMap();
-
-    GameMap::LoadMap("assets/themap.json");
-
-    newPlayer.addComponent<TransformComponent>(100.f,100.f, 64,64);
-
-    newPlayer.getComponent<TransformComponent>().speed = 2;
-    newPlayer.getComponent<TransformComponent>().width = 64;
-    newPlayer.getComponent<TransformComponent>().height = 64;
-    newPlayer.getComponent<TransformComponent>().pos.x = widht / 2.f;
-    newPlayer.getComponent<TransformComponent>().pos.y = heigth / 2.f;
-    newPlayer.addComponent<SpriteComponent>("assets/player.png")
-            .setSrcRect({0,0,16,16})
-            .addAnimation("idle", {0, 2, 600 })
-            .addAnimation("fast", {1, 4, 100 })
-            .addAnimation("moving", {1, 4, 200 });
-    newPlayer.addComponent<InputComponent>();
-    newPlayer.addComponent<ColliderComponent>("player");
-    newPlayer.addComponent<WeaponComponent>("uberweapon");
-    newPlayer.addComponent<RelationshipComponent>();
-    newPlayer.addGroup(groupPlayers);
-
+    stuff(manager);
 
 }
 
@@ -104,6 +82,8 @@ void Game::handleEvents()
                 Game::pressedKeys.erase(evt.key.keysym.sym);
             break;
         case SDL_KEYDOWN:
+            if(evt.key.keysym.sym == SDLK_p)
+                togglePause();
             Game::pressedKeys.insert(evt.key.keysym.sym);
             break;
         case SDL_MOUSEBUTTONDOWN:
@@ -119,45 +99,20 @@ void Game::handleEvents()
         }
     }
 
+}
+void Game::togglePause()
+{
+    m_paused = !m_paused;
+}
 
-    // TODO dispatch eventi? Intanto filtro solo key up/down
-
-    //event = evt;
-
+bool Game::paused()
+{
+    return m_paused;
 }
 
 void Game::update()
 {
 
-    auto& projectiles = manager.getGroup(groupProjectiles);
-    auto& enemies = manager.getGroup(groupEnemies);
-
-    for(auto bullet : projectiles)
-    {
-        for(auto enemy : enemies){
-
-            DamageModelComponent& enemyDamage = enemy->getComponent<DamageModelComponent>();
-            ColliderComponent& enemyCC = enemy->getComponent<ColliderComponent>();
-
-            ProjectileComponent& pc = bullet->getComponent<ProjectileComponent>();
-            ColliderComponent& cc = bullet->getComponent<ColliderComponent>();
-
-            if(Collision::AABB(cc, enemyCC))
-            {
-                enemyDamage.health -= pc.damage;
-                //std::cout << "Tag " << enemyCC.tag << " Enemy hit. Damage=" << pc.damage << " Enemy health: " << enemyDamage.health << std::endl;
-                bullet->setActive(false);
-            }
-
-        }
-
-    }
-
-    auto howManyEnemies = enemies.size();
-    while(howManyEnemies++ < 20)
-    {
-        spawnFoe();
-    }
 
 
     manager.update();
@@ -179,59 +134,6 @@ void Game::render()
 
 }
 
-void Game::spawnFoe()
-{
-
-    static long enemyCount = 0;
-
-    auto& theFoe = manager.enqueueEntity();
-    theFoe.addComponent<TransformComponent>(0.f,0.f, 64,64);
-    theFoe.addComponent<SpriteComponent>("assets/foe.png")
-            .setSrcRect({0,0,32,32})
-            .addAnimation("idle", {0, 1, 100 })
-            .addAnimation("dying", {1, 4, 300 })
-            .addAnimation("moving", {0, 4, 200 });
-    theFoe.addComponent<DamageModelComponent>(30);
-    theFoe.addComponent<ColliderComponent>("foe_" + std::to_string(enemyCount++), 4, 4, .8f);
-    theFoe.addComponent<AIComponent>(newPlayer);
-    theFoe.addComponent<RelationshipComponent>();
-    theFoe.addGroup(groupEnemies);
-
-    Vector2D spawnPt;
-
-    switch (rand()% 4) {
-    case 0:
-        // CENTER
-        spawnPt.y = -128;
-        spawnPt.x = rand() % winWidth;
-        break;
-    case 1:
-        // LEFT
-        spawnPt.y = rand() % winHeigth;
-        spawnPt.x = 0;
-        break;
-    case 2:
-        // RIGHT
-        spawnPt.y = rand() % winHeigth;
-        spawnPt.x = winWidth;
-        break;
-    case 3:
-        // BOTTOM
-        spawnPt.y = winHeigth;
-        spawnPt.x = rand() % winWidth;
-        break;
-    default:
-        break;
-    }
-
-
-    theFoe.getComponent<TransformComponent>().pos = spawnPt;
-    float speed = .1f + (rand() / (float)RAND_MAX );
-    theFoe.getComponent<AIComponent>().speed = speed;
-
-
-
-}
 
 void Game::clean()
 {
@@ -243,7 +145,7 @@ void Game::clean()
 
 void Game::addTile(SDL_Texture* sdlTexture, const SDL_Rect& src, const SDL_Rect& dst, SDL_RendererFlip flip)
 {
-    auto& tile(manager.enqueueEntity());
+    auto& tile(manager.addEntity());
     tile.addComponent<TileComponent>(sdlTexture, src, dst, flip);
     tile.addGroup(groupMap);
 }

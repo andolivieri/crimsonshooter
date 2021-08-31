@@ -1,5 +1,6 @@
 #include "projectilecomponent.h"
 #include "game.h"
+#include "../collision.h"
 
 
 
@@ -57,5 +58,25 @@ void ProjectileComponent::update()
     if(distance > range){
         entity->setActive(false);
     }
+
+    auto& enemies = entity->m_manager.getGroup(groupEnemies);
+
+    for(auto enemy : enemies){
+
+        DamageModelComponent& enemyDamage = enemy->getComponent<DamageModelComponent>();
+        ColliderComponent& enemyCC = enemy->getComponent<ColliderComponent>();
+
+        ProjectileComponent& pc = entity->getComponent<ProjectileComponent>();
+        ColliderComponent& cc = entity->getComponent<ColliderComponent>();
+
+        if(Collision::AABB(cc, enemyCC))
+        {
+            enemyDamage.health -= pc.damage;
+            entity->setActive(false);
+        }
+
+    }
+
+
 
 }

@@ -9,11 +9,15 @@ class DumbComponent : public Component
 {
 public:
 
-    DumbComponent(int t=1){ decayTime = t;}
+    DumbComponent(int t=1){ dummyValue = t;}
+
+    void init() override;
+    void update() override;
+    void draw() override;
 
 
 private:
-    int decayTime;
+    int dummyValue;
     time_t startTime;
 
 };

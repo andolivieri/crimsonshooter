@@ -27,7 +27,7 @@ void WeaponComponent::update()
 
         for(int i=0; i<12; i++)
         {
-            auto& e = entity->m_manager.enqueueEntity();
+            auto& e = entity->m_manager.addEntity();
             int angle = rand() % 30;
             angle *= std::pow(-1, i);
             Vector2D randpoint = Math2D::rotate_point(transform->center(), angle, {mousePt.x, mousePt.y});

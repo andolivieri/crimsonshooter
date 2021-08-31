@@ -17,16 +17,20 @@ HEADERS += \
     src/ecs/damagemodel.h \
     src/ecs/decaycomponent.h \
     src/ecs/dumbcomponent.h \
+    src/ecs/foespawnercomponent.h \
     src/ecs/inputcomponent.h \
     src/ecs/projectilecomponent.h \
     src/ecs/relationshipcomponent.h \
     src/ecs/spritecomponent.h \
     src/ecs/tilecomponent.h \
+    src/ecs/timercomponent.h \
     src/ecs/transformcomponent.h \
     src/ecs/weaponcomponent.h \
     src/game.h \
     src/gamemap.h \
     src/math2d.h \
+    src/scenes/level0.h \
+    src/scenes/scenes.h \
     src/texturemanager.h \
     src/utils.h \
     src/vector2d.h
@@ -42,11 +46,13 @@ SOURCES += \
         src/ecs/damagemodel.cpp \
         src/ecs/decaycomponent.cpp \
         src/ecs/dumbcomponent.cpp \
+        src/ecs/foespawnercomponent.cpp \
         src/ecs/inputcomponent.cpp \
         src/ecs/projectilecomponent.cpp \
         src/ecs/relationshipcomponent.cpp \
         src/ecs/spritecomponent.cpp \
         src/ecs/tilecomponent.cpp \
+        src/ecs/timercomponent.cpp \
         src/ecs/transformcomponent.cpp \
         src/ecs/weaponcomponent.cpp \
         src/game.cpp \

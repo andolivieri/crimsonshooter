@@ -76,7 +76,7 @@ Entity& EntityManager::addEntity()
     return *e;
 }
 */
-Entity& EntityManager::enqueueEntity()
+Entity& EntityManager::addEntity()
 {
     Entity *e = new Entity(*this);
     std::unique_ptr<Entity> uPtr(e);
