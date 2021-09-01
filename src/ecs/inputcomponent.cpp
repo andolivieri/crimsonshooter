@@ -41,7 +41,7 @@ void InputComponent::update()
     double angle = Math2D::angleBetweenPoints(playerPt, mousePt);
     transform->rotation = angle;
 
-    handleInput(angle);
+    handleInput();
 
 
     // TODO handle collision here but we should really not
@@ -96,10 +96,9 @@ std::set<PlayerControls> InputComponent::readControls()
 
     return controls;
 }
-void InputComponent::handleInput(double angle)
+void InputComponent::handleInput()
 {
 
-    const std::set<SDL_Keycode>& gg = Game::pressedKeys;
     const std::set<uint8_t>& mouse = Game::pressedMouseButtons;
 
     auto pressedkeys = readControls();
@@ -144,10 +143,10 @@ void InputComponent::handleInput(double angle)
     // Let's not allow the player off screen
 
     transform->pos.x = std::max<float>(transform->pos.x, 0);
-    transform->pos.x = std::min<float>(transform->pos.x, Game::winWidth - transform->width);
+    transform->pos.x = std::min<float>(transform->pos.x, static_cast<float>(Game::winWidth) - transform->width);
 
     transform->pos.y = std::max<float>(transform->pos.y, 0);
-    transform->pos.y = std::min<float>(transform->pos.y, Game::winHeigth - transform->height);
+    transform->pos.y = std::min<float>(transform->pos.y, static_cast<float>(Game::winHeigth) - transform->height);
 
 
     if(entity->hasComponent<WeaponComponent>())

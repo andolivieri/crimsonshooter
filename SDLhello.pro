@@ -82,10 +82,10 @@ OTHER_FILES += README.md
 
 SDLdll.files +=  \
     $$PWD/libs/SDL2/lib/x64/SDL2.dll \
-    $$PWD/libs/SDL2_image/lib/x64/libjpeg-9.dll \
+    #$$PWD/libs/SDL2_image/lib/x64/libjpeg-9.dll \
     $$PWD/libs/SDL2_image/lib/x64/libpng16-16.dll\
-    $$PWD/libs/SDL2_image/lib/x64/libtiff-5.dll\
-    $$PWD/libs/SDL2_image/lib/x64/libwebp-7.dll\
+    # $$PWD/libs/SDL2_image/lib/x64/libtiff-5.dll\
+    #$$PWD/libs/SDL2_image/lib/x64/libwebp-7.dll\
     $$PWD/libs/SDL2_image/lib/x64/SDL2_image.dll\
     $$PWD/libs/SDL2_image/lib/x64/zlib1.dll \
     #$$PWD/libs/SDL2_mixer/lib/x64/libFLAC-8.dll \

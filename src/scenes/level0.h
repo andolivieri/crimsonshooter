@@ -42,9 +42,9 @@ void stuff(EntityManager& manager)
     auto& foespawn = manager.addEntity()
             .addComponent<FoeSpawnerComponent>(score)
             .addWave({"standard", 10, 5})
-            .addWave({"standard", 20, 10})
-            .addWave({"standard", 30, 15})
-            .addWave({"standard", 50, 25})
+            //.addWave({"standard", 20, 10})
+            //.addWave({"standard", 30, 15})
+            //.addWave({"standard", 50, 25})
             ;
 
 
@@ -55,9 +55,9 @@ void stuff(EntityManager& manager)
             .then([&]()
     {
         auto &e = manager.addEntity();
-        e.addComponent<TransformComponent>(0, 0, 500, 150)
-                .centerOn({Game::winWidth/2, Game::winHeigth/2});
-        e.addComponent<TextComponent>("YOU WIN");
+        e.addComponent<TransformComponent>(1, 1, 800, 120)
+                .centerOn({Game::winWidth/2.f, Game::winHeigth/2.f});
+        e.addComponent<TextComponent>("LEVEL 0 COMPLETED");
         e.addGroup(groupOverlay);
     });
 

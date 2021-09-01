@@ -29,8 +29,8 @@ void TextComponent::draw()
 
 
     SDL_Rect Message_rect; //create a rect
-    Message_rect.x = transform->pos.x;  //controls the rect's x coordinate
-    Message_rect.y = transform->pos.y; // controls the rect's y coordinte
+    Message_rect.x = static_cast<int>(transform->pos.x);  //controls the rect's x coordinate
+    Message_rect.y = static_cast<int>(transform->pos.y); // controls the rect's y coordinte
     Message_rect.w = transform->width; // controls the width of the rect
     Message_rect.h = transform->height; // controls the height of the rect
 

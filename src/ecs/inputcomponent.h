@@ -41,7 +41,7 @@ private:
 
     TransformComponent* transform;
     SpriteComponent* sprite;
-    void handleInput(double angle);
+    void handleInput();
     SDL_Point getPlayerCenter();
 
     std::set<SDL_Keycode> lastKeys;
