@@ -2,7 +2,7 @@
 #define RELATIONSHIPCOMPONENT_H
 
 #include <time.h>
-#include <set>
+#include <map>
 #include <SDL.h>
 #include "ecs.h"
 
@@ -19,11 +19,21 @@ public:
     void update() override
     {
 
-        if(parent != nullptr)
-           entity->setActive(parent->active());
+        // If parent dies, I die
+        if(parent != nullptr && !parent->active())
+           entity->setActive(false);
 
-        for(auto child : children)
+        // Propagate death
+        for(auto kv : children){
+            auto child = kv.second;
             child->setActive(entity->active());
+        }
+
+        // Remove from parent
+        if(!entity->active() && parent){
+            auto& rel = parent->getComponent<RelationshipComponent>();
+            rel.removeChildren(mytag);
+        }
 
     }
 
@@ -34,19 +44,32 @@ public:
         return *this;
     }
 
-    RelationshipComponent& addChildren(Entity* child)
+    RelationshipComponent& addChildren(Entity* child, const std::string& tag)
     {
         if(!child->hasComponent<RelationshipComponent>())
             child->addComponent<RelationshipComponent>();
         auto& rel = child->getComponent<RelationshipComponent>();
         rel.addParent(entity);
-        children.insert(child);
+        children[tag] = child;
 
         return *this;
     }
 
+    Entity* getChildren(const std::string& tag)
+    {
+        return children[tag];
+    }
+
+
+    RelationshipComponent& removeChildren(const std::string& tag)
+    {
+        children.erase(tag);
+        return *this;
+    }
+
 private:
-    std::set<Entity*> children;
+    const std::string mytag;
+    std::map<std::string, Entity*> children;
     Entity* parent{nullptr};
 
 };

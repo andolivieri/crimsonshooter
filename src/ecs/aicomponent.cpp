@@ -17,16 +17,18 @@ void AIComponent::update()
             entity->delGroup(groupEnemies);
             entity->addGroup(groupDeadEnemies);
             for(int i=0; i<3; i++){
-                auto& e = entity->m_manager.addEntity();
+                auto& splat = entity->m_manager.addEntity();
                 int startSize = 8 + rand() % 16;
-                int endsize = startSize + 8 +  rand() % 16;
-                e.addComponent<BloodSplatComponent>(Math2D::randomAround(8, transform->center()))
+                int endsize = startSize + 8 +  rand() % 32;
+                splat.addComponent<BloodSplatComponent>(Math2D::randomAround(8, transform->center()))
                         .setStartSize(startSize,startSize)
                         .setMaxSize(endsize, endsize);
-                e.addComponent<DecayComponent>(decaytime);
-                entity->getComponent<RelationshipComponent>().addChildren(&e);
+                splat.addComponent<DecayComponent>(decaytime);
+                family->addChildren(&splat, "splat_" + std::to_string(i));
             }
             entity->addComponent<DecayComponent>(decaytime);
+            family->getChildren("shadow")->setActive(false);
+
         }
         return;
     }

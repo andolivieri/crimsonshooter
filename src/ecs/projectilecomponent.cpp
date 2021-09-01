@@ -33,7 +33,10 @@ void ProjectileComponent::init()
         entity->addComponent<ColliderComponent>();
 
     transform = &entity->getComponent<TransformComponent>();
-    collider = &entity->addComponent<ColliderComponent>();
+    if(!entity->hasComponent<ColliderComponent>())
+        entity->addComponent<ColliderComponent>();
+    collider = &entity->getComponent<ColliderComponent>();
+
 
 
 

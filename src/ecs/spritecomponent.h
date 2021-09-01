@@ -33,6 +33,7 @@ public:
 
     SpriteComponent& addAnimation(const char* name, const Animation& a);
     SpriteComponent& setAlpha(uint8_t a);
+    SpriteComponent& setTransform(TransformComponent* t);
 
 private:
 

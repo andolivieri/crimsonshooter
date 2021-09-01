@@ -36,8 +36,9 @@ SpriteComponent::~SpriteComponent()
 void SpriteComponent::init()
 {
 
+    if(!entity->hasComponent<TransformComponent>())
+        entity->addComponent<TransformComponent>();
     transform = &entity->getComponent<TransformComponent>();
-
 
     _update();
 }
@@ -100,6 +101,12 @@ SpriteComponent &SpriteComponent::addAnimation(const char *name, const Animation
 SpriteComponent &SpriteComponent::setAlpha(uint8_t a)
 {
     alpha = a;
+    return *this;
+}
+
+SpriteComponent &SpriteComponent::setTransform(TransformComponent *t)
+{
+    transform = t;
     return *this;
 }
 

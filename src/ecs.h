@@ -10,6 +10,7 @@
 #include <array>
 #include <queue>
 #include <set>
+#include <assert.h>
 
 class Component; // Position, AI, Physics, Input, etc
 class Entity;
@@ -89,6 +90,7 @@ public:
     template <typename T, typename... TArgs>
     T& addComponent(TArgs&&... mArgs)
     {
+        assert(!hasComponent<T>());
         T* c(new T(std::forward<TArgs>(mArgs)...));
 
         c->entity = this;
