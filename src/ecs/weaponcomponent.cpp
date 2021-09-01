@@ -1,6 +1,7 @@
 #include "weaponcomponent.h"
 #include "projectilecomponent.h"
 #include "tilecomponent.h"
+#include "assetmanager.h"
 
 WeaponComponent::WeaponComponent(const std::string& n):
     currentweapon(n)
@@ -32,6 +33,7 @@ void WeaponComponent::init()
 
 void WeaponComponent::equip(const std::string& n)
 {
+    SDL_UNUSED(n);
     // TODO weapon factory
     auto& gun = entity->m_manager.addEntity();
 
@@ -56,7 +58,6 @@ void WeaponComponent::update()
     center.y += attachPoint.y;
     Vector2D rotatedCenter = Math2D::rotate_point(transform->center(), transform->rotation, center);
     gun->getComponent<TransformComponent>().centerOn(rotatedCenter);
-    //gun->getComponent<TransformComponent>().pos.x += std::sin(transform->rotation);
     gun->getComponent<TransformComponent>().rotation = transform->rotation;
 
 
@@ -90,6 +91,9 @@ void WeaponComponent::update()
             e.addComponent<SpriteComponent>("assets/projectile.png")
                     .setSrcRect({2,2,2,2});
         }
+
+        auto sound = AssetManager::getSound("assets/shotgun.wav");
+        Mix_PlayChannel(-1, sound, 0);
 
 
         lastShot = SDL_GetTicks();

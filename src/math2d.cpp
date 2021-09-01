@@ -46,7 +46,7 @@ Vector2D Math2D::randomAround(int radius, const Vector2D &a)
     return r;
 }
 
-Vector2D Math2D::rotate_point(const Vector2D& pivot,float degAngle,const Vector2D& point)
+Vector2D Math2D::rotate_point(const Vector2D& pivot,double degAngle,const Vector2D& point)
 {
   Vector2D res = point;
   double angle = deg2rad(degAngle);

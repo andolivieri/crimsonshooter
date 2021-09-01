@@ -66,6 +66,7 @@ SOURCES += \
 
 INCLUDEPATH += libs/SDL2/include/
 INCLUDEPATH += libs/SDL2_image/include/
+INCLUDEPATH += libs/SDL2_mixer/include/
 INCLUDEPATH += src/
 
 OTHER_FILES += README.md
@@ -77,7 +78,17 @@ SDLdll.files +=  \
     $$PWD/libs/SDL2_image/lib/x64/libtiff-5.dll\
     $$PWD/libs/SDL2_image/lib/x64/libwebp-7.dll\
     $$PWD/libs/SDL2_image/lib/x64/SDL2_image.dll\
-    $$PWD/libs/SDL2_image/lib/x64/zlib1.dll
+    $$PWD/libs/SDL2_image/lib/x64/zlib1.dll \
+    $$PWD/libs/SDL2_mixer/lib/x64/libFLAC-8.dll \
+    $$PWD/libs/SDL2_mixer/lib/x64/libmodplug-1.dll \
+    $$PWD/libs/SDL2_mixer/lib/x64/libmpg123-0.dll \
+    $$PWD/libs/SDL2_mixer/lib/x64/libogg-0.dll \
+    $$PWD/libs/SDL2_mixer/lib/x64/libopus-0.dll \
+    $$PWD/libs/SDL2_mixer/lib/x64/libopusfile-0.dll \
+    $$PWD/libs/SDL2_mixer/lib/x64/libvorbis-0.dll \
+    $$PWD/libs/SDL2_mixer/lib/x64/libvorbisfile-3.dll \
+    $$PWD/libs/SDL2_mixer/lib/x64/SDL2_mixer.dll
+
 SDLdll.path = $$DESTDIR
 INSTALLS += SDLdll
 
@@ -91,6 +102,7 @@ INSTALLS += assets
 LIBS += $$PWD/libs/SDL2/lib/x64/SDL2.lib
 LIBS += $$PWD/libs/SDL2/lib/x64/SDL2main.lib
 LIBS += $$PWD/libs/SDL2_image/lib/x64/SDL2_image.lib
+LIBS += $$PWD/libs/SDL2_mixer/lib/x64/SDL2_mixer.lib
 LIBS += -lshell32
 
 QMAKE_LFLAGS_WINDOWS    = /SUBSYSTEM:CONSOLE

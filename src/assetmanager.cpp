@@ -2,6 +2,7 @@
 #include "texturemanager.h"
 
 std::map<std::string, SDL_Texture*> AssetManager::textures;
+std::map<std::string, Mix_Chunk*> AssetManager::sounds;
 
 SDL_Texture *AssetManager::getTexture(const std::string &path)
 {
@@ -13,3 +14,15 @@ SDL_Texture *AssetManager::getTexture(const std::string &path)
 
     return textures[path];
 }
+
+Mix_Chunk *AssetManager::getSound(const std::string &path)
+{
+    if(!sounds.count(path))
+    {
+        Mix_Chunk* t = Mix_LoadWAV(path.c_str());
+        sounds[path] = t;
+    }
+
+    return sounds[path];
+}
+
