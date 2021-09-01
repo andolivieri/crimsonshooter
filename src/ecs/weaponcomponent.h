@@ -9,6 +9,7 @@
 #include "transformcomponent.h"
 #include "projectilecomponent.h"
 #include "spritecomponent.h"
+#include "relationshipcomponent.h"
 
 class Weapon
 {
@@ -20,7 +21,7 @@ class WeaponComponent : public Component
 {
 public:
 
-    WeaponComponent(const std::string n);
+    WeaponComponent(const std::string& n);
 
     void init() override;
     void update() override;
@@ -32,12 +33,14 @@ private:
     bool shooting = false;
 
     TransformComponent* transform;
+    RelationshipComponent* rel;
     SpriteComponent* sprite;
-    std::string name;
+    std::string currentweapon;
     Uint32  lastShot;
     Uint32 cooldown = 1000; //msecs
     int range = 80;
 
+    void equip(const std::string &n);
 };
 
 #endif // WEAPONCOMPONENT_H

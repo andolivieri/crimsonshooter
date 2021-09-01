@@ -2,8 +2,8 @@
 #include "projectilecomponent.h"
 #include "tilecomponent.h"
 
-WeaponComponent::WeaponComponent(const std::string n):
-    name(n)
+WeaponComponent::WeaponComponent(const std::string& n):
+    currentweapon(n)
 {
 
 }
@@ -14,6 +14,24 @@ void WeaponComponent::init()
     if(!entity->hasComponent<TransformComponent>())
         entity->addComponent<TransformComponent>();
     transform = &entity->getComponent<TransformComponent>();
+
+
+    if(!entity->hasComponent<RelationshipComponent>())
+        entity->addComponent<RelationshipComponent>();
+    rel = &entity->getComponent<RelationshipComponent>();
+
+    equip(currentweapon);
+
+}
+
+void WeaponComponent::equip(const std::string& n)
+{
+    // TODO weapon factory
+    auto& gun = entity->m_manager.addEntity();
+    gun.addComponent<SpriteComponent>("assets/shotgun.png")
+            .addAnimation("idle", {0, 1, 100 })
+            .addAnimation("shooting", {0, 11, 100});
+    rel->addChildren(&gun, "gun");
 
 }
 
@@ -46,6 +64,8 @@ void WeaponComponent::update()
         lastShot = SDL_GetTicks();
 
     }
+
+
 }
 
 void WeaponComponent::triggerPull()
