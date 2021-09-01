@@ -10,7 +10,8 @@ class RelationshipComponent : public Component
 {
 public:
 
-    RelationshipComponent(){}
+    RelationshipComponent()
+    {}
 
     void init() override
     {
@@ -32,8 +33,9 @@ public:
         // Remove from parent
         if(!entity->active() && parent){
             auto& rel = parent->getComponent<RelationshipComponent>();
-            rel.removeChildren(mytag);
+            rel.removeChild(entity);
         }
+
 
     }
 
@@ -61,11 +63,17 @@ public:
     }
 
 
-    RelationshipComponent& removeChildren(const std::string& tag)
+    RelationshipComponent& removeChild(Entity* child)
     {
-        children.erase(tag);
+        for(auto i : children){
+            if(i.second == child){
+                children.erase(i.first);
+                break;
+            }
+        }
         return *this;
     }
+
 
 private:
     const std::string mytag;

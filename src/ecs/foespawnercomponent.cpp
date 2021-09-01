@@ -4,8 +4,11 @@
 void FoeSpawnerComponent::update()
 {
 
-    if(waves.empty())
+    finished = (scoreData.kills == totalEnemies);
+
+    if(waves.empty()){
         return;
+    }
 
 
     FoeWave currentWave = waves.front();
@@ -23,8 +26,9 @@ void FoeSpawnerComponent::update()
     {
         waves.pop_front();
         currentWaveSpawnCount = 0;
-        currentWaveKillOffset = scoreData.kills;
     }
+
+
 
 
 
@@ -50,6 +54,7 @@ void FoeSpawnerComponent::spawnFoe(const std::string foekind)
     theFoe.addGroup(groupEnemies);
 
     // Alive aura
+
     auto& shadow = entity->m_manager.addEntity();
     shadow.addComponent<SpriteComponent>("assets/aura.png")
             .setSrcRect({0,0,32,32})
@@ -57,6 +62,7 @@ void FoeSpawnerComponent::spawnFoe(const std::string foekind)
             .setAlpha(128);
     shadow.addGroup(groupBloodPatches);
     theFoe.getComponent<RelationshipComponent>().addChildren(&shadow, "shadow");
+
 
     theFoe.addComponent<AIComponent>();
 

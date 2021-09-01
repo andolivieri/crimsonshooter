@@ -2,6 +2,7 @@
 #define PREDICATECOMPONENT_H
 
 #include <time.h>
+#include <functional>
 #include <SDL.h>
 #include "ecs.h"
 
@@ -9,16 +10,29 @@ class PredicateComponent : public Component
 {
 public:
 
-    PredicateComponent()
+    PredicateComponent(std::function<bool()> p):
+        pred(p)
     {
-
+        consequence = [](){ return false; };
     }
 
-    void update() override;
+    PredicateComponent& then(std::function<void()> p)
+    {
+        consequence = p;
+        return *this;
+    }
+
+    void update() override
+    {
+        if(pred())
+            consequence();
+    }
 
 
 private:
 
+    std::function<bool ()> pred;
+    std::function<void ()> consequence;
 
 };
 

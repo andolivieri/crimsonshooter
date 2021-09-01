@@ -18,5 +18,6 @@
 #include "timercomponent.h"
 #include "soundcomponent.h"
 #include "scorecollector.h"
+#include "predicatecomponent.h"
 
 #endif // COMPONENTS_H

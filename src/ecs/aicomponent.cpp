@@ -16,6 +16,7 @@ void AIComponent::update()
             transform->velocity.y = 0;
             entity->delGroup(groupEnemies);
             entity->addGroup(groupDeadEnemies);
+
             for(int i=0; i<3; i++){
                 auto& splat = entity->m_manager.addEntity();
                 int startSize = 8 + rand() % 16;
@@ -26,8 +27,10 @@ void AIComponent::update()
                 splat.addComponent<DecayComponent>(decaytime);
                 family->addChildren(&splat, "splat_" + std::to_string(i));
             }
-            entity->addComponent<DecayComponent>(decaytime);
+
+
             family->getChildren("shadow")->setActive(false);
+            entity->addComponent<DecayComponent>(decaytime);
 
         }
         return;

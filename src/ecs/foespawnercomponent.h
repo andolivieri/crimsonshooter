@@ -28,6 +28,7 @@ public:
 
     FoeSpawnerComponent& addWave(const FoeWave& w)
     {
+        totalEnemies += w.total;
         waves.push_back(w);
         return *this;
     }
@@ -46,7 +47,7 @@ private:
     std::deque<FoeWave> waves;
     int currentWaveSpawnCount = 0;
     int currentWaveSpawnKills = 0;
-    int currentWaveKillOffset = 0;
+    int totalEnemies = 0;
     bool done = false;
 
     void spawnFoe(const std::string foekind);
