@@ -72,7 +72,13 @@ public:
             m_comps[i]->update();
         }
     }
-    void draw(){ for(auto& c : m_comps) c->draw();}
+    void draw(){
+        //for(auto& c : m_comps) c->draw();
+        for(auto i{0}; i < m_comps.size(); i++)
+        {
+            m_comps[i]->draw();
+        }
+    }
     bool active(){ return m_active; }
     void setActive(bool b) {m_active = b;}
     void destroy(){ m_active = false; }

@@ -132,7 +132,10 @@ void Game::render()
     for(int g = 0; g != groupLast; g++)
     {
         auto& entities = manager.getGroup(g);
-        for(auto e : entities) e->draw();
+        for(auto i{0}; i < entities.size(); i++)
+        {
+            entities[i]->draw();
+        }
     }
 
     SDL_RenderPresent(m_renderer);

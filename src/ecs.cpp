@@ -19,12 +19,18 @@ void Entity::delGroup(Group g)
 
 void EntityManager::update()
 {
-    for(auto& e : m_entities) e->update();
+    for(auto i{0}; i < m_entities.size(); i++)
+    {
+        m_entities[i]->update();
+    }
 }
 
 void EntityManager::draw()
 {
-    for(auto& e : m_entities) e->draw();
+    for(auto i{0}; i < m_entities.size(); i++)
+    {
+        m_entities[i]->draw();
+    }
 }
 
 void EntityManager::refresh()
