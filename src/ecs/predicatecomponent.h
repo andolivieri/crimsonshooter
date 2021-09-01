@@ -24,8 +24,10 @@ public:
 
     void update() override
     {
-        if(pred())
+        if(pred()){
             consequence();
+            entity->setActive(false);
+        }
     }
 
 

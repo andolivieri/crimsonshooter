@@ -4,6 +4,7 @@
 #include <time.h>
 #include <random>
 #include "SDL_image.h"
+#include "SDL_ttf.h"
 #include "SDL_mixer.h"
 #include "texturemanager.h"
 #include "gamemap.h"
@@ -43,10 +44,13 @@ void Game::init(const char *title, int xpos, int ypos, int widht, int heigth, bo
 
     if(SDL_Init(SDL_INIT_EVERYTHING) == 0)
     {
-        std::cout << "SDL_Init OK" << std::endl;
-
         if(Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096) == -1 )
-                return;
+        {
+            std::cout << "Mix_OpenAudio failed" << SDL_GetError() << std::endl;
+            return;
+        }
+
+       TTF_Init();
 
         m_win = SDL_CreateWindow(title, xpos, ypos, widht, heigth, flags);
         winHeigth = heigth;

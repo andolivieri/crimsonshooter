@@ -16,6 +16,7 @@ enum groupLabels
     groupEnemies,
     groupColliders,
     groupProjectiles,
+    groupOverlay,
     groupLast
 };
 

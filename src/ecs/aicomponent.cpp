@@ -37,18 +37,27 @@ void AIComponent::update()
     }
 
 
-    auto& target_pos =  player->getComponent<TransformComponent>();
+    Vector2D target = player->getComponent<TransformComponent>().pos;
+    /*
+    if(player->getComponent<DamageModelComponent>().isDead())
+    {
+        target = player->getComponent<TransformComponent>().pos;
+    }else{
+        randomtarget();
+        target = randtarget;
+    }
+    */
 
-    if(transform->pos.x > target_pos.pos.x)
+    if(transform->pos.x > target.x)
         transform->velocity.x = -speed;
-    else if (transform->pos.x < target_pos.pos.x)
+    else if (transform->pos.x < target.x)
         transform->velocity.x = speed;
     else
         transform->velocity.x = 0;
 
-    if(transform->pos.y > target_pos.pos.y)
+    if(transform->pos.y > target.y)
         transform->velocity.y = -speed;
-    else if (transform->pos.y < target_pos.pos.y)
+    else if (transform->pos.y < target.y)
         transform->velocity.y = speed;
     else
         transform->velocity.y = 0;
@@ -60,6 +69,16 @@ void AIComponent::update()
         sprite->play("idle");
     }
 
-    transform->rotation = Math2D::angleBetweenPoints(transform->pos, target_pos.pos);
+    transform->rotation = Math2D::angleBetweenPoints(transform->pos, target);
 
+}
+
+void AIComponent::randomtarget()
+{
+    static uint32_t lastChange = 0;
+    if(SDL_GetTicks() - lastChange > 30)
+    {
+        randtarget = {rand() % Game::winWidth, rand() & Game::winHeigth};
+        lastChange = SDL_GetTicks();
+    }
 }

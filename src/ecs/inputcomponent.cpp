@@ -3,6 +3,7 @@
 #include "math2d.h"
 #include "texturemanager.h"
 #include "utils.h"
+#include "../collision.h"
 
 void InputComponent::init()
 {
@@ -20,6 +21,18 @@ void InputComponent::init()
 
 void InputComponent::update()
 {
+
+    DamageModelComponent& damage = entity->getComponent<DamageModelComponent>();
+
+    if(damage.isDead())
+    {
+        sprite->play("dead",1);
+        transform->velocity.x = 0;
+        transform->velocity.y = 0;
+
+        return;
+    }
+
     SDL_Point mousePt;
     SDL_GetMouseState(&mousePt.x,&mousePt.y);
 
@@ -29,6 +42,18 @@ void InputComponent::update()
     transform->rotation = angle;
 
     handleInput(angle);
+
+
+    // TODO handle collision here but we should really not
+    for(auto &enemy : entity->m_manager.getGroup(groupEnemies))
+    {
+        if(Collision::AABB(entity->getComponent<ColliderComponent>(),
+                           enemy->getComponent<ColliderComponent>()))
+        {
+            damage.health = damage.health - 10;
+            std::cout << "Player hit. Healt=" << damage.health <<  std::endl;
+        }
+    }
 }
 
 void InputComponent::draw()

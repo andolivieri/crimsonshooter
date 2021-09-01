@@ -31,6 +31,10 @@ public:
 
     void update() override;
 
+    void randomtarget();
+
+    Vector2D randtarget;
+
 };
 
 #endif // AICOMPONENT_H

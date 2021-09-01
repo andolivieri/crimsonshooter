@@ -25,6 +25,7 @@ HEADERS += \
     src/ecs/scorecollector.h \
     src/ecs/soundcomponent.h \
     src/ecs/spritecomponent.h \
+    src/ecs/textcomponent.h \
     src/ecs/tilecomponent.h \
     src/ecs/timercomponent.h \
     src/ecs/transformcomponent.h \
@@ -57,6 +58,7 @@ SOURCES += \
         src/ecs/scorecollector.cpp \
         src/ecs/soundcomponent.cpp \
         src/ecs/spritecomponent.cpp \
+        src/ecs/textcomponent.cpp \
         src/ecs/tilecomponent.cpp \
         src/ecs/timercomponent.cpp \
         src/ecs/transformcomponent.cpp \
@@ -73,6 +75,7 @@ SOURCES += \
 INCLUDEPATH += libs/SDL2/include/
 INCLUDEPATH += libs/SDL2_image/include/
 INCLUDEPATH += libs/SDL2_mixer/include/
+INCLUDEPATH += libs/SDL2_ttf/include/
 INCLUDEPATH += src/
 
 OTHER_FILES += README.md
@@ -93,7 +96,9 @@ SDLdll.files +=  \
     #$$PWD/libs/SDL2_mixer/lib/x64/libopusfile-0.dll \
     #$$PWD/libs/SDL2_mixer/lib/x64/libvorbis-0.dll \
     #$$PWD/libs/SDL2_mixer/lib/x64/libvorbisfile-3.dll \
-    $$PWD/libs/SDL2_mixer/lib/x64/SDL2_mixer.dll
+    $$PWD/libs/SDL2_mixer/lib/x64/SDL2_mixer.dll \
+    $$PWD/libs/SDL2_ttf/lib/x64/libfreetype-6.dll \
+    $$PWD/libs/SDL2_ttf/lib/x64/SDL2_ttf.dll
 
 SDLdll.path = $$DESTDIR
 INSTALLS += SDLdll
@@ -109,6 +114,7 @@ LIBS += $$PWD/libs/SDL2/lib/x64/SDL2.lib
 LIBS += $$PWD/libs/SDL2/lib/x64/SDL2main.lib
 LIBS += $$PWD/libs/SDL2_image/lib/x64/SDL2_image.lib
 LIBS += $$PWD/libs/SDL2_mixer/lib/x64/SDL2_mixer.lib
+LIBS += $$PWD/libs/SDL2_ttf/lib/x64/SDL2_ttf.lib
 LIBS += -lshell32
 
 QMAKE_LFLAGS_WINDOWS    = /SUBSYSTEM:CONSOLE

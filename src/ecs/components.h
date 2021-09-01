@@ -19,5 +19,6 @@
 #include "soundcomponent.h"
 #include "scorecollector.h"
 #include "predicatecomponent.h"
+#include "textcomponent.h"
 
 #endif // COMPONENTS_H

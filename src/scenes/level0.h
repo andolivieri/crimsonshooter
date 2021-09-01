@@ -26,11 +26,13 @@ void stuff(EntityManager& manager)
     thePlayer.getComponent<TransformComponent>().height = 64;
     thePlayer.getComponent<TransformComponent>().pos.x = Game::winWidth / 2.f;
     thePlayer.getComponent<TransformComponent>().pos.y = Game::winHeigth / 2.f;
+    thePlayer.addComponent<DamageModelComponent>(200);
     thePlayer.addComponent<RelationshipComponent>();
     thePlayer.addComponent<SpriteComponent>("assets/player.png")
             .setSrcRect({0,0,16,16})
             .addAnimation("idle", {0, 2, 600 })
             .addAnimation("fast", {1, 4, 100 })
+            .addAnimation("dead", {2, 1, 100 })
             .addAnimation("moving", {1, 4, 200 });
     thePlayer.addComponent<InputComponent>();
     thePlayer.addComponent<ColliderComponent>("player");
@@ -39,10 +41,10 @@ void stuff(EntityManager& manager)
 
     auto& foespawn = manager.addEntity()
             .addComponent<FoeSpawnerComponent>(score)
-            .addWave({"standard", 1, 1})
-            //.addWave({"standard", 20, 10})
-            //.addWave({"standard", 30, 15})
-            //.addWave({"standard", 50, 25})
+            .addWave({"standard", 10, 5})
+            .addWave({"standard", 20, 10})
+            .addWave({"standard", 30, 15})
+            .addWave({"standard", 50, 25})
             ;
 
 
@@ -53,10 +55,24 @@ void stuff(EntityManager& manager)
             .then([&]()
     {
         auto &e = manager.addEntity();
-        e.addComponent<SpriteComponent>("assets/text.png");
-        std::cout << "WIIIIN" << std::endl;
-        e.addGroup(groupPlayers);
+        e.addComponent<TransformComponent>(0, 0, 500, 150)
+                .centerOn({Game::winWidth/2, Game::winHeigth/2});
+        e.addComponent<TextComponent>("YOU WIN");
+        e.addGroup(groupOverlay);
     });
+
+   // losecondition
+  manager.addEntity()
+           .addComponent<PredicateComponent>(
+               [&](){return thePlayer.getComponent<DamageModelComponent>().diedNow();})
+           .then([&]()
+   {
+       auto &e = manager.addEntity();
+       e.addComponent<TransformComponent>(0, 0, 500, 150)
+               .centerOn({Game::winWidth/2, Game::winHeigth/2});
+       e.addComponent<TextComponent>("WASTED");
+       e.addGroup(groupOverlay);
+   });
 
 
 

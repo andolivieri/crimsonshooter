@@ -1,8 +1,10 @@
 #include "assetmanager.h"
 #include "texturemanager.h"
+#include <iostream>
 
 std::map<std::string, SDL_Texture*> AssetManager::textures;
 std::map<std::string, Mix_Chunk*> AssetManager::sounds;
+std::map<std::string, TTF_Font*> AssetManager::fonts;
 
 SDL_Texture *AssetManager::getTexture(const std::string &path)
 {
@@ -24,5 +26,20 @@ Mix_Chunk *AssetManager::getSound(const std::string &path)
     }
 
     return sounds[path];
+}
+
+TTF_Font *AssetManager::getFont(const std::string &path)
+{
+    if(!fonts.count(path))
+    {
+        TTF_Font* t = TTF_OpenFont(path.c_str(), 24);
+        if(!t)
+        {
+            std::cout << "Error TTF_OpenFont: " << SDL_GetError();
+        }
+        fonts[path] = t;
+    }
+
+    return fonts[path];
 }
 

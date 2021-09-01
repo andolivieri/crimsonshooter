@@ -3,7 +3,6 @@
 DamageModelComponent::DamageModelComponent(const int h)
 {
     health = h;
-    lastHealth = health;
     deceaseTime = 0;
 }
 
