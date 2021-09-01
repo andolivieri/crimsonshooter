@@ -1,0 +1,1 @@
+#include "soundcomponent.h"

@@ -19,8 +19,11 @@ HEADERS += \
     src/ecs/dumbcomponent.h \
     src/ecs/foespawnercomponent.h \
     src/ecs/inputcomponent.h \
+    src/ecs/predicatecomponent.h \
     src/ecs/projectilecomponent.h \
     src/ecs/relationshipcomponent.h \
+    src/ecs/scorecollector.h \
+    src/ecs/soundcomponent.h \
     src/ecs/spritecomponent.h \
     src/ecs/tilecomponent.h \
     src/ecs/timercomponent.h \
@@ -48,8 +51,11 @@ SOURCES += \
         src/ecs/dumbcomponent.cpp \
         src/ecs/foespawnercomponent.cpp \
         src/ecs/inputcomponent.cpp \
+        src/ecs/predicatecomponent.cpp \
         src/ecs/projectilecomponent.cpp \
         src/ecs/relationshipcomponent.cpp \
+        src/ecs/scorecollector.cpp \
+        src/ecs/soundcomponent.cpp \
         src/ecs/spritecomponent.cpp \
         src/ecs/tilecomponent.cpp \
         src/ecs/timercomponent.cpp \

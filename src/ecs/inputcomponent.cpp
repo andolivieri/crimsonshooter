@@ -3,7 +3,6 @@
 #include "math2d.h"
 #include "texturemanager.h"
 #include "utils.h"
-double aangle;
 
 void InputComponent::init()
 {
@@ -27,7 +26,6 @@ void InputComponent::update()
     SDL_Point playerPt = getPlayerCenter();
 
     double angle = Math2D::angleBetweenPoints(playerPt, mousePt);
-
     transform->rotation = angle;
 
     handleInput(angle);
@@ -53,46 +51,60 @@ SDL_Point InputComponent::getPlayerCenter()
     return playerPt;
 }
 
+bool InputComponent::keyReleased(SDL_Keycode k)
+{
+    return lastKeys.count(k) && Game::pressedKeys.count(k) == 0;
+}
+
+bool InputComponent::keyPressedNow(SDL_Keycode k)
+{
+    return lastKeys.count(k) == 0 && Game::pressedKeys.count(k);
+}
+
+
+std::set<PlayerControls> InputComponent::readControls()
+{
+    std::set<PlayerControls> controls;
+    for(auto k : Game::pressedKeys)
+        if(keymapping.count(k))
+            controls.insert(keymapping[k]);
+
+    return controls;
+}
 void InputComponent::handleInput(double angle)
 {
 
     const std::set<SDL_Keycode>& gg = Game::pressedKeys;
     const std::set<uint8_t>& mouse = Game::pressedMouseButtons;
 
+    auto pressedkeys = readControls();
+
     transform->velocity.x = 0;
     transform->velocity.y = 0;
 
-
-    double radAngle = Math2D::deg2rad(angle);
-
     // n.b. ordine matters
     float speedMult = 1;
-    if(gg.count(SDLK_LSHIFT)|| gg.count(SDLK_RSHIFT))
+    if(pressedkeys.count(BTN_RUN))
         speedMult = 2;
 
-    if(gg.count(SDLK_UP)|| gg.count(SDLK_w))
+    if(pressedkeys.count(BTN_UP))
     {
-        transform->velocity.y = transform->speed * static_cast<float>(std::sin(radAngle)) * speedMult;
-        transform->velocity.x = transform->speed * static_cast<float>(std::cos(radAngle))* speedMult;
+        transform->velocity.y = -transform->speed * speedMult;
     }
 
-    if(gg.count(SDLK_DOWN)|| gg.count(SDLK_s))
+    if(pressedkeys.count(BTN_DOWN))
     {
-        transform->velocity.y = -transform->speed * static_cast<float>(std::sin(radAngle))* speedMult;
-        transform->velocity.x = -transform->speed * static_cast<float>(std::cos(radAngle))* speedMult;
+        transform->velocity.y = transform->speed * speedMult;
     }
 
-
-    if(gg.count(SDLK_LEFT) || gg.count(SDLK_a))
+    if(pressedkeys.count(BTN_LEFT))
     {
-        transform->velocity.y = -transform->speed * static_cast<float>(std::sin(radAngle + M_PI/2))* speedMult;
-        transform->velocity.x = -transform->speed * static_cast<float>(std::cos(radAngle + M_PI/2))* speedMult;
+        transform->velocity.x = -transform->speed * speedMult;
     }
 
-    if(gg.count(SDLK_RIGHT)|| gg.count(SDLK_d))
+    if(pressedkeys.count(BTN_RIGHT))
     {
-        transform->velocity.y = transform->speed * static_cast<float>(std::sin(radAngle + M_PI/2))* speedMult;
-        transform->velocity.x = transform->speed * static_cast<float>(std::cos(radAngle + M_PI/2))* speedMult;
+        transform->velocity.x = transform->speed * speedMult;
     }
 
     if(transform->velocity.y || transform->velocity.x){
@@ -103,6 +115,14 @@ void InputComponent::handleInput(double angle)
     }else{
         sprite->play("idle");
     }
+
+    // Let's not allow the player off screen
+
+    transform->pos.x = std::max<float>(transform->pos.x, 0);
+    transform->pos.x = std::min<float>(transform->pos.x, Game::winWidth - transform->width);
+
+    transform->pos.y = std::max<float>(transform->pos.y, 0);
+    transform->pos.y = std::min<float>(transform->pos.y, Game::winHeigth - transform->height);
 
 
     if(entity->hasComponent<WeaponComponent>())
@@ -115,6 +135,7 @@ void InputComponent::handleInput(double angle)
 
     }
 
-
+    lastKeys = Game::pressedKeys;
+    lastMouse = Game::pressedMouseButtons;
 
 }

@@ -5,12 +5,14 @@
 #include <time.h>
 #include <SDL.h>
 #include "ecs.h"
+#include "scorecollector.h"
 
 
 struct FoeWave
 {
     const std::string whatkind;
     int total;
+    int maxOnScreen;
 
 };
 
@@ -18,8 +20,8 @@ class FoeSpawnerComponent : public Component
 {
 public:
 
-    FoeSpawnerComponent(int _maxOnScreen):
-        maxOnScreen(_maxOnScreen)
+    FoeSpawnerComponent(ScoreData& sd):
+        scoreData(sd)
     {
 
     }
@@ -32,12 +34,20 @@ public:
 
     void update() override;
 
+    bool isFinished()
+    {
+        return finished;
+    }
 
 private:
+    bool finished = false;
+
+    ScoreData& scoreData;
     std::deque<FoeWave> waves;
     int currentWaveSpawnCount = 0;
+    int currentWaveSpawnKills = 0;
+    int currentWaveKillOffset = 0;
     bool done = false;
-    int maxOnScreen;
 
     void spawnFoe(const std::string foekind);
 };

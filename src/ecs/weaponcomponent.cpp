@@ -78,7 +78,7 @@ void WeaponComponent::update()
         for(int i=0; i<12; i++)
         {
             auto& e = entity->m_manager.addEntity();
-            int angle = rand() % 30;
+            int angle = rand() % 20;
             angle *= static_cast<int>(std::pow(-1, i)); // flip sign
             Vector2D randpoint = Math2D::rotate_point(
                         transform->center(),

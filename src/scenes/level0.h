@@ -6,6 +6,8 @@
 #include "../ecs.h"
 #include "../ecs/components.h"
 
+ScoreData score;
+
 void stuff(EntityManager& manager)
 {
 
@@ -35,10 +37,11 @@ void stuff(EntityManager& manager)
     thePlayer.addComponent<WeaponComponent>("shotgun").setAttachPoint({8,20});
     thePlayer.addGroup(groupPlayers);
 
-    manager.addEntity().addComponent<FoeSpawnerComponent>(100)
-            .addWave({"standard", 10})
-            //.addWave({"standard", 20})
-            //.addWave({"standard", 30})
+    manager.addEntity().addComponent<FoeSpawnerComponent>(score)
+            .addWave({"standard", 10, 5})
+            .addWave({"standard", 20, 10})
+            .addWave({"standard", 30, 15})
+            //.addWave({"standard", 40, 15})
             ;
 
 

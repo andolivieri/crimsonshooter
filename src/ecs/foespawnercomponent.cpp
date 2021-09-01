@@ -12,7 +12,7 @@ void FoeSpawnerComponent::update()
     auto& enemies = entity->m_manager.getGroup(groupEnemies);
     auto currentlyOnScreen = enemies.size();
 
-    while(currentWaveSpawnCount <= currentWave.total && currentlyOnScreen < maxOnScreen)
+    while(currentWaveSpawnCount <= currentWave.total && currentlyOnScreen < currentWave.maxOnScreen)
     {
         spawnFoe(currentWave.whatkind);
         currentlyOnScreen++;
@@ -23,6 +23,7 @@ void FoeSpawnerComponent::update()
     {
         waves.pop_front();
         currentWaveSpawnCount = 0;
+        currentWaveKillOffset = scoreData.kills;
     }
 
 
@@ -43,6 +44,7 @@ void FoeSpawnerComponent::spawnFoe(const std::string foekind)
             .addAnimation("dying", {1, 4, 300 })
             .addAnimation("moving", {0, 4, 200 });
     theFoe.addComponent<DamageModelComponent>(30);
+    theFoe.addComponent<ScoreCollector>(scoreData);
     theFoe.addComponent<ColliderComponent>(foekind + std::to_string(enemyCount++), 4, 4, .8f);
     theFoe.addComponent<RelationshipComponent>();
     theFoe.addGroup(groupEnemies);

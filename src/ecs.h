@@ -88,6 +88,14 @@ public:
     }
 
     template <typename T, typename... TArgs>
+    T& emplaceComponent(TArgs&&... mArgs)
+    {
+        if(!hasComponent<T>())
+            return addComponent<T>(std::forward<TArgs>(mArgs)...);
+        return getComponent<T>();
+    }
+
+    template <typename T, typename... TArgs>
     T& addComponent(TArgs&&... mArgs)
     {
         assert(!hasComponent<T>());
