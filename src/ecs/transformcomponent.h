@@ -15,11 +15,20 @@ public:
     int width = 32;
     int height = 32;
     double rotation = 0;
-
-    TransformComponent()
+    int scale  = 1;
+    TransformComponent(){}
+/*
+    TransformComponent(const TransformComponent& that)
     {
+        this->pos = that.pos;
+        this->velocity = that.velocity;
+        this->speed = that.speed;
+        this->width = that.width;
+        this->height = that.height;
+        this->rotation = that.rotation;
+        this->scale = that.scale;
     }
-
+*/
     TransformComponent(const float x, const float y)
     {
         pos.x = x;
@@ -53,6 +62,12 @@ public:
         return height * scale;
     }
 
+    void centerOn(const Vector2D& c)
+    {
+        pos.x = c.x - width /2;
+        pos.y = c.y - height /2;
+    }
+
     Vector2D center()
     {
         return Vector2D{pos.x + width/2, pos.y+height/2};
@@ -60,7 +75,6 @@ public:
 
 private:
 
-    int scale  = 1;
 
 
 

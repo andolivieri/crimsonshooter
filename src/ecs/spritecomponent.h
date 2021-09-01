@@ -44,7 +44,9 @@ private:
     bool m_animated = false;
     std::string m_currentAnimation;
     int m_animationLoops = 0; // 0  = infinite
-    int m_animationIndex = 0;
+    int m_animLoopCounter = 0;
+    int m_animCurrentFrameIndex = 0;
+    uint32_t lastTick = 0;
     int alpha = 255;
 
 

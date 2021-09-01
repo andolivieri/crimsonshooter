@@ -23,6 +23,8 @@ public:
 
     WeaponComponent(const std::string& n);
 
+    WeaponComponent& setAttachPoint(const Vector2D&);
+
     void init() override;
     void update() override;
 
@@ -30,6 +32,7 @@ public:
     void triggerRelease();
 
 private:
+    Vector2D attachPoint;
     bool shooting = false;
 
     TransformComponent* transform;
@@ -37,7 +40,7 @@ private:
     SpriteComponent* sprite;
     std::string currentweapon;
     Uint32  lastShot;
-    Uint32 cooldown = 1000; //msecs
+    Uint32 cooldown = 1100; //msecs
     int range = 80;
 
     void equip(const std::string &n);

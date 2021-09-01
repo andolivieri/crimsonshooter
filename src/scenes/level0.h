@@ -32,7 +32,7 @@ void stuff(EntityManager& manager)
             .addAnimation("moving", {1, 4, 200 });
     thePlayer.addComponent<InputComponent>();
     thePlayer.addComponent<ColliderComponent>("player");
-    thePlayer.addComponent<WeaponComponent>("shotgun");
+    thePlayer.addComponent<WeaponComponent>("shotgun").setAttachPoint({8,20});
     thePlayer.addGroup(groupPlayers);
 
     manager.addEntity().addComponent<FoeSpawnerComponent>(100)

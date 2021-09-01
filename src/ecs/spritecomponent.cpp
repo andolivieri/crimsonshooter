@@ -51,17 +51,23 @@ void SpriteComponent::update()
 void SpriteComponent::draw()
 {
 
+    // THIS is a mess already :(
 
-    if(m_animated && (m_animationIndex < m_animationLoops || m_animationLoops <= 0)){
+    if(m_animated && (m_animLoopCounter < m_animationLoops || m_animationLoops <= 0)){
         Animation a = m_animation[m_currentAnimation];
 
-        int frame = static_cast<int>((SDL_GetTicks() / a.speed) % a.frames);
 
-        if(frame == a.frames - 1)
-            m_animationIndex++;
+        if(SDL_GetTicks() - lastTick > a.speed)
+        {
+            m_animCurrentFrameIndex = (m_animCurrentFrameIndex + 1) % a.frames;
+            lastTick = SDL_GetTicks();
+        }
+
+        if(m_animCurrentFrameIndex == a.frames - 1)
+            m_animLoopCounter++;
 
 
-        srcRect.x = srcRect.w * frame;
+        srcRect.x = srcRect.w * m_animCurrentFrameIndex;
         srcRect.y = a.index * srcRect.h;
     }
 
@@ -75,8 +81,10 @@ void SpriteComponent::draw()
 void SpriteComponent::play(const std::string &anim, int repeat)
 {
     m_animated = true;
-    if(anim != m_currentAnimation)
-        m_animationIndex = 0;
+    if(anim != m_currentAnimation){
+        m_animLoopCounter = 0;
+        m_animCurrentFrameIndex = 0;
+    }
     m_currentAnimation = anim;
     m_animationLoops = repeat;
 }

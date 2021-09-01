@@ -8,6 +8,12 @@ WeaponComponent::WeaponComponent(const std::string& n):
 
 }
 
+WeaponComponent &WeaponComponent::setAttachPoint(const Vector2D &a)
+{
+    attachPoint = a;
+    return *this;
+}
+
 void WeaponComponent::init()
 {
 
@@ -28,16 +34,41 @@ void WeaponComponent::equip(const std::string& n)
 {
     // TODO weapon factory
     auto& gun = entity->m_manager.addEntity();
+
+    gun.addComponent<TransformComponent>();
+    gun.getComponent<TransformComponent>().width = 64;
+    gun.getComponent<TransformComponent>().height = 64;
     gun.addComponent<SpriteComponent>("assets/shotgun.png")
             .addAnimation("idle", {0, 1, 100 })
             .addAnimation("shooting", {0, 11, 100});
+    gun.addGroup(groupWeapons);
     rel->addChildren(&gun, "gun");
 
 }
 
 void WeaponComponent::update()
 {
-    if(shooting && SDL_GetTicks() - lastShot > cooldown)
+
+    Entity* gun = rel->getChildren("gun");
+
+    auto center = transform->center();
+    center.x += attachPoint.x;
+    center.y += attachPoint.y;
+    Vector2D rotatedCenter = Math2D::rotate_point(transform->center(), transform->rotation, center);
+    gun->getComponent<TransformComponent>().centerOn(rotatedCenter);
+    //gun->getComponent<TransformComponent>().pos.x += std::sin(transform->rotation);
+    gun->getComponent<TransformComponent>().rotation = transform->rotation;
+
+
+    std::string anim = "idle";
+
+
+    bool inCooldown = SDL_GetTicks() - lastShot < cooldown;
+
+    if(inCooldown)
+        anim = "shooting";
+
+    if(shooting && !inCooldown)
     {
 
         SDL_Point mousePt;
@@ -64,6 +95,11 @@ void WeaponComponent::update()
         lastShot = SDL_GetTicks();
 
     }
+
+    if(shooting)
+        anim = "shooting";
+
+    gun->getComponent<SpriteComponent>().play(anim);
 
 
 }

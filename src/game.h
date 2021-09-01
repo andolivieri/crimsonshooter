@@ -11,6 +11,7 @@ enum groupLabels
     groupMap,
     groupBloodPatches,
     groupDeadEnemies,
+    groupWeapons,
     groupPlayers,
     groupEnemies,
     groupColliders,
