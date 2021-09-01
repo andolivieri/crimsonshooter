@@ -1,5 +1,5 @@
 TEMPLATE = app
-CONFIG += console c++17
+CONFIG += c++17
 CONFIG -= app_bundle
 CONFIG -= qt
 
@@ -79,14 +79,14 @@ SDLdll.files +=  \
     $$PWD/libs/SDL2_image/lib/x64/libwebp-7.dll\
     $$PWD/libs/SDL2_image/lib/x64/SDL2_image.dll\
     $$PWD/libs/SDL2_image/lib/x64/zlib1.dll \
-    $$PWD/libs/SDL2_mixer/lib/x64/libFLAC-8.dll \
-    $$PWD/libs/SDL2_mixer/lib/x64/libmodplug-1.dll \
-    $$PWD/libs/SDL2_mixer/lib/x64/libmpg123-0.dll \
-    $$PWD/libs/SDL2_mixer/lib/x64/libogg-0.dll \
-    $$PWD/libs/SDL2_mixer/lib/x64/libopus-0.dll \
-    $$PWD/libs/SDL2_mixer/lib/x64/libopusfile-0.dll \
-    $$PWD/libs/SDL2_mixer/lib/x64/libvorbis-0.dll \
-    $$PWD/libs/SDL2_mixer/lib/x64/libvorbisfile-3.dll \
+    #$$PWD/libs/SDL2_mixer/lib/x64/libFLAC-8.dll \
+    #$$PWD/libs/SDL2_mixer/lib/x64/libmodplug-1.dll \
+    #$$PWD/libs/SDL2_mixer/lib/x64/libmpg123-0.dll \
+    #$$PWD/libs/SDL2_mixer/lib/x64/libogg-0.dll \
+    #$$PWD/libs/SDL2_mixer/lib/x64/libopus-0.dll \
+    #$$PWD/libs/SDL2_mixer/lib/x64/libopusfile-0.dll \
+    #$$PWD/libs/SDL2_mixer/lib/x64/libvorbis-0.dll \
+    #$$PWD/libs/SDL2_mixer/lib/x64/libvorbisfile-3.dll \
     $$PWD/libs/SDL2_mixer/lib/x64/SDL2_mixer.dll
 
 SDLdll.path = $$DESTDIR

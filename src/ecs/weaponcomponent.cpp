@@ -35,16 +35,16 @@ void WeaponComponent::equip(const std::string& n)
 {
     SDL_UNUSED(n);
     // TODO weapon factory
-    auto& gun = entity->m_manager.addEntity();
+    auto& gunsprite = entity->m_manager.addEntity();
 
-    gun.addComponent<TransformComponent>();
-    gun.getComponent<TransformComponent>().width = 64;
-    gun.getComponent<TransformComponent>().height = 64;
-    gun.addComponent<SpriteComponent>("assets/shotgun.png")
+    gunsprite.addComponent<TransformComponent>();
+    gunsprite.getComponent<TransformComponent>().width = 64;
+    gunsprite.getComponent<TransformComponent>().height = 64;
+    gunsprite.addComponent<SpriteComponent>("assets/shotgun.png")
             .addAnimation("idle", {0, 1, 100 })
-            .addAnimation("shooting", {0, 11, 100});
-    gun.addGroup(groupWeapons);
-    rel->addChildren(&gun, "gun");
+            .addAnimation("shooting", {0, 12, 100});
+    gunsprite.addGroup(groupWeapons);
+    rel->addChildren(&gunsprite, "gun");
 
 }
 

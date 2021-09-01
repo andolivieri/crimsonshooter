@@ -37,8 +37,8 @@ void stuff(EntityManager& manager)
 
     manager.addEntity().addComponent<FoeSpawnerComponent>(100)
             .addWave({"standard", 10})
-            .addWave({"standard", 20})
-            .addWave({"standard", 30})
+            //.addWave({"standard", 20})
+            //.addWave({"standard", 30})
             ;
 
 
