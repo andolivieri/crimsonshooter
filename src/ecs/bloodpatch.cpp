@@ -30,17 +30,18 @@ void BloodSplatComponent::init()
 void BloodSplatComponent::update()
 {
 
-    int increment = (time(NULL) - startTime) * 2;
+    auto increment = (time(NULL) - startTime) * 2;
     auto width = startSize.x + increment;
     auto height = startSize.y + increment;
 
     if(width < maxSize.x)
-        transform->width = width;
+        transform->width = static_cast<int>(width);
     if(height < maxSize.y)
-        transform->height = height;
+        transform->height = static_cast<int>(height);
 
     transform->pos.x = centeredIn.x - transform->width / 2.f;
     transform->pos.y = centeredIn.y - transform->height / 2.f;
+
 
 }
 

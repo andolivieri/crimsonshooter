@@ -9,8 +9,8 @@ Vector2D::Vector2D()
 
 Vector2D::Vector2D(int x, int y)
 {
-    this->x = static_cast<int>(x);
-    this->y = static_cast<int>(y);
+    this->x = static_cast<float>(x);
+    this->y = static_cast<float>(y);
 }
 
 Vector2D::Vector2D(float x, float y)

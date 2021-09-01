@@ -65,7 +65,7 @@ void InputComponent::handleInput(double angle)
 
     double radAngle = Math2D::deg2rad(angle);
 
-    // n.b. ordine
+    // n.b. ordine matters
     float speedMult = 1;
     if(gg.count(SDLK_LSHIFT)|| gg.count(SDLK_RSHIFT))
         speedMult = 2;

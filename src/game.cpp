@@ -34,10 +34,11 @@ Game::~Game()
 void Game::init(const char *title, int xpos, int ypos, int widht, int heigth, bool fullscreen)
 {
 
-    srand(time(NULL));
+    srand(static_cast<unsigned int>(time(NULL)));
     int flags = 0;
     if(fullscreen)
         flags |= SDL_WINDOW_FULLSCREEN;
+
 
     if(SDL_Init(SDL_INIT_EVERYTHING) == 0)
     {

@@ -7,6 +7,9 @@ void AIComponent::update()
     Entity* player = entity->m_manager.getGroup(groupPlayers)[0];
 
     if(damage->isDead()){
+
+        int decaytime = 60*10;
+
         if(damage->diedNow()){
             sprite->play("dying", 1);
             transform->velocity.x = 0;
@@ -20,9 +23,10 @@ void AIComponent::update()
                 e.addComponent<BloodSplatComponent>(Math2D::randomAround(8, transform->center()))
                         .setStartSize(startSize,startSize)
                         .setMaxSize(endsize, endsize);
-                e.addComponent<DecayComponent>(9965);
+                e.addComponent<DecayComponent>(decaytime);
+                entity->getComponent<RelationshipComponent>().addChildren(&e);
             }
-            entity->addComponent<DecayComponent>(9960);
+            entity->addComponent<DecayComponent>(decaytime);
         }
         return;
     }

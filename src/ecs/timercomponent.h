@@ -10,7 +10,7 @@ class TimerComponent : public Component
 {
 public:
 
-    TimerComponent(int msecs, bool repeat=false)
+    TimerComponent(uint32_t msecs, bool repeat=false)
     {
         m_timeoutMsec = msecs;
         m_repeating = repeat;
@@ -21,7 +21,7 @@ public:
 
 
 private:
-    float m_timeoutMsec;
+    uint32_t m_timeoutMsec;
     bool m_repeating;
     uint32_t m_startTime;
 

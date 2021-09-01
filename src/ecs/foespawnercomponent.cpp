@@ -54,22 +54,22 @@ void FoeSpawnerComponent::spawnFoe(const std::string foekind)
     case 0:
         // CENTER
         spawnPt.y = -128;
-        spawnPt.x = rand() % Game::winWidth;
+        spawnPt.x = static_cast<float>(rand() % Game::winWidth);
         break;
     case 1:
         // LEFT
-        spawnPt.y = rand() % Game::winHeigth;
+        spawnPt.y = static_cast<float>(rand() % Game::winHeigth);
         spawnPt.x = 0;
         break;
     case 2:
         // RIGHT
-        spawnPt.y = rand() % Game::winHeigth;
-        spawnPt.x = Game::winWidth;
+        spawnPt.y = static_cast<float>(rand() % Game::winHeigth);
+        spawnPt.x = static_cast<float>(Game::winWidth);
         break;
     case 3:
         // BOTTOM
-        spawnPt.y = Game::winHeigth;
-        spawnPt.x = rand() % Game::winWidth;
+        spawnPt.y = static_cast<float>(Game::winHeigth);
+        spawnPt.x = static_cast<float>(rand() % Game::winWidth);
         break;
     default:
         break;

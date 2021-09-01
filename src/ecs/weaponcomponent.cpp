@@ -29,11 +29,14 @@ void WeaponComponent::update()
         {
             auto& e = entity->m_manager.addEntity();
             int angle = rand() % 30;
-            angle *= std::pow(-1, i);
-            Vector2D randpoint = Math2D::rotate_point(transform->center(), angle, {mousePt.x, mousePt.y});
+            angle *= static_cast<int>(std::pow(-1, i)); // flip sign
+            Vector2D randpoint = Math2D::rotate_point(
+                        transform->center(),
+                        static_cast<float>(angle),
+            {mousePt.x, mousePt.y});
             e.addComponent<ProjectileComponent>(
-                transform->center(),
-                randpoint)
+                        transform->center(),
+                        randpoint)
                     .setSize(8,8).setRange(500);
             e.addComponent<SpriteComponent>("assets/projectile.png")
                     .setSrcRect({2,2,2,2});

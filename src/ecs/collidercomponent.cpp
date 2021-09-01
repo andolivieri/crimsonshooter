@@ -22,8 +22,8 @@ void ColliderComponent::update()
 {
     collider.x = (int)transform->pos.x + paddingX;
     collider.y = (int)transform->pos.y + paddingY;
-    collider.w = transform->width * scale;
-    collider.h = transform->height  * scale;
+    collider.w = static_cast<int>(transform->width * scale);
+    collider.h = static_cast<int>(transform->height  * scale);
 }
 
 void ColliderComponent::draw()

@@ -33,7 +33,7 @@ public:
     Vector2D target;
     int range = 1000;
 
-    int m_speed = 30;
+    float m_speed = 30;
     int damage = 50;
     int width = 4;
     int height = 4;

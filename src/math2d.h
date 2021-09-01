@@ -12,7 +12,7 @@ public:
     static double distanceBetweenPoints(const Vector2D& a, const Vector2D& b);
     static double rad2deg(const double rad);
     static double deg2rad(const double deg);
-    static Vector2D& randomAround(int radius, const Vector2D& a);
+    static Vector2D randomAround(int radius, const Vector2D& a);
     static Vector2D rotate_point(const Vector2D& pivot,float degAngle,const Vector2D& point);
 };
 

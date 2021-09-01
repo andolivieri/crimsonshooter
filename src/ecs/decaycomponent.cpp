@@ -8,7 +8,7 @@ void DecayComponent::init()
 
 void DecayComponent::update()
 {
-    int timediff = time(NULL) - startTime;
+    auto timediff = time(NULL) - startTime;
 
     if(entity->hasComponent<SpriteComponent>() &&   decayTime - timediff < 5){
         auto& sprite = entity->getComponent<SpriteComponent>();

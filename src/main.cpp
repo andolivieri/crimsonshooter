@@ -1,8 +1,10 @@
 #include "Game.h"
-
+#include "utils.h"
 int main(int argc, char* argv[])
 {
     Game* g = new Game();
+    ENG_UNUSED(argc);
+    ENG_UNUSED(argv);
 
     g->init("NiceGame",
             SDL_WINDOWPOS_CENTERED,
