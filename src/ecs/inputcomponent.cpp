@@ -11,16 +11,14 @@ void InputComponent::init()
     SDL_SetCursor(cursor);
     SDL_ShowCursor(1);
 
-    if(!entity->hasComponent<TransformComponent>())
-    {
-        entity->addComponent<TransformComponent>();
-    }
-    transform = &entity->getComponent<TransformComponent>();
+    transform = &entity->emplaceComponent<TransformComponent>();
     sprite = &entity->getComponent<SpriteComponent>();
+
 }
 
 void InputComponent::update()
 {
+
 
     DamageModelComponent& damage = entity->getComponent<DamageModelComponent>();
 
@@ -99,6 +97,7 @@ std::set<PlayerControls> InputComponent::readControls()
 void InputComponent::handleInput()
 {
 
+    auto command = &entity->emplaceComponent<CommandComponent>();
     const std::set<uint8_t>& mouse = Game::pressedMouseButtons;
 
     auto pressedkeys = readControls();
@@ -113,6 +112,7 @@ void InputComponent::handleInput()
 
     if(pressedkeys.count(BTN_UP))
     {
+        command->addCommand<MoveCommand>();
         transform->velocity.y = -transform->speed * speedMult;
     }
 

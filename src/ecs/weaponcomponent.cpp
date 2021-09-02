@@ -83,7 +83,6 @@ void WeaponComponent::update()
                     .setSrcRect({2,2,2,2});
         }
 
-        std::cout << "SHOOOT " << std::endl;
         gun->getComponent<SoundComponent>().play("assets/shotgun.wav");
 
         lastShot = SDL_GetTicks();

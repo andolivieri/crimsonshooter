@@ -66,15 +66,16 @@ public:
     Entity(EntityManager& m) : m_manager(m) {}
     void update(){
         //for(auto& c : m_comps) c->update();
-
-        for(auto i{0}; i < m_comps.size(); i++)
+        auto compsize = m_comps.size();
+        for(auto i{0}; i < compsize; i++)
         {
             m_comps[i]->update();
         }
     }
     void draw(){
         //for(auto& c : m_comps) c->draw();
-        for(auto i{0}; i < m_comps.size(); i++)
+        auto compsize = m_comps.size();
+        for(auto i{0}; i < compsize; i++)
         {
             m_comps[i]->draw();
         }
@@ -139,7 +140,6 @@ public:
 
     void addToGroup(Entity* e, Group g);
     std::vector<Entity*>& getGroup(Group g);
-    //Entity& addEntity();
     Entity& addEntity();
 };
 

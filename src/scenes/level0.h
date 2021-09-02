@@ -37,6 +37,7 @@ void stuff(EntityManager& manager)
     thePlayer.addComponent<InputComponent>();
     thePlayer.addComponent<ColliderComponent>("player");
     thePlayer.addComponent<WeaponComponent>("shotgun").setAttachPoint({8,20});
+    thePlayer.addComponent<CommandComponent>();
     thePlayer.addGroup(groupPlayers);
 
     auto& foespawn = manager.addEntity()

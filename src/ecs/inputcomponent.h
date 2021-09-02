@@ -6,6 +6,7 @@
 #include "ecs.h"
 #include <map>
 #include "transformcomponent.h"
+#include "commandcomponent.h"
 #include "../game.h"
 
 typedef enum {

@@ -13,6 +13,7 @@ HEADERS += \
     src/ecs/animation.h \
     src/ecs/bloodpatch.h \
     src/ecs/collidercomponent.h \
+    src/ecs/commandcomponent.h \
     src/ecs/components.h \
     src/ecs/damagemodel.h \
     src/ecs/decaycomponent.h \
@@ -48,6 +49,7 @@ SOURCES += \
         src/ecs/animation.cpp \
         src/ecs/bloodpatch.cpp \
         src/ecs/collidercomponent.cpp \
+        src/ecs/commandcomponent.cpp \
         src/ecs/damagemodel.cpp \
         src/ecs/decaycomponent.cpp \
         src/ecs/dumbcomponent.cpp \

@@ -20,5 +20,6 @@
 #include "scorecollector.h"
 #include "predicatecomponent.h"
 #include "textcomponent.h"
+#include "commandcomponent.h"
 
 #endif // COMPONENTS_H
