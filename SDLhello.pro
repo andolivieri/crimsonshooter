@@ -37,7 +37,8 @@ HEADERS += \
     src/scenes/scenes.h \
     src/texturemanager.h \
     src/utils.h \
-    src/vector2d.h
+    src/vector2d.h \
+    src/weaponfactory.h
 
 SOURCES += \
         src/assetmanager.cpp \
@@ -69,7 +70,8 @@ SOURCES += \
         src/math2d.cpp \
         src/texturemanager.cpp \
         src/utils.cpp \
-        src/vector2d.cpp
+        src/vector2d.cpp \
+        src/weaponfactory.cpp
 
 
 INCLUDEPATH += libs/SDL2/include/

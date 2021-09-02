@@ -50,6 +50,8 @@ void Game::init(const char *title, int xpos, int ypos, int widht, int heigth, bo
             return;
         }
 
+        Mix_Volume(-1, 32);
+
        TTF_Init();
 
         m_win = SDL_CreateWindow(title, xpos, ypos, widht, heigth, flags);

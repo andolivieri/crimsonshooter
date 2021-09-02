@@ -11,11 +11,6 @@
 #include "spritecomponent.h"
 #include "relationshipcomponent.h"
 
-class Weapon
-{
-    std::string texture;
-    uint32_t cooldownSecs;
-};
 
 class WeaponComponent : public Component
 {
