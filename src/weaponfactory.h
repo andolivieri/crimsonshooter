@@ -5,24 +5,41 @@
 #include "ecs/animation.h"
 #include "ecs/components.h"
 
-class WeaponParams
+class BaseWeapon
 {
+
+    enum {
+        STATE_IDLE,
+        STATE_SHOOTING,
+        STATE_RELOADING
+    } WeaponStates;
+
     std::string sprite;
     int magazine;
     int range;
     int rate;
     int dps;
 
+    // Stati: idle, shooting, reloading
+
     Animation animationIdle;
     Animation animationReload;
     Animation animationFire;
+
+    void update()
+    {
+
+    }
 };
 
 class WeaponFactory
 {
 public:
     WeaponFactory(EntityManager& em)
-        : manager(em){};
+        : manager(em)
+    {
+
+    };
 
     Entity& createWeaponEntity(EntityManager& manager, const std::string& weapon)
     {

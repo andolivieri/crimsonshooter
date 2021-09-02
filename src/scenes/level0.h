@@ -42,9 +42,9 @@ void stuff(EntityManager& manager)
     auto& foespawn = manager.addEntity()
             .addComponent<FoeSpawnerComponent>(score)
             .addWave({"standard", 10, 5})
-            //.addWave({"standard", 20, 10})
-            //.addWave({"standard", 30, 15})
-            //.addWave({"standard", 50, 25})
+            .addWave({"standard", 20, 10})
+            .addWave({"standard", 30, 15})
+            .addWave({"standard", 50, 25})
             ;
 
 
