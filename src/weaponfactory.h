@@ -41,7 +41,7 @@ public:
 
     };
 
-    Entity& createWeaponEntity(EntityManager& manager, const std::string& weapon)
+    Entity& createWeaponEntity(const std::string& weapon)
     {
         auto& theweapon = manager.addEntity();
         if(weapon == "shotgun")
@@ -63,6 +63,7 @@ private:
         e.addComponent<SpriteComponent>("assets/shotgun.png")
                 .addAnimation("idle", {0, 1, 100 })
                 .addAnimation("shooting", {0, 12, 100});
+        e.addComponent<SoundComponent>();
         e.addGroup(groupWeapons);
         return e;
     }
@@ -75,6 +76,7 @@ private:
         e.addComponent<SpriteComponent>("assets/uzi.png")
                 .addAnimation("idle", {0, 1, 100 })
                 .addAnimation("shooting", {0, 4, 50});
+        e.addComponent<SoundComponent>();
         e.addGroup(groupWeapons);
         return e;
     }

@@ -2,29 +2,56 @@
 #define SOUNDCOMPONENT_H
 
 
-
+#include <deque>
 #include <time.h>
 #include <SDL.h>
 #include "ecs.h"
+#include "assetmanager.h"
+#include "assert.h"
+
+
+struct SoundEvent
+{
+    Mix_Chunk* chunk;
+    int loops;
+};
 
 class SoundComponent : public Component
 {
 public:
 
-    SoundComponent(const std::string _sound)
+    SoundComponent()
+    {
+    }
+
+    void init() override
     {
 
     }
 
-    void init() override;
-    void update() override;
 
-    void play(const std::string&);
+    void update() override
+    {
+
+        while(!soundQueue.empty())
+        {
+            auto e = soundQueue.front();
+            Mix_PlayChannel(-1, e.chunk, e.loops);
+            soundQueue.pop_front();
+        }
+
+    }
+
+    void play(const std::string& soundId, int loops=0)
+    {
+        Mix_Chunk* chunk = AssetManager::getSound(soundId);
+        assert(chunk);
+        soundQueue.push_back({chunk, loops});
+    }
 
 
 private:
-    int dummyValue;
-    time_t startTime;
+    std::deque<SoundEvent> soundQueue;
 
 };
 #endif // SOUNDCOMPONENT_H

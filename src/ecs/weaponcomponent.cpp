@@ -2,6 +2,7 @@
 #include "projectilecomponent.h"
 #include "tilecomponent.h"
 #include "assetmanager.h"
+#include "weaponfactory.h"
 
 WeaponComponent::WeaponComponent(const std::string& n):
     currentweapon(n)
@@ -31,20 +32,10 @@ void WeaponComponent::init()
 
 }
 
-void WeaponComponent::equip(const std::string& n)
+void WeaponComponent::equip(const std::string& weaponId)
 {
-    SDL_UNUSED(n);
-    // TODO weapon factory
-    auto& gunsprite = entity->m_manager.addEntity();
-
-    gunsprite.addComponent<TransformComponent>();
-    gunsprite.getComponent<TransformComponent>().width = 64;
-    gunsprite.getComponent<TransformComponent>().height = 64;
-    gunsprite.addComponent<SpriteComponent>("assets/shotgun.png")
-            .addAnimation("idle", {0, 1, 100 })
-            .addAnimation("shooting", {0, 12, 100});
-    gunsprite.addGroup(groupWeapons);
-    rel->addChildren(&gunsprite, "gun");
+    auto& gun = WeaponFactory(entity->m_manager).createWeaponEntity(weaponId);
+    rel->addChildren(&gun, "gun");
 
 }
 
@@ -92,9 +83,8 @@ void WeaponComponent::update()
                     .setSrcRect({2,2,2,2});
         }
 
-        auto sound = AssetManager::getSound("assets/shotgun.wav");
-        Mix_PlayChannel(-1, sound, 0);
-
+        std::cout << "SHOOOT " << std::endl;
+        gun->getComponent<SoundComponent>().play("assets/shotgun.wav");
 
         lastShot = SDL_GetTicks();
 
