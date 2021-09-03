@@ -9,6 +9,7 @@ HEADERS += \
     src/assetmanager.h \
     src/collision.h \
     src/ecs.h \
+    src/ecs/actorcontrollercomponent.h \
     src/ecs/aicomponent.h \
     src/ecs/animation.h \
     src/ecs/bloodpatch.h \
@@ -19,6 +20,7 @@ HEADERS += \
     src/ecs/decaycomponent.h \
     src/ecs/dumbcomponent.h \
     src/ecs/foespawnercomponent.h \
+    src/ecs/fsmcomponent.h \
     src/ecs/inputcomponent.h \
     src/ecs/predicatecomponent.h \
     src/ecs/projectilecomponent.h \
@@ -45,6 +47,7 @@ SOURCES += \
         src/assetmanager.cpp \
         src/collision.cpp \
         src/ecs.cpp \
+        src/ecs/actorcontrollercomponent.cpp \
         src/ecs/aicomponent.cpp \
         src/ecs/animation.cpp \
         src/ecs/bloodpatch.cpp \
@@ -54,6 +57,7 @@ SOURCES += \
         src/ecs/decaycomponent.cpp \
         src/ecs/dumbcomponent.cpp \
         src/ecs/foespawnercomponent.cpp \
+        src/ecs/fsmcomponent.cpp \
         src/ecs/inputcomponent.cpp \
         src/ecs/predicatecomponent.cpp \
         src/ecs/projectilecomponent.cpp \

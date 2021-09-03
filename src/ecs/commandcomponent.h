@@ -7,6 +7,8 @@
 #include "ecs.h"
 #include "transformcomponent.h"
 
+// TODO is this shit really necessary? maybe not...
+
 // ALWAYS PLACE THIS AS THE LAST COMPONENT
 // OR Command.entity might BE DESTROYED MEANWHILE
 
@@ -23,15 +25,43 @@ class MoveCommand : public CommandBase
 {
 public:
 
-    float velocityX;
-    float velocityY;
+    enum MoveDirection {
+        DIRECTION_UP,
+        DIRECTION_DOWN,
+        DIRECTION_LEFT,
+        DIRECTION_RIGHT,
+    };
 
-    MoveCommand(){}
+    MoveDirection direction;
+    float speed = 2;
+
+    MoveCommand(MoveDirection d):
+        direction(d)
+    {
+
+    }
 
     void execute() override
     {
-        auto transform = entity->getComponent<TransformComponent>();
-        //transform.velocity.x;
+
+        std::cout << "MoveCommand: " << direction << std::endl;
+        auto& transform = entity->getComponent<TransformComponent>();
+        switch (direction) {
+        case DIRECTION_UP:
+            transform.velocity.y = -speed;
+            break;
+        case DIRECTION_DOWN:
+            transform.velocity.y = speed;
+            break;
+        case DIRECTION_RIGHT:
+            transform.velocity.x = speed;
+            break;
+        case DIRECTION_LEFT:
+            transform.velocity.x = -speed;
+            break;
+        default:
+            break;
+        }
     }
 };
 
@@ -50,7 +80,6 @@ public:
             queuedCommands.pop_front();
         }
     }
-
 
     template <typename T, typename... TArgs>
     T& addCommand(TArgs&&... mArgs)

@@ -21,7 +21,6 @@ void stuff(EntityManager& manager)
 
     auto& thePlayer(manager.addEntity());
     thePlayer.addComponent<TransformComponent>(100.f,100.f, 64,64);
-    thePlayer.getComponent<TransformComponent>().speed = 2;
     thePlayer.getComponent<TransformComponent>().width = 64;
     thePlayer.getComponent<TransformComponent>().height = 64;
     thePlayer.getComponent<TransformComponent>().pos.x = Game::winWidth / 2.f;
@@ -37,7 +36,7 @@ void stuff(EntityManager& manager)
     thePlayer.addComponent<InputComponent>();
     thePlayer.addComponent<ColliderComponent>("player");
     thePlayer.addComponent<WeaponComponent>("shotgun").setAttachPoint({8,20});
-    thePlayer.addComponent<CommandComponent>();
+    thePlayer.addComponent<ActorControllerComponent>();
     thePlayer.addGroup(groupPlayers);
 
     auto& foespawn = manager.addEntity()

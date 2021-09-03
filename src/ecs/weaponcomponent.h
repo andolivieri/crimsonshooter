@@ -35,7 +35,7 @@ private:
     SpriteComponent* sprite;
     std::string currentweapon;
     Uint32  lastShot;
-    Uint32 cooldown = 1300; //msecs
+    Uint32 cooldown = 1350; //msecs
     int range = 80;
 
     void equip(const std::string &n);

@@ -4,6 +4,7 @@
 #include <time.h>
 #include <SDL.h>
 #include "ecs.h"
+#include "inputcomponent.h"
 
 class DumbComponent : public Component
 {

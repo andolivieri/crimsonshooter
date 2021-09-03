@@ -4,6 +4,7 @@
 #include "texturemanager.h"
 #include "utils.h"
 #include "../collision.h"
+#include "../game.h"
 
 void InputComponent::init()
 {
@@ -19,6 +20,7 @@ void InputComponent::init()
 void InputComponent::update()
 {
 
+    frameEvents.clear();
 
     DamageModelComponent& damage = entity->getComponent<DamageModelComponent>();
 
@@ -27,7 +29,6 @@ void InputComponent::update()
         sprite->play("dead",1);
         transform->velocity.x = 0;
         transform->velocity.y = 0;
-
         return;
     }
 
@@ -52,6 +53,8 @@ void InputComponent::update()
             std::cout << "Player hit. Healt=" << damage.health <<  std::endl;
         }
     }
+
+
 }
 
 void InputComponent::draw()
@@ -79,6 +82,11 @@ bool InputComponent::keyReleased(SDL_Keycode k)
     return lastKeys.count(k) && Game::pressedKeys.count(k) == 0;
 }
 
+bool InputComponent::keyPressed(SDL_Keycode k)
+{
+    return Game::pressedKeys.count(k);
+}
+
 bool InputComponent::keyPressedNow(SDL_Keycode k)
 {
     return lastKeys.count(k) == 0 && Game::pressedKeys.count(k);
@@ -97,39 +105,32 @@ std::set<PlayerControls> InputComponent::readControls()
 void InputComponent::handleInput()
 {
 
-    auto command = &entity->emplaceComponent<CommandComponent>();
     const std::set<uint8_t>& mouse = Game::pressedMouseButtons;
 
-    auto pressedkeys = readControls();
+    for(auto kv : keymapping)
+    {
+        if(keyPressed(kv.first))
+        {
+            InputEvent e;
+            e.button = kv.second;
+            e.evt = BTN_PRESS;
+            frameEvents.push_back(e);
+        }
 
-    transform->velocity.x = 0;
-    transform->velocity.y = 0;
+        if(keyReleased(kv.first))
+        {
+            InputEvent e;
+            e.button = kv.second;
+            e.evt = BTN_RELEASE;
+            frameEvents.push_back(e);
+        }
+    }
+
 
     // n.b. ordine matters
     float speedMult = 1;
-    if(pressedkeys.count(BTN_RUN))
-        speedMult = 2;
-
-    if(pressedkeys.count(BTN_UP))
-    {
-        command->addCommand<MoveCommand>();
-        transform->velocity.y = -transform->speed * speedMult;
-    }
-
-    if(pressedkeys.count(BTN_DOWN))
-    {
-        transform->velocity.y = transform->speed * speedMult;
-    }
-
-    if(pressedkeys.count(BTN_LEFT))
-    {
-        transform->velocity.x = -transform->speed * speedMult;
-    }
-
-    if(pressedkeys.count(BTN_RIGHT))
-    {
-        transform->velocity.x = transform->speed * speedMult;
-    }
+    //if(pressedkeys.count(BTN_RUN))
+      //  speedMult = 2;
 
     if(transform->velocity.y || transform->velocity.x){
         if(speedMult > 1)

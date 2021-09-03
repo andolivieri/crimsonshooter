@@ -3,6 +3,7 @@
 #include "tilecomponent.h"
 #include "assetmanager.h"
 #include "weaponfactory.h"
+#include "fsmcomponent.h"
 
 WeaponComponent::WeaponComponent(const std::string& n):
     currentweapon(n)

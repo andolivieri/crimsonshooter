@@ -41,7 +41,6 @@ void ProjectileComponent::init()
 
 
     double radAngle = Math2D::deg2rad(Math2D::angleBetweenPoints(src, target));
-    transform->speed = m_speed;
     transform->pos.x = src.x;
     transform->pos.y = src.y;
     transform->width = width;

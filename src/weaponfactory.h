@@ -7,30 +7,92 @@
 
 class BaseWeapon
 {
-
-    enum {
-        STATE_IDLE,
-        STATE_SHOOTING,
-        STATE_RELOADING
-    } WeaponStates;
+public:
 
     std::string sprite;
     int magazine;
     int range;
     int rate;
     int dps;
+    int reloadTimeMsec;
+    Vector2D muzzlePos;
 
+
+    bool automatic = false;
     // Stati: idle, shooting, reloading
 
-    Animation animationIdle;
-    Animation animationReload;
-    Animation animationFire;
+    std::string animationIdle = "idle";
+    std::string animationReload = "reload";
+    std::string animationFire = "shoot";
+
+
+    std::string soundShoot = "shoot";
+    std::string soundReload = "reload";
+    std::string soundEndfire = "bullets";
 
     void update()
     {
 
     }
 };
+
+class WeaponStateBase : public FSM_StateBase
+{
+public:
+    SpriteComponent* sprite;
+    SoundComponent* sound;
+    BaseWeapon* weapon;
+};
+
+class WeaponStateIdle : public WeaponStateBase
+{
+
+    void onEnter()
+    {
+        sprite->play("idle");
+    }
+
+    FSM_StateBase* handleInput()
+    {
+        // TODO TRIGGER_PULL: => shooting
+    }
+};
+
+class WeaponStateShooting : public WeaponStateBase
+{
+    void onEnter()
+    {
+        sprite->play(weapon->animationFire);
+        int loops = weapon->automatic ? -1 : 0;
+        sound->play(weapon->soundShoot, loops);
+    }
+
+    FSM_StateBase* handleInput()
+    {
+        // TRIGGER_RELEASE: => idle
+    }
+
+    void onExit()
+    {
+        sprite->play("bullets");
+    }
+};
+
+class WeaponStateReloading :  public WeaponStateBase
+{
+
+    void onEnter()
+    {
+        sprite->play("reload");
+        sound->play("reload");
+    }
+
+    FSM_StateBase* handleInput()
+    {
+        // until reloadTimeMsec => idle
+    }
+};
+
 
 class WeaponFactory
 {

@@ -5,9 +5,10 @@
 #include <SDL.h>
 #include "ecs.h"
 #include <map>
+#include <deque>
 #include "transformcomponent.h"
-#include "commandcomponent.h"
-#include "../game.h"
+#include "spritecomponent.h"
+#include "damagemodel.h"
 
 typedef enum {
     BTN_UP,
@@ -25,6 +26,17 @@ typedef enum {
     BTN_LAST
 } PlayerControls;
 
+typedef enum {
+    BTN_PRESS,
+    BTN_RELEASE
+} InputEventType;
+
+struct InputEvent
+{
+    PlayerControls button;
+    InputEventType evt;
+};
+
 
 class InputComponent : public Component
 {
@@ -33,6 +45,8 @@ public:
     void init() override;
     void update() override;
     void draw() override;
+
+    std::deque<InputEvent> frameEvents;
 
 private:
 
@@ -48,9 +62,9 @@ private:
     std::set<SDL_Keycode> lastKeys;
     std::set<Uint8> lastMouse;
 
-
     bool keyReleased(SDL_Keycode );
     bool keyPressedNow(SDL_Keycode k);
+    bool keyPressed(SDL_Keycode k);
 
 
     std::map<SDL_Keycode, PlayerControls> keymapping = {
@@ -67,6 +81,7 @@ private:
     };
 
     std::set<PlayerControls> readControls();
+
 };
 
 #endif // INPUTCOMPONENT_H

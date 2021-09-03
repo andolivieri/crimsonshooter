@@ -21,5 +21,8 @@
 #include "predicatecomponent.h"
 #include "textcomponent.h"
 #include "commandcomponent.h"
+#include "fsmcomponent.h"
+#include "actorcontrollercomponent.h"
+#include "commandcomponent.h"
 
 #endif // COMPONENTS_H

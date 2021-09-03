@@ -11,7 +11,7 @@ public:
     Vector2D pos;
     Vector2D velocity;
 
-    float speed = 1;
+    //float speed = 1;
     int width = 32;
     int height = 32;
     double rotation = 0;
