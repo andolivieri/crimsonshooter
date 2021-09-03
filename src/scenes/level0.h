@@ -29,13 +29,13 @@ void stuff(EntityManager& manager)
     thePlayer.addComponent<RelationshipComponent>();
     thePlayer.addComponent<SpriteComponent>("assets/player.png")
             .setSrcRect({0,0,16,16})
-            .addAnimation("idle", {0, 2, 600 })
-            .addAnimation("fast", {1, 4, 100 })
-            .addAnimation("dead", {2, 1, 100 })
-            .addAnimation("moving", {1, 4, 200 });
+            .addAnimation("idle", {0, 0, 2, 600 })
+            .addAnimation("fast", {0, 1, 4, 100 })
+            .addAnimation("dead", {0, 2, 1, 100 })
+            .addAnimation("moving", {0, 1, 4, 200 });
     thePlayer.addComponent<InputComponent>();
     thePlayer.addComponent<ColliderComponent>("player");
-    thePlayer.addComponent<WeaponComponent>("shotgun").setAttachPoint({8,20});
+    thePlayer.addComponent<WeaponBayComponent>("shotgun").setAttachPoint({8,20});
     thePlayer.addComponent<ActorControllerComponent>();
     thePlayer.addGroup(groupPlayers);
 

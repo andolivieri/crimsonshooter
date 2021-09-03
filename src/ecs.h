@@ -123,6 +123,7 @@ public:
     template <typename T> T& getComponent() const
     {
         auto ptr(m_compsArray[getComponentTypeID<T>()]);
+        assert(ptr);
         return *static_cast<T*>(ptr);
     }
 };

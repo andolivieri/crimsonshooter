@@ -67,8 +67,8 @@ void SpriteComponent::draw()
             m_animLoopCounter++;
 
 
-        srcRect.x = srcRect.w * m_animCurrentFrameIndex;
-        srcRect.y = a.index * srcRect.h;
+        srcRect.x = srcRect.w * m_animCurrentFrameIndex + a.col*srcRect.w;
+        srcRect.y = a.row * srcRect.h;
     }
 
     TextureManager::drawTexture(m_texture, srcRect, dstRect, transform->rotation, flip, alpha);

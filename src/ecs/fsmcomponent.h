@@ -4,11 +4,12 @@
 #include <time.h>
 #include <SDL.h>
 #include "ecs.h"
+#include "inputcomponent.h"
 
 class FSM_StateBase
 {
 public:
-    virtual FSM_StateBase* handleInput();
+    virtual FSM_StateBase* handleInput(){return nullptr;};
     virtual void onEnter() {}
     virtual void onExit() {}
 };

@@ -32,6 +32,7 @@ HEADERS += \
     src/ecs/tilecomponent.h \
     src/ecs/timercomponent.h \
     src/ecs/transformcomponent.h \
+    src/ecs/weaponbaycomponent.h \
     src/ecs/weaponcomponent.h \
     src/game.h \
     src/gamemap.h \
@@ -69,6 +70,7 @@ SOURCES += \
         src/ecs/tilecomponent.cpp \
         src/ecs/timercomponent.cpp \
         src/ecs/transformcomponent.cpp \
+        src/ecs/weaponbaycomponent.cpp \
         src/ecs/weaponcomponent.cpp \
         src/game.cpp \
         src/gamemap.cpp \

@@ -50,14 +50,8 @@ public:
 
 private:
 
-    SDL_Rect collider;
-    std::string tag;
-    double strafeAngle;
 
-    TransformComponent* transform;
-    SpriteComponent* sprite;
     void handleInput();
-    SDL_Point getPlayerCenter();
 
     std::set<SDL_Keycode> lastKeys;
     std::set<Uint8> lastMouse;
@@ -65,6 +59,8 @@ private:
     bool keyReleased(SDL_Keycode );
     bool keyPressedNow(SDL_Keycode k);
     bool keyPressed(SDL_Keycode k);
+    bool mouseReleased(Uint8 k);
+    bool mousePressed(Uint8 k);
 
 
     std::map<SDL_Keycode, PlayerControls> keymapping = {
@@ -80,7 +76,6 @@ private:
         {SDLK_RSHIFT, BTN_RUN}
     };
 
-    std::set<PlayerControls> readControls();
 
 };
 

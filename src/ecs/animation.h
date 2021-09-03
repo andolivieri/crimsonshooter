@@ -5,7 +5,8 @@
 
 struct Animation
 {
-    int index;
+    int col;
+    int row;
     int frames;
     uint32_t speed;
 };

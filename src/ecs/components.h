@@ -11,7 +11,7 @@
 #include "damagemodel.h"
 #include "bloodpatch.h"
 #include "decaycomponent.h"
-#include "weaponcomponent.h"
+#include "weaponbaycomponent.h"
 #include "relationshipcomponent.h"
 #include "dumbcomponent.h"
 #include "foespawnercomponent.h"

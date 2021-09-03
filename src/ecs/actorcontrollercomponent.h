@@ -5,6 +5,8 @@
 #include "ecs.h"
 #include "transformcomponent.h"
 #include "inputcomponent.h"
+#include "spritecomponent.h"
+#include "damagemodel.h"
 
 
 class ActorControllerComponent : public Component
@@ -18,51 +20,21 @@ public:
 
     void init() override
     {
+
+        sprite = &entity->getComponent<SpriteComponent>();
+        damage = &entity->getComponent<DamageModelComponent>();
         transform = &entity->getComponent<TransformComponent>();
         input = &entity->getComponent<InputComponent>();
     }
 
-    void update() override
-    {
-        float speedMultiplier = 1;
-        for(auto evt : input->frameEvents)
-        {
-            if(evt.button == BTN_RUN)
-            {
-                speedMultiplier = 2;
-            }
-
-            if(evt.button == BTN_UP)
-            {
-                transform->velocity.y = (evt.evt == BTN_PRESS ? -speed : 0);
-            }
-
-            if(evt.button == BTN_DOWN)
-            {
-                transform->velocity.y = (evt.evt == BTN_PRESS ? speed : 0);
-            }
-
-
-            if(evt.button == BTN_RIGHT)
-            {
-                transform->velocity.x = (evt.evt == BTN_PRESS ? speed : 0);
-            }
-
-
-            if(evt.button == BTN_LEFT)
-            {
-                transform->velocity.x = (evt.evt == BTN_PRESS ? -speed : 0);
-            }
-        }
-
-         transform->velocity.x *= speedMultiplier;
-         transform->velocity.y *= speedMultiplier;
-    }
+    void update() override;
 
 
 private:
+    DamageModelComponent* damage;
     InputComponent* input;
     TransformComponent* transform;
+    SpriteComponent* sprite;
 
 };
 
