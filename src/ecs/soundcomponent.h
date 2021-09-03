@@ -14,6 +14,7 @@ struct SoundEvent
 {
     Mix_Chunk* chunk;
     int loops;
+    int channel;
 };
 
 class SoundComponent : public Component
@@ -36,31 +37,22 @@ public:
         while(!soundQueue.empty())
         {
             auto e = soundQueue.front();
-            Mix_PlayChannel(-1, e.chunk, e.loops);
+            Mix_PlayChannel(e.channel, e.chunk, e.loops);
             soundQueue.pop_front();
         }
 
     }
 
-    void play(const std::string& soundId, int loops=0)
+    void play(const std::string& soundId, int loops=0,int channel=1)
     {
         if(soundId.empty())
             return;
 
         Mix_Chunk* chunk = AssetManager::getSound(soundId);
         assert(chunk);
-        soundQueue.push_back({chunk, loops});
+        soundQueue.push_back({chunk, loops, channel});
     }
 
-    void stop(const std::string& soundId, int loops=0)
-    {
-        if(soundId.empty())
-            return;
-
-        Mix_Chunk* chunk = AssetManager::getSound(soundId);
-        assert(chunk);
-        soundQueue.push_back({chunk, loops});
-    }
 
 
 private:

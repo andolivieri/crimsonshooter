@@ -63,14 +63,14 @@ public:
     void onEnter()
     {
         lastShot = 0;
-        sound->play(weaponData.soundShoot, 0);
+        sound->play(weaponData.soundShoot, 0, 1);
     }
 
     FSM_StateBase* handleInput() override;
 
     void onExit()
     {
-        sound->play(weaponData.soundEndfire, 0);
+        sound->play(weaponData.soundEndfire, 0, 1);
     }
 private:
     Uint32 lastShot;

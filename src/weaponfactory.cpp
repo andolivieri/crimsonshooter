@@ -63,9 +63,9 @@ Entity &WeaponFactory::createUzi(Entity &e)
     wp.automatic = true;
     wp.range = 800;
     wp.muzzlePos.x = 40;
-    wp.rate = 30;
+    wp.rate = 50;
     wp.magazine = 30;
-    wp.reloadTimeMsec = 3000;
+    wp.reloadTimeMsec = 2000;
 
 
     wp.soundShoot = "assets/sounds/uzi_shoot.wav";
@@ -82,7 +82,7 @@ Entity &WeaponFactory::createUzi(Entity &e)
     e.addComponent<SpriteComponent>("assets/uzi.png")
             .addAnimation("idle", {0, 0, 1, 100 })
             .addAnimation("shoot", {0, 0, 4, 100})
-            .addAnimation("reload", {4, 0, 11, 250});
+            .addAnimation("reload", {4, 0, 11, 100});
     e.addComponent<SoundComponent>();
     e.addComponent<InputComponent>();
     e.addComponent<WeaponComponent>(wp);

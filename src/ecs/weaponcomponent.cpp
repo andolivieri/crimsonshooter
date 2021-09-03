@@ -33,7 +33,7 @@ FSM_StateBase *WeaponStateShooting::handleInput()
     if(SDL_GetTicks() - lastShot >= weaponData.rate)
     {
         // shot
-        sound->play(weaponData.soundShoot, 0);
+        sound->play(weaponData.soundShoot, 0, 1);
         weapon->createProjectiles();
         lastShot = SDL_GetTicks();
         weapon->currentMagazineShotCount++;
