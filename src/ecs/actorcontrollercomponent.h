@@ -7,6 +7,7 @@
 #include "inputcomponent.h"
 #include "spritecomponent.h"
 #include "damagemodel.h"
+#include "weaponbaycomponent.h"
 
 
 class ActorControllerComponent : public Component
@@ -25,6 +26,7 @@ public:
         damage = &entity->getComponent<DamageModelComponent>();
         transform = &entity->getComponent<TransformComponent>();
         input = &entity->getComponent<InputComponent>();
+        wbay = &entity->getComponent<WeaponBayComponent>();
     }
 
     void update() override;
@@ -35,6 +37,7 @@ private:
     InputComponent* input;
     TransformComponent* transform;
     SpriteComponent* sprite;
+    WeaponBayComponent* wbay;
 
 };
 

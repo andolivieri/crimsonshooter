@@ -22,6 +22,8 @@ HEADERS += \
     src/ecs/foespawnercomponent.h \
     src/ecs/fsmcomponent.h \
     src/ecs/inputcomponent.h \
+    src/ecs/perkcomponent.h \
+    src/ecs/perkspawner.h \
     src/ecs/predicatecomponent.h \
     src/ecs/projectilecomponent.h \
     src/ecs/relationshipcomponent.h \
@@ -60,6 +62,8 @@ SOURCES += \
         src/ecs/foespawnercomponent.cpp \
         src/ecs/fsmcomponent.cpp \
         src/ecs/inputcomponent.cpp \
+        src/ecs/perkcomponent.cpp \
+        src/ecs/perkspawner.cpp \
         src/ecs/predicatecomponent.cpp \
         src/ecs/projectilecomponent.cpp \
         src/ecs/relationshipcomponent.cpp \

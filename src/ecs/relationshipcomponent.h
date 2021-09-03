@@ -62,6 +62,11 @@ public:
         return children[tag];
     }
 
+    bool hasChildren(const std::string tag)
+    {
+        return children.count(tag);
+    }
+
 
     RelationshipComponent& removeChild(Entity* child)
     {

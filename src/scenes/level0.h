@@ -47,7 +47,8 @@ void stuff(EntityManager& manager)
             .addWave({"standard", 30, 15})
             .addWave({"standard", 50, 25})
             ;
-
+    // perkspawner
+    manager.addEntity().addComponent<PerkSpawnerComponent>(score);
 
     // wincondition
    manager.addEntity()

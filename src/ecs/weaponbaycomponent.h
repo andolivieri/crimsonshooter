@@ -29,6 +29,7 @@ public:
 
     void triggerPull();
     void triggerRelease();
+    void equip(const std::string &n);
 
 private:
     Vector2D attachPoint;
@@ -44,7 +45,6 @@ private:
     Uint32 cooldown = 1350; //msecs
     int range = 80;
 
-    void equip(const std::string &n);
 };
 
 #endif // WEAPONBAYCOMPONENT_H

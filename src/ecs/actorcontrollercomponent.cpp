@@ -28,6 +28,17 @@ void ActorControllerComponent::update()
         }
     }
 
+    // TODO handle collision here but we should really not
+    for(auto &perk : entity->m_manager.getGroup(groupPerks))
+    {
+        if(Collision::AABB(entity->getComponent<ColliderComponent>(),
+                           perk->getComponent<ColliderComponent>()))
+        {
+            wbay->equip(perk->getComponent<PerkComponent>().weapon);
+            perk->setActive(false);
+        }
+    }
+
     if(damage->isDead())
     {
         sprite->play("dead",1);

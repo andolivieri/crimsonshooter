@@ -35,6 +35,12 @@ void WeaponBayComponent::init()
 void WeaponBayComponent::equip(const std::string& weaponId)
 {
     auto& gun = WeaponFactory(entity->m_manager).createWeaponEntity(weaponId);
+    if(rel->hasChildren("gun")){
+        auto g = rel->getChildren("gun");
+        rel->removeChild(g);
+        g->setActive(false);
+    }
+
     rel->addChildren(&gun, "gun");
 
 }

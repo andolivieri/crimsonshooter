@@ -24,5 +24,7 @@
 #include "fsmcomponent.h"
 #include "actorcontrollercomponent.h"
 #include "commandcomponent.h"
+#include "perkcomponent.h"
+#include "perkspawner.h"
 
 #endif // COMPONENTS_H
