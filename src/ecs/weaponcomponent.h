@@ -47,7 +47,6 @@ public:
 
     void onEnter()
     {
-        std::cout << "Enter state IDLE" << std::endl;
         sprite->play("idle");
     }
 
@@ -63,9 +62,8 @@ public:
 
     void onEnter()
     {
-        sprite->play("shoot");
-        int loops = weaponData.automatic ? -1 : 0;
-        sound->play(weaponData.soundShoot, loops);
+        lastShot = 0;
+        sound->play(weaponData.soundShoot, 0);
     }
 
     FSM_StateBase* handleInput() override;
@@ -85,7 +83,6 @@ public:
 
     void onEnter()
     {
-        std::cout << "Enter state RELOADING" << std::endl;
         sprite->play("reload", 1);
         sound->play(weaponData.soundReload);
         startTime = SDL_GetTicks();
@@ -134,10 +131,12 @@ public:
         SDL_Point mousePt;
         SDL_GetMouseState(&mousePt.x,&mousePt.y);
 
-        for(int i=0; i<12; i++)
+        for(int i=0; i<weapondata.projectileGauges; i++)
         {
             auto& e = entity->m_manager.addEntity();
-            int angle = rand() % 20;
+            int angle = 0;
+            if(weapondata.projectileSpreadAngle > 0)
+                angle = rand() % weapondata.projectileSpreadAngle;
             angle *= static_cast<int>(std::pow(-1, i)); // flip sign
             Vector2D randpoint = Math2D::rotate_point(
                         transform->center(),
@@ -147,15 +146,18 @@ public:
             e.addComponent<ProjectileComponent>(
                         transform->center(),
                         randpoint)
-                    .setSize(8,8).setRange(500);
-            e.addComponent<SpriteComponent>("assets/projectile.png")
+                    .setSize(8,8)
+                    .setRange(weapondata.range);
+            e.addComponent<SpriteComponent>(weapondata.projectileSprite)
                     .setSrcRect({2,2,2,2});
         }
 
     }
 
+    int currentMagazineShotCount = 0;
 
 private:
+
     WeaponData weapondata;
     InputComponent* input;
     TransformComponent* transform;

@@ -52,6 +52,16 @@ public:
         soundQueue.push_back({chunk, loops});
     }
 
+    void stop(const std::string& soundId, int loops=0)
+    {
+        if(soundId.empty())
+            return;
+
+        Mix_Chunk* chunk = AssetManager::getSound(soundId);
+        assert(chunk);
+        soundQueue.push_back({chunk, loops});
+    }
+
 
 private:
     std::deque<SoundEvent> soundQueue;

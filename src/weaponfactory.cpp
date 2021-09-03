@@ -25,13 +25,16 @@ Entity &WeaponFactory::createShotgun(Entity &e)
     wp.animationReload = "reload";
     wp.sprite = "assets/shotgun.png";
     wp.automatic = false;
-    wp.range = 100;
+    wp.range = 500;
     wp.muzzlePos.x = 40;
     wp.rate = 1;
     wp.magazine = 1;
     wp.reloadTimeMsec = 600;
 
     wp.soundShoot = "assets/sounds/shotgun_shoot.wav";
+    wp.projectileGauges = 12;
+    wp.projectileSpreadAngle = 25;
+
 
 
 
@@ -51,13 +54,38 @@ Entity &WeaponFactory::createShotgun(Entity &e)
 
 Entity &WeaponFactory::createUzi(Entity &e)
 {
+
+    WeaponData wp;
+    wp.animationFire = "shooting";
+    wp.animationIdle = "idle";
+    wp.animationReload = "reload";
+    wp.sprite = "assets/uzi.png";
+    wp.automatic = true;
+    wp.range = 800;
+    wp.muzzlePos.x = 40;
+    wp.rate = 30;
+    wp.magazine = 30;
+    wp.reloadTimeMsec = 3000;
+
+
+    wp.soundShoot = "assets/sounds/uzi_shoot.wav";
+    wp.soundEndfire = "assets/sounds/uzi_endshoot.wav";
+    wp.soundReload = "assets/sounds/uzi_reload.wav";
+    wp.projectileGauges = 1;
+    wp.projectileSize = 4;
+    wp.projectileSpreadAngle = 0;
+    wp.projectileSpeed = 100;
+
     e.addComponent<TransformComponent>();
     e.getComponent<TransformComponent>().width = 64;
     e.getComponent<TransformComponent>().height = 64;
     e.addComponent<SpriteComponent>("assets/uzi.png")
             .addAnimation("idle", {0, 0, 1, 100 })
-            .addAnimation("shooting", {0, 0, 4, 50});
+            .addAnimation("shoot", {0, 0, 4, 100})
+            .addAnimation("reload", {4, 0, 11, 250});
     e.addComponent<SoundComponent>();
+    e.addComponent<InputComponent>();
+    e.addComponent<WeaponComponent>(wp);
     e.addGroup(groupWeapons);
     return e;
 }

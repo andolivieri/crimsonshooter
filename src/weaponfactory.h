@@ -10,7 +10,7 @@ public:
 
     std::string sprite;
     int magazine;
-    int range;
+    int range = 500;
     int rate;
     int dps;
     int reloadTimeMsec;
@@ -27,6 +27,14 @@ public:
     std::string soundShoot;
     std::string soundReload;
     std::string soundEndfire;
+
+
+    std::string projectileSprite = "assets/projectile.png";
+    int projectileSize = 4;
+    int projectileGauges = 1;
+    int projectileSpreadAngle = 0;
+    int projectileSpeed = 1;
+
 
     void update()
     {

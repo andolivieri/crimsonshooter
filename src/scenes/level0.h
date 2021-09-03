@@ -35,7 +35,8 @@ void stuff(EntityManager& manager)
             .addAnimation("moving", {0, 1, 4, 200 });
     thePlayer.addComponent<InputComponent>();
     thePlayer.addComponent<ColliderComponent>("player");
-    thePlayer.addComponent<WeaponBayComponent>("shotgun").setAttachPoint({8,20});
+    thePlayer.addComponent<WeaponBayComponent>("uzi")
+            .setAttachPoint({8,20});
     thePlayer.addComponent<ActorControllerComponent>();
     thePlayer.addGroup(groupPlayers);
 
