@@ -66,6 +66,8 @@ void EntityManager::refresh()
 
 Entity* EntityManager::get(const std::string tag)
 {
+    // dont'use BROKEN
+    assert(false);
     if(m_taggedEntities.count(tag))
         return m_taggedEntities[tag];
     return nullptr;

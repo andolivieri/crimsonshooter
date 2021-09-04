@@ -5,15 +5,15 @@
 #include "weaponfactory.h"
 #include "fsmcomponent.h"
 
-WeaponBayComponent::WeaponBayComponent(const std::string& n):
-    currentweapon(n)
+WeaponBayComponent::WeaponBayComponent()
 {
 
 }
 
-WeaponBayComponent &WeaponBayComponent::setAttachPoint(const Vector2D &a)
+WeaponBayComponent &WeaponBayComponent::setAttachPoint(const Vector2D& a, int slot, bool mirrored)
 {
-    attachPoint = a;
+    slots[slot] = a;
+    mirror[slot] = mirrored;
     return *this;
 }
 
@@ -28,44 +28,50 @@ void WeaponBayComponent::init()
         entity->addComponent<RelationshipComponent>();
     rel = &entity->getComponent<RelationshipComponent>();
 
-    equip(currentweapon);
 
 }
 
-void WeaponBayComponent::equip(const std::string& weaponId)
+WeaponBayComponent & WeaponBayComponent::equip(const std::string& weaponId, int slot)
 {
-    auto& gun = WeaponFactory(entity->m_manager).createWeaponEntity(weaponId);
-    if(rel->hasChildren("gun")){
-        auto g = rel->getChildren("gun");
-        rel->removeChild(g);
-        g->setActive(false);
-    }
 
-    rel->addChildren(&gun, "gun");
+    AttachedWeapon a;
+    a.weaponId = weaponId;
+    a.entity = &WeaponFactory(entity->m_manager).createWeaponEntity(weaponId, mirror[slot]);
+    a.attachPoint = slots[slot];
+    drop(slot);
+    weapons[slot] = a;
+    return *this;
 
 }
+
+void WeaponBayComponent::drop(int slot)
+{
+    if(weapons[slot].entity)
+        weapons[slot].entity->setActive(false);
+    weapons[slot] = AttachedWeapon();
+}
+
 
 void WeaponBayComponent::update()
 {
 
-    Entity* gun = rel->getChildren("gun");
+    for(auto i=0; i<weapons.size();i++)
+    {
+        if(weapons[i].entity){
 
-    auto center = transform->center();
-    center.x += attachPoint.x;
-    center.y += attachPoint.y;
-    Vector2D rotatedCenter = Math2D::rotate_point(transform->center(), transform->rotation, center);
-    gun->getComponent<TransformComponent>().centerOn(rotatedCenter);
-    gun->getComponent<TransformComponent>().rotation = transform->rotation;
+            auto center = transform->center();
+            center.x += weapons[i].attachPoint.x;
+            center.y += weapons[i].attachPoint.y;
+            Vector2D rotatedCenter = Math2D::rotate_point(transform->center(), transform->rotation, center);
+            weapons[i].entity->getComponent<TransformComponent>().centerOn(rotatedCenter);
+            weapons[i].entity->getComponent<TransformComponent>().rotation = transform->rotation;
+        }
+    }
+
+    /*
+        Entity* gun = rel->getChildren("gun");
+
+*/
+
 
 }
-
-void WeaponBayComponent::triggerPull()
-{
-    shooting = true;
-}
-
-void WeaponBayComponent::triggerRelease()
-{
-    shooting = false;
-}
-

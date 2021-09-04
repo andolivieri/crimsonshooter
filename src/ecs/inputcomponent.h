@@ -23,6 +23,7 @@ typedef enum {
     BTN_FIRE_2,
     BTN_JUMP,
     BTN_RUN,
+    BTN_RELOAD,
     BTN_LAST
 } PlayerControls;
 
@@ -73,7 +74,8 @@ private:
         {SDLK_RIGHT, BTN_RIGHT},
         {SDLK_d, BTN_RIGHT},
         {SDLK_LSHIFT, BTN_RUN},
-        {SDLK_RSHIFT, BTN_RUN}
+        {SDLK_RSHIFT, BTN_RUN},
+        {SDLK_r, BTN_RELOAD},
     };
 
 

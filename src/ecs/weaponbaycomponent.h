@@ -16,22 +16,31 @@
 #include "../weaponfactory.h"
 
 
+class AttachedWeapon
+{
+public:
+    std::string weaponId;
+    Entity* entity = nullptr;
+    Vector2D attachPoint;
+};
+
 class WeaponBayComponent : public Component
 {
 public:
 
-    WeaponBayComponent(const std::string& n);
+    WeaponBayComponent();
 
-    WeaponBayComponent& setAttachPoint(const Vector2D&);
+    WeaponBayComponent& setAttachPoint(const Vector2D&, int slot=0, bool mirrored=false);
+    WeaponBayComponent &equip(const std::string &n, int slot=0);
 
     void init() override;
     void update() override;
 
-    void triggerPull();
-    void triggerRelease();
-    void equip(const std::string &n);
-
+    void drop(int slot);
 private:
+    std::array<bool, 2> mirror;
+    std::array<Vector2D, 2> slots;
+    std::array<AttachedWeapon, 2> weapons;
     Vector2D attachPoint;
     bool shooting = false;
 
@@ -39,7 +48,6 @@ private:
     InputComponent* input;
     RelationshipComponent* rel;
     SpriteComponent* sprite;
-    std::string currentweapon;
     Uint32  lastShot;
 
     Uint32 cooldown = 1350; //msecs

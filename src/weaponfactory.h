@@ -31,6 +31,7 @@ public:
 
     std::string projectileSprite = "assets/projectile.png";
     int projectileSize = 4;
+    int projectileDamage = 20;
     int projectileGauges = 1;
     int projectileSpreadAngle = 0;
     int projectileSpeed = 1;
@@ -49,14 +50,14 @@ public:
         : manager(em)
     {}
 
-    Entity& createWeaponEntity(const std::string& weapon);
+    Entity& createWeaponEntity(const std::string& weapon, bool mirrored=false);
 private:
 
     EntityManager& manager;
 
     Entity& createShotgun(Entity& e);
-
     Entity& createUzi(Entity& e);
+    Entity& createHandgun(Entity &e);
 };
 
 #endif // WEAPONFACTORY_H

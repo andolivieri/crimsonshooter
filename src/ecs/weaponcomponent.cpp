@@ -63,7 +63,7 @@ public:
     void onEnter()
     {
         lastShot = 0;
-        sprite->play("shoot");
+        sprite->play("shoot", weaponData.automatic ? -1 : 1);
     }
 
     FSM_StateBase* handleInput() override;
@@ -169,6 +169,7 @@ void WeaponComponent::createProjectiles()
         e.addComponent<ProjectileComponent>(
                     bulletStart,
                     randpoint)
+                .setDamage(weapondata.projectileDamage)
                 .setSize(8,8)
                 .setRange(weapondata.range);
         e.addComponent<SpriteComponent>(weapondata.projectileSprite)
@@ -177,19 +178,6 @@ void WeaponComponent::createProjectiles()
 
 }
 
-/////////////////////////////////////////////////////////////////
-///                 IDLE                                       //
-/////////////////////////////////////////////////////////////////
-FSM_StateBase *WeaponStateIdle::handleInput()
-{
-    for(auto e : input->frameEvents)
-    {
-        // TRIGGER_PULL: => shooting
-        if(e.button == BTN_FIRE_1 && e.evt == BTN_PRESS)
-            return new WeaponStateShooting(weaponData, entity);
-    }
-    return this;
-}
 
 /////////////////////////////////////////////////////////////////
 ///                 SHOOTING                                   //
@@ -224,9 +212,26 @@ FSM_StateBase *WeaponStateReloading::handleInput()
     // no event accepted just wait for reload to complete
     if(SDL_GetTicks() - startTime > weaponData.reloadTimeMsec)
     {
-        std::cout << "RELOADED" << std::endl;
         weapon->currentMagazineShotCount = 0;
         return new WeaponStateIdle(weaponData, entity);
+    }
+    return this;
+}
+/////////////////////////////////////////////////////////////////
+///                 IDLE                                       //
+/////////////////////////////////////////////////////////////////
+FSM_StateBase *WeaponStateIdle::handleInput()
+{
+    for(auto e : input->frameEvents)
+    {
+
+        if(e.button == BTN_RELOAD && e.evt == BTN_PRESS)
+        {
+            return new WeaponStateReloading(weaponData, entity);
+        }
+        // TRIGGER_PULL: => shooting
+        if(e.button == BTN_FIRE_1 && e.evt == BTN_PRESS)
+            return new WeaponStateShooting(weaponData, entity);
     }
     return this;
 }

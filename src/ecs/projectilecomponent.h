@@ -34,7 +34,7 @@ public:
     int range = 1000;
 
     float m_speed = 30;
-    int damage = 50;
+    int damage = 10;
     int width = 4;
     int height = 4;
 

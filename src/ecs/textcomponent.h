@@ -10,7 +10,11 @@ class TextComponent : public Component
 {
 public:
 
-    TextComponent(const std::string& text): txt(text){}
+    SDL_Rect padding;
+    float scale = 1;
+
+    TextComponent(const std::string& text, SDL_Rect padding={0,0,32,32}):
+        txt(text), padding(padding){}
 
     void init() override;
     void draw() override;

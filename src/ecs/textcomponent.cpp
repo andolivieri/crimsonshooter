@@ -21,18 +21,17 @@ void TextComponent::draw()
 
     // as TTF_RenderText_Solid could only be used on
     // SDL_Surface then you have to create the surface first
-    SDL_Surface* surfaceMessage =
-        TTF_RenderText_Solid(Sans, txt.c_str(), White);
+    SDL_Surface* surfaceMessage = TTF_RenderText_Solid(Sans, txt.c_str(), White);
 
     // now you can convert it into a texture
     SDL_Texture* Message = SDL_CreateTextureFromSurface(TextureManager::renderer, surfaceMessage);
 
 
     SDL_Rect Message_rect; //create a rect
-    Message_rect.x = static_cast<int>(transform->pos.x);  //controls the rect's x coordinate
-    Message_rect.y = static_cast<int>(transform->pos.y); // controls the rect's y coordinte
-    Message_rect.w = transform->width; // controls the width of the rect
-    Message_rect.h = transform->height; // controls the height of the rect
+    Message_rect.x = static_cast<int>(transform->pos.x + padding.x);  //controls the rect's x coordinate
+    Message_rect.y = static_cast<int>(transform->pos.y + padding.y); // controls the rect's y coordinte
+    Message_rect.w = padding.w; // controls the width of the rect
+    Message_rect.h = padding.h; // controls the height of the rect
 
     // (0,0) is on the top left of the window/screen,
     // think a rect as the text's box,
