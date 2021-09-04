@@ -11,9 +11,9 @@ public:
     std::string sprite;
     int magazine;
     int range = 500;
-    int rate;
+    uint32_t rate;
     int dps;
-    int reloadTimeMsec;
+    uint32_t reloadTimeMsec;
     Vector2D muzzlePos;
 
 

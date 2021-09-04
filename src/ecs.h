@@ -10,6 +10,7 @@
 #include <array>
 #include <queue>
 #include <set>
+#include <map>
 #include <assert.h>
 
 class Component; // Position, AI, Physics, Input, etc
@@ -62,8 +63,9 @@ private:
     ComponentBitSet m_compsBitset;
     GroupBitSet m_groupBitset;
 public:
+    std::string tag;
     EntityManager& m_manager;
-    Entity(EntityManager& m) : m_manager(m) {}
+    Entity(EntityManager& m, const std::string _tag) : m_manager(m), tag(_tag) {}
     void update(){
         //for(auto& c : m_comps) c->update();
         auto compsize = m_comps.size();
@@ -134,14 +136,17 @@ private:
     std::vector<std::unique_ptr<Entity>> m_entities;
     std::deque<std::unique_ptr<Entity>> m_queuedEntities;
     std::array<std::vector<Entity*>, maxGroups> m_groupedEntities;
+    std::map<std::string, Entity*> m_taggedEntities;
 public:
     void update();
     void draw();
     void refresh();
 
+    Entity* get(const std::string tag);
+
     void addToGroup(Entity* e, Group g);
     std::vector<Entity*>& getGroup(Group g);
-    Entity& addEntity();
+    Entity& addEntity(const std::string tag="");
 };
 
 #endif // ECS_H

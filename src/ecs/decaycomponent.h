@@ -9,12 +9,13 @@ class DecayComponent : public Component
 {
 public:
 
-    DecayComponent(int t){ decayTime = t;}
+    DecayComponent(int t, int d=5){ decayTime = t; dissolveIn = d;}
 
     void init() override;
     void update() override;
 
 private:
+    int dissolveIn;
     int decayTime;
     time_t startTime;
 

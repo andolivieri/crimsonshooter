@@ -10,7 +10,7 @@ void DecayComponent::update()
 {
     auto timediff = time(NULL) - startTime;
 
-    if(entity->hasComponent<SpriteComponent>() &&   decayTime - timediff < 5){
+    if(entity->hasComponent<SpriteComponent>() &&   decayTime - timediff < dissolveIn){
         auto& sprite = entity->getComponent<SpriteComponent>();
         int alpha = static_cast<int>(timediff*255.f / 5);
         sprite.setAlpha(255 - alpha);

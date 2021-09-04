@@ -64,6 +64,13 @@ void EntityManager::refresh()
 
 }
 
+Entity* EntityManager::get(const std::string tag)
+{
+    if(m_taggedEntities.count(tag))
+        return m_taggedEntities[tag];
+    return nullptr;
+}
+
 void EntityManager::addToGroup(Entity *e, Group g)
 {
     m_groupedEntities[g].emplace_back(e);
@@ -82,11 +89,13 @@ Entity& EntityManager::addEntity()
     return *e;
 }
 */
-Entity& EntityManager::addEntity()
+Entity& EntityManager::addEntity(const std::string tag)
 {
-    Entity *e = new Entity(*this);
+    Entity *e = new Entity(*this, tag);
     std::unique_ptr<Entity> uPtr(e);
     m_queuedEntities.push_back(std::move(uPtr));
+    if(!tag.empty())
+        m_taggedEntities[tag] = e;
     return *e;
 }
 

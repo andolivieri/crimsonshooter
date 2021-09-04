@@ -57,7 +57,7 @@ void stuff(EntityManager& manager)
             .then([&]()
     {
         auto &e = manager.addEntity();
-        e.addComponent<TransformComponent>(1, 1, 800, 120)
+        e.addComponent<TransformComponent>(1.f, 1.f, 800, 120)
                 .centerOn({Game::winWidth/2.f, Game::winHeigth/2.f});
         e.addComponent<TextComponent>("LEVEL 0 COMPLETED");
         e.addGroup(groupOverlay);
@@ -70,7 +70,7 @@ void stuff(EntityManager& manager)
            .then([&]()
    {
        auto &e = manager.addEntity();
-       e.addComponent<TransformComponent>(0, 0, 500, 150)
+       e.addComponent<TransformComponent>(0.f, 0.f, 500, 150)
                .centerOn({Game::winWidth/2, Game::winHeigth/2});
        e.addComponent<TextComponent>("WASTED");
        e.addGroup(groupOverlay);

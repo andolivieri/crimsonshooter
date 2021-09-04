@@ -10,8 +10,8 @@ void ActorControllerComponent::update()
     SDL_GetMouseState(&mousePt.x,&mousePt.y);
 
     SDL_Point playerPt;
-    playerPt.x = transform->center().x;
-    playerPt.y = transform->center().y;
+    playerPt.x = static_cast<int>(transform->center().x);
+    playerPt.y = static_cast<int>(transform->center().y);
 
     double angle = Math2D::angleBetweenPoints(playerPt, mousePt);
     transform->rotation = angle;

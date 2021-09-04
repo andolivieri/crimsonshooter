@@ -27,9 +27,9 @@ Entity &WeaponFactory::createShotgun(Entity &e)
     wp.automatic = false;
     wp.range = 500;
     wp.muzzlePos.x = 40;
-    wp.rate = 1;
+    wp.rate = 300;
     wp.magazine = 1;
-    wp.reloadTimeMsec = 600;
+    wp.reloadTimeMsec = 1200;
 
     wp.soundShoot = "assets/sounds/shotgun_shoot.wav";
     wp.projectileGauges = 12;
@@ -44,7 +44,7 @@ Entity &WeaponFactory::createShotgun(Entity &e)
     e.addComponent<SpriteComponent>("assets/shotgun.png")
             .addAnimation("idle", {0, 0, 1, 100 })
             .addAnimation("shoot", {0, 0, 4, 100})
-            .addAnimation("reload", {4, 0, 4, 150});
+            .addAnimation("reload", {4, 0, 8, 150});
     e.addComponent<SoundComponent>();
     e.addComponent<InputComponent>();
     e.addComponent<WeaponComponent>(wp);
@@ -60,11 +60,13 @@ Entity &WeaponFactory::createUzi(Entity &e)
     wp.animationIdle = "idle";
     wp.animationReload = "reload";
     wp.sprite = "assets/uzi.png";
+    wp.projectileSpreadAngle = 10;
     wp.automatic = true;
     wp.range = 800;
-    wp.muzzlePos.x = 40;
+    wp.muzzlePos.x = 25;
+    wp.muzzlePos.y = -6;
     wp.rate = 50;
-    wp.magazine = 30;
+    wp.magazine = 35;
     wp.reloadTimeMsec = 2000;
 
 

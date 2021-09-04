@@ -40,6 +40,7 @@ HEADERS += \
     src/gamemap.h \
     src/math2d.h \
     src/scenes/level0.h \
+    src/scenes/overlay.h \
     src/scenes/scenes.h \
     src/texturemanager.h \
     src/utils.h \

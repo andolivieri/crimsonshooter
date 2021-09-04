@@ -1,7 +1,185 @@
 #include "weaponcomponent.h"
 
 
+class WeaponStateBase : public FSM_StateBase
+{
+public:
 
+    WeaponStateBase(const WeaponData& w, Entity& e):
+        entity(e),
+        weaponData(w)
+    {
+        sprite = &entity.getComponent<SpriteComponent>();
+        sound = &entity.getComponent<SoundComponent>();
+        input = &entity.getComponent<InputComponent>();
+        weapon = &entity.getComponent<WeaponComponent>();
+    }
+
+    Entity& entity;
+
+    InputComponent* input;
+    SpriteComponent* sprite;
+    SoundComponent* sound;
+    WeaponComponent* weapon;
+    WeaponData weaponData;
+protected:
+    int currentMagazineShotCount = 0;
+
+};
+
+class WeaponStateShooting;
+class WeaponStateIdle;
+class WeaponStateReloading;
+
+
+
+/////////////////////////////////////////////////////////////////
+///                 IDLE                                       //
+/////////////////////////////////////////////////////////////////
+
+class WeaponStateIdle : public WeaponStateBase
+{
+public:
+    WeaponStateIdle(const WeaponData& w, Entity& e) : WeaponStateBase(w,e){}
+
+    void onEnter()
+    {
+        sprite->play("idle");
+    }
+
+    FSM_StateBase* handleInput() override;
+
+
+};
+
+/////////////////////////////////////////////////////////////////
+///                 SHOOTING                                   //
+/////////////////////////////////////////////////////////////////
+class WeaponStateShooting : public WeaponStateBase
+{
+public:
+    WeaponStateShooting(const WeaponData& w, Entity& e) : WeaponStateBase(w,e){}
+
+    void onEnter()
+    {
+        lastShot = 0;
+        sprite->play("shoot");
+    }
+
+    FSM_StateBase* handleInput() override;
+
+    void onExit()
+    {
+        sound->play(weaponData.soundEndfire, 0, 1);
+    }
+
+    void shoot();
+private:
+    Uint32 lastShot;
+};
+
+/////////////////////////////////////////////////////////////////
+///                 REALOADING                                 //
+/////////////////////////////////////////////////////////////////
+
+class WeaponStateReloading :  public WeaponStateBase
+{
+public:
+    WeaponStateReloading(const WeaponData& w, Entity& e) : WeaponStateBase(w,e){}
+
+    void onEnter()
+    {
+        sprite->play("reload", 1);
+        sound->play(weaponData.soundReload, 0, 2);
+        startTime = SDL_GetTicks();
+    }
+
+    FSM_StateBase* handleInput();
+private:
+    Uint32 startTime;
+};
+
+
+
+
+
+void WeaponComponent::init()
+{
+    input = &entity->getComponent<InputComponent>();
+    transform = &entity->getComponent<TransformComponent>();
+    state = new WeaponStateIdle(weapondata, *entity);
+}
+
+void WeaponComponent::update()
+{
+
+    auto nextstate = state->handleInput();
+
+    if(nextstate!=state){
+        state->onExit();
+        nextstate->onEnter();
+        delete state;
+    }
+
+    state = nextstate;
+
+
+}
+
+
+void WeaponStateShooting::shoot()
+{
+    sound->play(weaponData.soundShoot, weaponData.automatic ? -1 : 0, 1);
+    weapon->createProjectiles();
+    lastShot = SDL_GetTicks();
+    weapon->currentMagazineShotCount++;
+    std::cout << "SHOTS: " << weapon->currentMagazineShotCount << std::endl;
+}
+
+
+void WeaponComponent::createProjectiles()
+{
+
+    SDL_Point mousePt;
+    SDL_GetMouseState(&mousePt.x,&mousePt.y);
+
+
+    Vector2D bulletStart = transform->center();
+    bulletStart.x += weapondata.muzzlePos.x;
+    bulletStart.y += weapondata.muzzlePos.y;
+    bulletStart = Math2D::rotate_point(
+                transform->center(),
+                transform->rotation,
+                bulletStart);
+
+    for(int i=0; i<weapondata.projectileGauges; i++)
+    {
+        auto& e = entity->m_manager.addEntity();
+        int angle = 0;
+        if(weapondata.projectileSpreadAngle > 0)
+            angle = rand() % weapondata.projectileSpreadAngle;
+        angle *= static_cast<int>(std::pow(-1, i)); // flip sign
+
+
+        Vector2D randpoint = Math2D::rotate_point(
+                    bulletStart,
+                    static_cast<float>(angle),
+        {mousePt.x, mousePt.y}
+                    );
+        e.addComponent<ProjectileComponent>(
+                    bulletStart,
+                    randpoint)
+                .setSize(8,8)
+                .setRange(weapondata.range);
+        e.addComponent<SpriteComponent>(weapondata.projectileSprite)
+                .setSrcRect({2,2,2,2});
+    }
+
+}
+
+/////////////////////////////////////////////////////////////////
+///                 IDLE                                       //
+/////////////////////////////////////////////////////////////////
 FSM_StateBase *WeaponStateIdle::handleInput()
 {
     for(auto e : input->frameEvents)
@@ -13,6 +191,9 @@ FSM_StateBase *WeaponStateIdle::handleInput()
     return this;
 }
 
+/////////////////////////////////////////////////////////////////
+///                 SHOOTING                                   //
+/////////////////////////////////////////////////////////////////
 FSM_StateBase *WeaponStateShooting::handleInput()
 {
 
@@ -24,24 +205,20 @@ FSM_StateBase *WeaponStateShooting::handleInput()
     // TRIGGER_RELEASE: => idle
     for(auto e : input->frameEvents)
     {
-        // TRIGGER_PULL: => shooting
         if(e.button == BTN_FIRE_1 && e.evt == BTN_RELEASE)
             return new WeaponStateIdle(weaponData, entity);
     }
 
-
     if(SDL_GetTicks() - lastShot >= weaponData.rate)
     {
-        // shot
-        sound->play(weaponData.soundShoot, 0, 1);
-        weapon->createProjectiles();
-        lastShot = SDL_GetTicks();
-        weapon->currentMagazineShotCount++;
-        std::cout << "SHOTS: " << weapon->currentMagazineShotCount << std::endl;
+        shoot();
     }
     return this;
 }
 
+/////////////////////////////////////////////////////////////////
+///                 RELOADING                                  //
+/////////////////////////////////////////////////////////////////
 FSM_StateBase *WeaponStateReloading::handleInput()
 {
     // no event accepted just wait for reload to complete

@@ -1,6 +1,7 @@
 #include "perkspawner.h"
 #include "../game.h"
 
+static std::array<std::string, 2> weaponz{"uzi", "shotgun"};
 
 void PerkSpawnerComponent::spawnPerk()
 {
@@ -13,7 +14,8 @@ void PerkSpawnerComponent::spawnPerk()
     spawnPt.y = static_cast<float>(rand() % Game::winHeigth);
 
     theFoe.addComponent<TransformComponent>(spawnPt.x,spawnPt.y, 32,32);
-    theFoe.addComponent<PerkComponent>("shotgun");
+    theFoe.addComponent<PerkComponent>(weaponz[rand() % weaponz.size()]);
+    theFoe.addComponent<DecayComponent>(10);
     theFoe.getComponent<SpriteComponent>().setSrcRect({0,0, 64,64});
 
     theFoe.addGroup(groupPerks);
