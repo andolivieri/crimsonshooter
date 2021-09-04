@@ -44,6 +44,19 @@ WeaponBayComponent & WeaponBayComponent::equip(const std::string& weaponId, int 
 
 }
 
+WeaponBayComponent &WeaponBayComponent::autoequip(const std::string &n)
+{
+    if(weapons[0].weaponId == n){
+        equip(n, 1);
+        equip(n, 0);
+    }else{
+        drop(1);
+        equip(n, 0);
+    }
+    return *this;
+
+}
+
 void WeaponBayComponent::drop(int slot)
 {
     if(weapons[slot].entity)

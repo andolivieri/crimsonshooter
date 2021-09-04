@@ -31,7 +31,8 @@ public:
     WeaponBayComponent();
 
     WeaponBayComponent& setAttachPoint(const Vector2D&, int slot=0, bool mirrored=false);
-    WeaponBayComponent &equip(const std::string &n, int slot=0);
+    WeaponBayComponent& equip(const std::string &n, int slot=0);
+    WeaponBayComponent& autoequip(const std::string& n);
 
     void init() override;
     void update() override;

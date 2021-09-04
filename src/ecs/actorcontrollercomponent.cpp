@@ -34,7 +34,7 @@ void ActorControllerComponent::update()
         if(Collision::AABB(entity->getComponent<ColliderComponent>(),
                            perk->getComponent<ColliderComponent>()))
         {
-            wbay->equip(perk->getComponent<PerkComponent>().weapon);
+            wbay->autoequip(perk->getComponent<PerkComponent>().weapon);
             perk->setActive(false);
         }
     }

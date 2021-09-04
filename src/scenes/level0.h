@@ -38,7 +38,7 @@ void stuff(EntityManager& manager)
     thePlayer.addComponent<WeaponBayComponent>()
             .setAttachPoint({8,20}, 0)
             .setAttachPoint({8,-20}, 1, true)
-            .equip("handgun",0);
+            .equip("pistol",0);
     thePlayer.addComponent<ActorControllerComponent>();
     thePlayer.addGroup(groupPlayers);
 
