@@ -74,7 +74,8 @@ void ProjectileComponent::update()
         if(Collision::AABB(cc, enemyCC))
         {
             enemyDamage.health -= pc.damage;
-            entity->setActive(false);
+            range-=enemyDamage.projectileRangeLoss;
+            //entity->setActive(false);
         }
 
     }

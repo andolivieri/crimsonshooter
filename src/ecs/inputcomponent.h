@@ -25,7 +25,7 @@ typedef enum {
     BTN_RUN,
     BTN_RELOAD,
     BTN_LAST
-} PlayerControls;
+} PlayerControl;
 
 typedef enum {
     BTN_PRESS,
@@ -34,7 +34,7 @@ typedef enum {
 
 struct InputEvent
 {
-    PlayerControls button;
+    PlayerControl button;
     InputEventType evt;
 };
 
@@ -64,7 +64,7 @@ private:
     bool mousePressed(Uint8 k);
 
 
-    std::map<SDL_Keycode, PlayerControls> keymapping = {
+    std::map<SDL_Keycode, PlayerControl> keymapping = {
         {SDLK_UP, BTN_UP},
         {SDLK_w, BTN_UP},
         {SDLK_DOWN, BTN_DOWN},

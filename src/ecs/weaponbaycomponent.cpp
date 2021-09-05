@@ -4,6 +4,7 @@
 #include "assetmanager.h"
 #include "weaponfactory.h"
 #include "fsmcomponent.h"
+#include "weaponcomponent.h"
 
 WeaponBayComponent::WeaponBayComponent()
 {
@@ -19,6 +20,8 @@ WeaponBayComponent &WeaponBayComponent::setAttachPoint(const Vector2D& a, int sl
 
 void WeaponBayComponent::init()
 {
+
+
 
     transform = &entity->getComponent<TransformComponent>();
     input = &entity->getComponent<InputComponent>();
@@ -37,6 +40,7 @@ WeaponBayComponent & WeaponBayComponent::equip(const std::string& weaponId, int 
     AttachedWeapon a;
     a.weaponId = weaponId;
     a.entity = &WeaponFactory(entity->m_manager).createWeaponEntity(weaponId, mirror[slot]);
+    a.entity->getComponent<WeaponComponent>().bindFireButtonTo(slot == 0 ? BTN_FIRE_1 : BTN_FIRE_2);
     a.attachPoint = slots[slot];
     drop(slot);
     weapons[slot] = a;

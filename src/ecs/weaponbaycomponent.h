@@ -39,6 +39,8 @@ public:
 
     void drop(int slot);
 private:
+
+    std::array<PlayerControl, 2> bindKeys;
     std::array<bool, 2> mirror;
     std::array<Vector2D, 2> slots;
     std::array<AttachedWeapon, 2> weapons;

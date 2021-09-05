@@ -97,6 +97,22 @@ void InputComponent::handleInput()
         frameEvents.push_back(e);
     }
 
+    if(mousePressed(SDL_BUTTON_RIGHT))
+    {
+        InputEvent e;
+        e.button = BTN_FIRE_2;
+        e.evt = BTN_PRESS;
+        frameEvents.push_back(e);
+    }
+
+    if(mouseReleased(SDL_BUTTON_RIGHT))
+    {
+        InputEvent e;
+        e.button = BTN_FIRE_2;
+        e.evt = BTN_RELEASE;
+        frameEvents.push_back(e);
+    }
+
     lastKeys = Game::pressedKeys;
     lastMouse = Game::pressedMouseButtons;
 

@@ -107,7 +107,7 @@ Entity &WeaponFactory::createHandgun(Entity &e)
     wp.muzzlePos.x = 25;
     wp.muzzlePos.y = -6;
     wp.rate = 800;
-    wp.magazine = 12;
+    wp.magazine = 17;
     wp.reloadTimeMsec = 2000;
 
 

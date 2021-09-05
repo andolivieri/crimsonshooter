@@ -23,8 +23,10 @@ public:
 
     void createProjectiles();
 
-    int currentMagazineShotCount = 0;
+    WeaponComponent& bindFireButtonTo(PlayerControl p);
 
+    int currentMagazineShotCount = 0;
+    PlayerControl fireBtn = BTN_FIRE_1;
 private:
 
     WeaponData weapondata;

@@ -29,7 +29,7 @@ public:
 
 
     int health = 100;
-    int projectileSpeedLoss = 10;
+    int projectileRangeLoss = 500;
 
 private:
     int lastHealth;

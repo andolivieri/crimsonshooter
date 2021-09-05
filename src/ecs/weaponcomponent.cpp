@@ -178,6 +178,12 @@ void WeaponComponent::createProjectiles()
 
 }
 
+WeaponComponent &WeaponComponent::bindFireButtonTo(PlayerControl p)
+{
+    fireBtn = p;
+    return *this;
+}
+
 
 /////////////////////////////////////////////////////////////////
 ///                 SHOOTING                                   //
@@ -193,7 +199,7 @@ FSM_StateBase *WeaponStateShooting::handleInput()
     // TRIGGER_RELEASE: => idle
     for(auto e : input->frameEvents)
     {
-        if(e.button == BTN_FIRE_1 && e.evt == BTN_RELEASE)
+        if(e.button == weapon->fireBtn && e.evt == BTN_RELEASE)
             return new WeaponStateIdle(weaponData, entity);
     }
 
@@ -230,7 +236,7 @@ FSM_StateBase *WeaponStateIdle::handleInput()
             return new WeaponStateReloading(weaponData, entity);
         }
         // TRIGGER_PULL: => shooting
-        if(e.button == BTN_FIRE_1 && e.evt == BTN_PRESS)
+        if(e.button == weapon->fireBtn && e.evt == BTN_PRESS)
             return new WeaponStateShooting(weaponData, entity);
     }
     return this;
