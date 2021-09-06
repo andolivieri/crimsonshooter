@@ -8,7 +8,7 @@ void AIComponent::update()
 
     if(damage->isDead()){
 
-        int decaytime = 30;
+        int decaytime = 180;
 
         if(damage->diedNow()){
             sprite->play("dying", 1);
@@ -27,7 +27,6 @@ void AIComponent::update()
                 splat.addComponent<DecayComponent>(decaytime);
                 family->addChildren(&splat, "splat_" + std::to_string(i));
             }
-
 
             family->getChild("shadow")->setActive(false);
             entity->addComponent<DecayComponent>(decaytime);

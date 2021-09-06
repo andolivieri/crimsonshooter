@@ -37,6 +37,7 @@ public:
     int damage = 10;
     int width = 4;
     int height = 4;
+    bool hit = false;
 
 };
 

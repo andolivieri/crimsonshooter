@@ -76,6 +76,7 @@ void ProjectileComponent::update()
             enemyDamage.health -= pc.damage;
             range-=enemyDamage.projectileRangeLoss;
             //entity->setActive(false);
+            pc.hit = true;
         }
 
     }

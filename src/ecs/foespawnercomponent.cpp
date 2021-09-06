@@ -84,7 +84,7 @@ void FoeSpawnerComponent::spawnFoe(const std::string foekind)
             .setSrcRect({0,0,32,32})
             .setTransform(&theFoe.getComponent<TransformComponent>())
             .setAlpha(128);
-    shadow.addGroup(groupBloodPatches);
+    shadow.addGroup(groupAuras);
     theFoe.getComponent<RelationshipComponent>().addChildren(&shadow, "shadow");
 
 

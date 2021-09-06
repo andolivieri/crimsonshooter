@@ -6,6 +6,19 @@
 void ActorControllerComponent::update()
 {
 
+
+    if(damage->isDead())
+    {
+        sprite->play("dead",1);
+
+        transform->velocity.x = 0;
+        transform->velocity.y = 0;
+        wbay->drop(0);
+        wbay->drop(1);
+        return;
+    }
+
+
     SDL_Point mousePt;
     SDL_GetMouseState(&mousePt.x,&mousePt.y);
 
@@ -37,14 +50,6 @@ void ActorControllerComponent::update()
             wbay->autoequip(perk->getComponent<PerkComponent>().weapon);
             perk->setActive(false);
         }
-    }
-
-    if(damage->isDead())
-    {
-        sprite->play("dead",1);
-        transform->velocity.x = 0;
-        transform->velocity.y = 0;
-        return;
     }
 
     float speedMultiplier = 1;
