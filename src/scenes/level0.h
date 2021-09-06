@@ -5,6 +5,7 @@
 #include "../gamemap.h"
 #include "../ecs.h"
 #include "../ecs/components.h"
+#include "overlay.h"
 
 ScoreData score;
 
@@ -49,12 +50,13 @@ void stuff(EntityManager& manager)
             .addWave({"standard", 30, 15})
             .addWave({"standard", 50, 25})
             .addWave({"standard", 120, 35})
+            .addWave({"standard", 1000, 50})
             ;
     // perkspawner
     manager.addEntity().addComponent<PerkSpawnerComponent>(score);
 
     // wincondition
-   manager.addEntity()
+    manager.addEntity()
             .addComponent<PredicateComponent>(
                 [&](){return foespawn.isFinished();})
             .then([&]()
@@ -66,21 +68,26 @@ void stuff(EntityManager& manager)
         e.addGroup(groupOverlay);
     });
 
-   // losecondition
-  manager.addEntity()
-           .addComponent<PredicateComponent>(
-               [&](){return thePlayer.getComponent<DamageModelComponent>().diedNow();})
-           .then([&]()
-   {
-       auto &e = manager.addEntity();
-       e.addComponent<TransformComponent>(0.f, 0.f, 500, 150)
-               .centerOn({Game::winWidth/2, Game::winHeigth/2});
-       e.addComponent<TextComponent>("WASTED");
-       e.addGroup(groupOverlay);
-   });
+    // losecondition
+    manager.addEntity()
+            .addComponent<PredicateComponent>(
+                [&](){return thePlayer.getComponent<DamageModelComponent>().diedNow();})
+            .then([&]()
+    {
+        auto &e = manager.addEntity();
+        e.addComponent<TransformComponent>(0.f, 0.f, 500, 150)
+                .centerOn({Game::winWidth/2, Game::winHeigth/2});
+        e.addComponent<TextComponent>("WASTED");
+        e.addGroup(groupOverlay);
+    });
+
+    // score
+    auto& theOverlay(manager.addEntity());
+    theOverlay.addComponent<OverlayComponent>(score);
 
 
 
+    overlay(manager);
 
 
 }

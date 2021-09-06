@@ -36,9 +36,7 @@ SpriteComponent::~SpriteComponent()
 void SpriteComponent::init()
 {
 
-    if(!entity->hasComponent<TransformComponent>())
-        entity->addComponent<TransformComponent>();
-    transform = &entity->getComponent<TransformComponent>();
+    transform = &entity->emplaceComponent<TransformComponent>();
 
     _update();
 }

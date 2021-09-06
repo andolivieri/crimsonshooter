@@ -10,6 +10,8 @@ class TextComponent : public Component
 {
 public:
 
+    std::string txt;
+
     SDL_Rect padding;
     float scale = 1;
 
@@ -22,7 +24,5 @@ public:
 
 private:
     TransformComponent* transform;
-    std::string txt;
-
 };
 #endif // TEXTCOMPONENT_H

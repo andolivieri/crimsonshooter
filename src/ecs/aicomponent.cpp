@@ -8,7 +8,7 @@ void AIComponent::update()
 
     if(damage->isDead()){
 
-        int decaytime = 60*10;
+        int decaytime = 30;
 
         if(damage->diedNow()){
             sprite->play("dying", 1);
@@ -29,7 +29,7 @@ void AIComponent::update()
             }
 
 
-            family->getChildren("shadow")->setActive(false);
+            family->getChild("shadow")->setActive(false);
             entity->addComponent<DecayComponent>(decaytime);
 
         }
@@ -38,15 +38,7 @@ void AIComponent::update()
 
 
     Vector2D target = player->getComponent<TransformComponent>().pos;
-    /*
-    if(player->getComponent<DamageModelComponent>().isDead())
-    {
-        target = player->getComponent<TransformComponent>().pos;
-    }else{
-        randomtarget();
-        target = randtarget;
-    }
-    */
+
 
     if(transform->pos.x > target.x)
         transform->velocity.x = -speed;

@@ -6,8 +6,6 @@
 
 void overlay(EntityManager& manager)
 {
-    auto& theOverlay(manager.addEntity("overlay"));
-    thePlayer.getComponent<TransformComponent>().pos.x = Game::winWidth / 2.f;
 
 
 }

@@ -57,7 +57,7 @@ public:
         return *this;
     }
 
-    Entity* getChildren(const std::string& tag)
+    Entity* getChild(const std::string& tag)
     {
         return children[tag];
     }

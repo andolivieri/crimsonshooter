@@ -67,8 +67,8 @@ Entity &WeaponFactory::createUzi(Entity &e)
     wp.range = 800;
     wp.muzzlePos.x = 25;
     wp.muzzlePos.y = -6;
-    wp.rate = 50;
-    wp.magazine = 35;
+    wp.rate = 80;
+    wp.magazine = 25;
     wp.reloadTimeMsec = 2000;
 
 
@@ -77,7 +77,7 @@ Entity &WeaponFactory::createUzi(Entity &e)
     wp.soundReload = "assets/sounds/uzi_reload.wav";
     wp.projectileGauges = 1;
     wp.projectileSize = 4;
-    wp.projectileSpreadAngle = 7;
+    wp.projectileSpreadAngle = 0;
     wp.projectileSpeed = 100;
 
     e.addComponent<TransformComponent>();
