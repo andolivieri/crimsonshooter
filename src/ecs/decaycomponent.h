@@ -9,15 +9,17 @@ class DecayComponent : public Component
 {
 public:
 
-    DecayComponent(int t, int d=5){ decayTime = t; dissolveIn = d;}
+    DecayComponent(int t, int d=3000):
+        decayTimeMsec(t),
+        dissolveInMsec(d) {}
 
     void init() override;
     void update() override;
 
 private:
-    int dissolveIn;
-    int decayTime;
-    time_t startTime;
+    Uint32 dissolveInMsec;
+    Uint32 decayTimeMsec;
+    Uint32 startTimeMsec;
 
 };
 #endif // DECAYCOMPONENT_H

@@ -77,7 +77,7 @@ Entity &WeaponFactory::createUzi(Entity &e)
     wp.soundReload = "assets/sounds/uzi_reload.wav";
     wp.projectileGauges = 1;
     wp.projectileSize = 4;
-    wp.projectileSpreadAngle = 0;
+    wp.projectileSpreadAngle = 7;
     wp.projectileSpeed = 100;
 
     e.addComponent<TransformComponent>();

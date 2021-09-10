@@ -3,6 +3,21 @@
 
 static std::array<std::string, 3> weaponz{"pistol", "uzi", "shotgun"};
 
+void PerkSpawnerComponent::init()
+{
+    killsFromLastPerk = 0;
+}
+
+void PerkSpawnerComponent::update()
+{
+
+    if(scoreData.kills > 0 && scoreData.kills - killsFromLastPerk > perkEveryKills)
+    {
+        spawnPerk();
+        killsFromLastPerk = scoreData.kills;
+    }
+}
+
 void PerkSpawnerComponent::spawnPerk()
 {
     auto& theFoe = entity->m_manager.addEntity();
@@ -18,12 +33,13 @@ void PerkSpawnerComponent::spawnPerk()
 
     theFoe.addComponent<TransformComponent>(spawnPt.x,spawnPt.y, width, height);
     theFoe.addComponent<PerkComponent>(w);
-    theFoe.addComponent<DecayComponent>(10);
+    theFoe.addComponent<DecayComponent>(10*1000);
     theFoe.getComponent<SpriteComponent>().setSrcRect({0,0, 64,64});
     theFoe.addComponent<TextComponent>(w.substr(0, 1), SDL_Rect({8, 8, 16, 16}));
 
     theFoe.addGroup(groupPerks);
 
+    std::cout << "Spawning at " << spawnPt << std::endl;
 
 
 }

@@ -8,7 +8,7 @@ void AIComponent::update()
 
     if(damage->isDead()){
 
-        int decaytime = 180;
+        int decaytime = 180*1000;
 
         if(damage->diedNow()){
             sprite->play("dying", 1);

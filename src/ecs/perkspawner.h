@@ -21,14 +21,8 @@ public:
 
     }
 
-    void update() override
-    {
-        if(scoreData.kills > 0 && scoreData.kills - killsFromLastPerk > perkEveryKills)
-        {
-            spawnPerk();
-            killsFromLastPerk = scoreData.kills;
-        }
-    }
+    void init() override;
+    void update() override;
 
     void spawnPerk();
 

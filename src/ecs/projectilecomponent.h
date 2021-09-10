@@ -14,6 +14,7 @@ private:
     TransformComponent* transform;
     ColliderComponent* collider;
 
+    void spawnTrace();
 public:
     ProjectileComponent(const Vector2D& s, const Vector2D& t):
         src(s),

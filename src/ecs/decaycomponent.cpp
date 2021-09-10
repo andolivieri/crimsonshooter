@@ -3,21 +3,21 @@
 
 void DecayComponent::init()
 {
-    startTime = time(NULL);
+    startTimeMsec = SDL_GetTicks() ;
 }
 
 void DecayComponent::update()
 {
-    auto timediff = time(NULL) - startTime;
+    auto timediff = SDL_GetTicks() - startTimeMsec;
 
-    if(entity->hasComponent<SpriteComponent>() &&   decayTime - timediff < dissolveIn){
+    if(entity->hasComponent<SpriteComponent>() &&   decayTimeMsec - timediff < dissolveInMsec){
         auto& sprite = entity->getComponent<SpriteComponent>();
-        int alpha = static_cast<int>(timediff*255.f / 5);
+        int alpha = static_cast<int>(timediff*255.f / dissolveInMsec);
         sprite.setAlpha(255 - alpha);
     }
 
 
-    if(timediff > decayTime)
+    if(timediff > decayTimeMsec)
         entity->setActive(false);
 
 }

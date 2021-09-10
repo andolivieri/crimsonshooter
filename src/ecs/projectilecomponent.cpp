@@ -50,7 +50,18 @@ void ProjectileComponent::init()
     transform->velocity.y = m_speed * static_cast<float>(std::sin(radAngle));
     transform->velocity.x = m_speed * static_cast<float>(std::cos(radAngle));
 
+    // Trace
+
     entity->addGroup(groupProjectiles);
+}
+
+void ProjectileComponent::spawnTrace()
+{
+    auto& e = entity->m_manager.addEntity();
+    e.addComponent<DecayComponent>(150);
+    e.addComponent<TransformComponent>(transform->pos.x, transform->pos.y, transform->width, transform->height);
+    e.addComponent<SpriteComponent>("assets/projectile.png");
+    e.addGroup(groupProjectiles);
 }
 
 void ProjectileComponent::update()
@@ -60,6 +71,8 @@ void ProjectileComponent::update()
     if(distance > range){
         entity->setActive(false);
     }
+
+    spawnTrace();
 
     auto& enemies = entity->m_manager.getGroup(groupEnemies);
 
