@@ -80,6 +80,7 @@ void FoeSpawnerComponent::spawnFoe(const std::string foekind)
     // Alive aura
 
     auto& shadow = entity->m_manager.addEntity();
+    shadow.addComponent<TransformComponent>(theFoe.getComponent<TransformComponent>());
     shadow.addComponent<SpriteComponent>("assets/aura.png")
             .setSrcRect({0,0,32,32})
             .setTransform(&theFoe.getComponent<TransformComponent>())

@@ -60,9 +60,7 @@ void GameMap::LoadMap(const std::string &path)
                 flip |= SDL_FLIP_VERTICAL | SDL_FLIP_HORIZONTAL;
 
             // Clear the flags
-            tileid &= ~(FLIPPED_HORIZONTALLY_FLAG |
-                                FLIPPED_VERTICALLY_FLAG |
-                                FLIPPED_DIAGONALLY_FLAG);
+            tileid &= ~(FLIPPED_HORIZONTALLY_FLAG | FLIPPED_VERTICALLY_FLAG | FLIPPED_DIAGONALLY_FLAG);
             int firstgid = 1;
 
             SDL_Rect src;
@@ -77,8 +75,6 @@ void GameMap::LoadMap(const std::string &path)
             dst.y = y*tileheight;
             dst.w = tilewidth;
             dst.h = tileheight;
-
-
 
             Game::addTile(tilesetTexture, src, dst, (SDL_RendererFlip)flip);
         }

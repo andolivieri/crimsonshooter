@@ -45,16 +45,11 @@ private:
     std::array<Vector2D, 2> slots;
     std::array<AttachedWeapon, 2> weapons;
     Vector2D attachPoint;
-    bool shooting = false;
 
     TransformComponent* transform;
     InputComponent* input;
     RelationshipComponent* rel;
     SpriteComponent* sprite;
-    Uint32  lastShot;
-
-    Uint32 cooldown = 1350; //msecs
-    int range = 80;
 
 };
 

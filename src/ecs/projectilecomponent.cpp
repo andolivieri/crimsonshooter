@@ -72,7 +72,7 @@ void ProjectileComponent::update()
         entity->setActive(false);
     }
 
-    spawnTrace();
+    //spawnTrace();
 
     auto& enemies = entity->m_manager.getGroup(groupEnemies);
 

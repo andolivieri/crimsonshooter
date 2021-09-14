@@ -21,8 +21,6 @@ WeaponBayComponent &WeaponBayComponent::setAttachPoint(const Vector2D& a, int sl
 void WeaponBayComponent::init()
 {
 
-
-
     transform = &entity->getComponent<TransformComponent>();
     input = &entity->getComponent<InputComponent>();
 
@@ -84,11 +82,5 @@ void WeaponBayComponent::update()
             weapons[i].entity->getComponent<TransformComponent>().rotation = transform->rotation;
         }
     }
-
-    /*
-        Entity* gun = rel->getChildren("gun");
-
-*/
-
 
 }

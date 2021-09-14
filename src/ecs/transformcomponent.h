@@ -18,6 +18,17 @@ public:
     int scale  = 1;
     TransformComponent(){}
 
+
+    TransformComponent(const TransformComponent& that)
+    {
+        this->pos = that.pos;
+        this->velocity = that.velocity;
+        this->width = that.width;
+        this->height = that.height;
+        this->rotation = that.rotation;
+        this->scale = that.scale;
+    }
+
     TransformComponent(const float x, const float y)
     {
         pos.x = x;
