@@ -26,7 +26,7 @@ void stuff(EntityManager& manager)
     thePlayer.getComponent<TransformComponent>().height = 64;
     thePlayer.getComponent<TransformComponent>().pos.x = Game::winWidth / 2.f;
     thePlayer.getComponent<TransformComponent>().pos.y = Game::winHeigth / 2.f;
-    thePlayer.addComponent<DamageModelComponent>(200);
+    thePlayer.addComponent<DamageModelComponent>(1000);
     thePlayer.addComponent<RelationshipComponent>();
     thePlayer.addComponent<SpriteComponent>("assets/player.png")
             .setSrcRect({0,0,16,16})
@@ -83,7 +83,7 @@ void stuff(EntityManager& manager)
 
     // score
     auto& theOverlay(manager.addEntity());
-    theOverlay.addComponent<OverlayComponent>(score);
+    theOverlay.addComponent<OverlayComponent>(score, thePlayer);
 
 
 

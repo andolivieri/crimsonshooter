@@ -42,7 +42,17 @@ void Game::init(const char *title, int xpos, int ypos, int widht, int heigth, bo
         flags |= SDL_WINDOW_FULLSCREEN;
 
 
-    if(SDL_Init(SDL_INIT_EVERYTHING) == 0)
+    auto sdlFlags =     SDL_INIT_TIMER | \
+                        SDL_INIT_AUDIO | \
+                        SDL_INIT_VIDEO | \
+                        SDL_INIT_EVENTS;
+                    /*
+                    SDL_INIT_JOYSTICK | \
+                    SDL_INIT_GAMECONTROLLER |
+                    SDL_INIT_NOPARACHUTE | \
+                    */
+
+    if(SDL_Init(sdlFlags) == 0)
     {
         if(Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096) == -1 )
         {
@@ -73,6 +83,7 @@ void Game::init(const char *title, int xpos, int ypos, int widht, int heigth, bo
         m_running = true;
 
     }else{
+        fprintf(stderr, "Failed at SDL init: %s\n", SDL_GetError());
         m_running = false;
     }
 
@@ -123,12 +134,8 @@ bool Game::paused()
 
 void Game::update()
 {
-
-
-
     manager.update();
     manager.refresh();
-
 }
 
 void Game::render()

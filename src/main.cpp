@@ -10,7 +10,7 @@ int main(int argc, char* argv[])
             SDL_WINDOWPOS_CENTERED,
             SDL_WINDOWPOS_CENTERED,
             1280, 720,
-            false
+            false // fullscreen
             );
 
     const int FPS = 60;

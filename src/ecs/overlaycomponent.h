@@ -11,7 +11,7 @@ class OverlayComponent : public Component
 {
 public:
 
-    OverlayComponent(ScoreData& s): score(s){}
+    OverlayComponent(ScoreData& s, Entity& thePlayer): score(s), player(thePlayer){}
 
     void init() override;
     void update() override;
@@ -19,6 +19,7 @@ public:
 
 
 private:
+    Entity& player;
     ScoreData& score;
     RelationshipComponent* family;
 
