@@ -21,6 +21,7 @@ void stuff(EntityManager& manager)
     GameMap::LoadMap("assets/themap.json");
 
     auto& thePlayer(manager.addEntity());
+    thePlayer.addComponent<SoundComponent>();
     thePlayer.addComponent<TransformComponent>(100.f,100.f, 64,64);
     thePlayer.getComponent<TransformComponent>().width = 64;
     thePlayer.getComponent<TransformComponent>().height = 64;

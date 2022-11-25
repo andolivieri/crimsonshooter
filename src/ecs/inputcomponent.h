@@ -24,7 +24,8 @@ typedef enum {
     BTN_JUMP,
     BTN_RUN,
     BTN_RELOAD,
-    BTN_LAST
+    BTN_LAST,
+    BTN_FART
 } PlayerControl;
 
 typedef enum {
@@ -76,6 +77,7 @@ private:
         {SDLK_LSHIFT, BTN_RUN},
         {SDLK_RSHIFT, BTN_RUN},
         {SDLK_r, BTN_RELOAD},
+        {SDLK_TAB, BTN_FART},
     };
 
 

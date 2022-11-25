@@ -75,11 +75,16 @@ void ActorControllerComponent::update()
             transform->velocity.x = (evt.evt == BTN_PRESS ? speed : 0);
         }
 
-
         if(evt.button == BTN_LEFT)
         {
             transform->velocity.x = (evt.evt == BTN_PRESS ? -speed : 0);
         }
+
+        if(evt.button == BTN_FART)
+        {
+            fart();
+        }
+
 
     }
 
@@ -106,4 +111,33 @@ void ActorControllerComponent::update()
         sprite->play("idle");
     }
 
+}
+
+void ActorControllerComponent::fart()
+{
+    static auto lastFart = -1000;
+    if (SDL_GetTicks() - lastFart > 1000) {
+        lastFart = SDL_GetTicks();
+        std::string whichFart = "assets/sounds/fart" + std::to_string(rand() % 5) + ".wav";
+        this->sound->play(whichFart, 0, 3);
+
+        auto& fart = entity->m_manager.addEntity();
+
+        auto fartTr = *transform;
+        fartTr.velocity.x /= 10;
+        fartTr.velocity.y /= 10;
+        fartTr.width *= 3;
+        fartTr.height *= 3;
+        fartTr.centerOn(transform->center());
+        fart.addComponent<TransformComponent>(fartTr);
+        fart.addComponent<SpriteComponent>("assets/smoke.png")
+                .setSrcRect({0,0, 126,112})
+                .addAnimation("idle", {0, rand() % 3, 8, 500 })
+                .play("idle",1);
+                ;
+        fart.addComponent<DecayComponent>(6*1000);
+        fart.addComponent<ColliderComponent>();
+        fart.addGroup(groupBloodPatches);
+
+    }
 }
