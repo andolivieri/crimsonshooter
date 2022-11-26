@@ -11,6 +11,7 @@ struct ScoreData
 {
     int kills = 0;
     int score = 0;
+    Vector2D lastKillPosition;
 };
 
 class ScoreCollector : public Component
@@ -33,6 +34,7 @@ public:
         if(damage->diedNow())
         {
             scoreData.kills++;
+            scoreData.lastKillPosition = entity->getComponent<TransformComponent>().center();
         }
     }
 

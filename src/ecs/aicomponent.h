@@ -18,6 +18,7 @@ private:
 
 public:
     float speed = 0.5;
+    bool victory = false;
     AIComponent() = default;
 
 

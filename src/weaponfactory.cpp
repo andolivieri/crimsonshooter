@@ -32,7 +32,7 @@ Entity &WeaponFactory::createShotgun(Entity &e)
     wp.range = 500;
     wp.muzzlePos.x = 40;
     wp.rate = 300;
-    wp.magazine = 1;
+    wp.magazine = 2;
     wp.reloadTimeMsec = 1200;
 
     wp.soundShoot = "assets/sounds/shotgun_shoot.wav";

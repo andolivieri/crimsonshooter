@@ -71,7 +71,8 @@ void SpriteComponent::draw()
 
     TextureManager::drawTexture(m_texture, srcRect, dstRect, transform->rotation, flip, alpha);
 
-#ifdef __DEBUG
+#if 0
+    SDL_SetRenderDrawColor(TextureManager::renderer, 255, 255,255,1);
     SDL_RenderDrawRect(TextureManager::renderer, &dstRect);
 #endif
 }

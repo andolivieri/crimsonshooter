@@ -37,6 +37,7 @@ void stuff(EntityManager& manager)
             .addAnimation("moving", {0, 1, 4, 200 });
     thePlayer.addComponent<InputComponent>();
     thePlayer.addComponent<ColliderComponent>("player");
+
     thePlayer.addComponent<WeaponBayComponent>()
             .setAttachPoint({8,-20}, 0, true)
             .setAttachPoint({8,20}, 1)
@@ -66,6 +67,7 @@ void stuff(EntityManager& manager)
         e.addComponent<TransformComponent>(1.f, 1.f, 800, 120)
                 .centerOn({Game::winWidth/2.f, Game::winHeigth/2.f});
         e.addComponent<TextComponent>("LEVEL 0 COMPLETED");
+
         e.addGroup(groupOverlay);
     });
 
@@ -79,6 +81,10 @@ void stuff(EntityManager& manager)
         e.addComponent<TransformComponent>(0.f, 0.f, 500, 150)
                 .centerOn({Game::winWidth/2, Game::winHeigth/2});
         e.addComponent<TextComponent>("WASTED");
+        for (auto& e: manager.getGroup(groupEnemies))
+        {
+            e->getComponent<AIComponent>().victory = true;
+        }
         e.addGroup(groupOverlay);
     });
 

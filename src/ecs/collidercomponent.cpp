@@ -51,6 +51,7 @@ void ColliderComponent::draw()
 {
 
 #if 0
+    SDL_SetRenderDrawColor(TextureManager::renderer, 255,0,0,1);
     SDL_RenderDrawRect(TextureManager::renderer, &collider);
 #endif
 }

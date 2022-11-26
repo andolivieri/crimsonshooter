@@ -6,6 +6,12 @@ void AIComponent::update()
 
     Entity* player = entity->m_manager.getGroup(groupPlayers)[0];
 
+    if(victory){
+        sprite->play("idle");
+        transform->velocity = {0,0};
+        return;
+    }
+
     if(damage->isDead()){
 
         int decaytime = 180*1000;

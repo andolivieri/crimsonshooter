@@ -45,8 +45,6 @@ void OverlayComponent::init()
     healthLine.addComponent<TextComponent>("Health");
     healthLine.addGroup(groupOverlay);
 
-
-
     family->addChildren(&killCountLine, "killcount");
     family->addChildren(&healthLine, "healthbar");
 
@@ -62,6 +60,6 @@ void OverlayComponent::update()
 
     auto& healthTxt = family->getChild("healthbar")->getComponent<TextComponent>();
     auto h = player.getComponent<DamageModelComponent>().health;
-    healthTxt.txt = strRightPad(CG_HEALTH, 8) + std::to_string(h);
+    healthTxt.txt = strRightPad(CG_HEALTH, 8) + std::to_string(h > 0 ? h : 0);
 
 }

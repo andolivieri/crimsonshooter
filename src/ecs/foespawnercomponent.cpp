@@ -68,9 +68,9 @@ void FoeSpawnerComponent::spawnFoe(const std::string foekind)
     theFoe.getComponent<TransformComponent>().pos = spawnPt;
     theFoe.addComponent<SpriteComponent>("assets/foe.png")
             .setSrcRect({0,0,32,32})
-            .addAnimation("idle", {0, 0, 1, 100 })
             .addAnimation("dying", {0, 1, 4, 300 })
-            .addAnimation("moving", {0, 0, 4, 200 });
+            .addAnimation("moving", {0, 0, 4, 200 })
+            .addAnimation("idle", {0, 2, 2, 500 });
     theFoe.addComponent<DamageModelComponent>(30);
     theFoe.addComponent<ScoreCollector>(scoreData);
     theFoe.addComponent<ColliderComponent>(foekind + std::to_string(enemyCount++), 4, 4, .8f);

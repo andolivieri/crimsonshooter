@@ -112,7 +112,7 @@ public:
         return getComponent<T>();
     }
 
-    template <typename T, typename... TArgs>
+    template <typename T, typename... TArgs>\
     T& addComponent(TArgs&&... mArgs)
     {
         assert(!hasComponent<T>());
