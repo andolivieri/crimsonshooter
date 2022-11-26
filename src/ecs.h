@@ -51,6 +51,8 @@ public:
     virtual void update() {}
     virtual void draw() {}
 
+    bool removeFlag = false;
+
 };
 
 class Entity
@@ -67,15 +69,21 @@ public:
     EntityManager& m_manager;
     Entity(EntityManager& m, const std::string _tag) : m_manager(m), tag(_tag) {}
     void update(){
-        //for(auto& c : m_comps) c->update();
         auto compsize = m_comps.size();
         for(auto i{0}; i < compsize; i++)
         {
             m_comps[i]->update();
         }
+
+        m_comps.erase(
+                    std::remove_if(
+                        std::begin(m_comps),
+                        std::end(m_comps),
+                        [](const std::unique_ptr<Component> &e){return e->removeFlag;}
+                    ),
+                    std::end(m_comps));
     }
     void draw(){
-        //for(auto& c : m_comps) c->draw();
         auto compsize = m_comps.size();
         for(auto i{0}; i < compsize; i++)
         {
@@ -120,6 +128,18 @@ public:
         c->init();
 
         return *c;
+    }
+
+    template <typename T>
+    void removeComponent()
+    {
+        if(!hasComponent<T>())
+            return;
+        T& c = getComponent<T>();
+        c.removeFlag = true;
+        m_compsArray[getComponentTypeID<T>()] = nullptr;
+        m_compsBitset[getComponentTypeID<T>()] = false;
+
     }
 
     template <typename T> T& getComponent() const

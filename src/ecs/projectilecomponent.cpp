@@ -32,14 +32,10 @@ void ProjectileComponent::init()
     if(!entity->hasComponent<ColliderComponent>()){
         entity->addComponent<ColliderComponent>().onCollision([&](Entity& enemy)
         {
-            DamageModelComponent& enemyDamage = enemy.getComponent<DamageModelComponent>();
-            ColliderComponent& enemyCC = enemy.getComponent<ColliderComponent>();
+            if(enemy.hasComponent<DamageModelComponent>()) {
+                DamageModelComponent& enemyDamage = enemy.getComponent<DamageModelComponent>();
+                ProjectileComponent& pc = entity->getComponent<ProjectileComponent>();
 
-            ProjectileComponent& pc = entity->getComponent<ProjectileComponent>();
-            ColliderComponent& cc = entity->getComponent<ColliderComponent>();
-
-            if(Collision::AABB(cc, enemyCC))
-            {
                 enemyDamage.health -= pc.damage;
                 range-=enemyDamage.projectileRangeLoss;
                 pc.hit = true;
@@ -87,29 +83,5 @@ void ProjectileComponent::update()
     if(distance > range){
         entity->setActive(false);
     }
-/*
-    //spawnTrace();
-
-    auto& enemies = entity->m_manager.getGroup(groupEnemies);
-
-    for(auto enemy : enemies){
-
-        DamageModelComponent& enemyDamage = enemy->getComponent<DamageModelComponent>();
-        ColliderComponent& enemyCC = enemy->getComponent<ColliderComponent>();
-
-        ProjectileComponent& pc = entity->getComponent<ProjectileComponent>();
-        ColliderComponent& cc = entity->getComponent<ColliderComponent>();
-
-        if(Collision::AABB(cc, enemyCC))
-        {
-            enemyDamage.health -= pc.damage;
-            range-=enemyDamage.projectileRangeLoss;
-            //entity->setActive(false);
-            pc.hit = true;
-        }
-
-    }
-
-*/
 
 }

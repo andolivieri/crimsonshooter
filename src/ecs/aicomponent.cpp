@@ -30,6 +30,7 @@ void AIComponent::update()
 
             family->getChild("shadow")->setActive(false);
             entity->addComponent<DecayComponent>(decaytime);
+            entity->removeComponent<ColliderComponent>();
 
         }
         return;
