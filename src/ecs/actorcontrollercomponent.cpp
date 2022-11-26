@@ -124,19 +124,25 @@ void ActorControllerComponent::fart()
         auto& fart = entity->m_manager.addEntity();
 
         auto fartTr = *transform;
+        fartTr.width *= 2;
+        fartTr.height *= 2;
+        fartTr.centerOn(transform->center());
         fartTr.velocity.x /= 10;
         fartTr.velocity.y /= 10;
-        fartTr.width *= 3;
-        fartTr.height *= 3;
-        fartTr.centerOn(transform->center());
         fart.addComponent<TransformComponent>(fartTr);
         fart.addComponent<SpriteComponent>("assets/smoke.png")
                 .setSrcRect({0,0, 126,112})
-                .addAnimation("idle", {0, rand() % 3, 8, 500 })
-                .play("idle",1);
+                .addAnimation("fog", {0, rand() % 3, 8, 500 })
+                .play("fog",1);
                 ;
-        fart.addComponent<DecayComponent>(6*1000);
-        fart.addComponent<ColliderComponent>();
+        fart.addComponent<DecayComponent>(10*1000);
+        fart.addComponent<ColliderComponent>().onCollision([&](Entity& t)
+        {
+            if(t.hasComponent<DamageModelComponent>()){
+                DamageModelComponent& enemyDamage = t.getComponent<DamageModelComponent>();
+                 enemyDamage.health -= 1;
+            }
+        });
         fart.addGroup(groupBloodPatches);
 
     }

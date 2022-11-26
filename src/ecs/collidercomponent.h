@@ -2,6 +2,7 @@
 #define COLLIDERCOMPONENT_H
 
 #include <string>
+#include <functional>
 #include <SDL.h>
 #include "ecs.h"
 #include "transformcomponent.h"
@@ -20,9 +21,16 @@ public:
     ColliderComponent(const std::string& t): tag(t){}
     ColliderComponent(const std::string& t, int paddingX, int paddingY, float scale);
 
+    ColliderComponent& onCollision(std::function<void(Entity& target)> p);
+
     void init() override;
     void update() override;
     void draw() override;
+
+
+private:
+
+    std::function<void(Entity& target)> onCollisionCb;
 
 };
 

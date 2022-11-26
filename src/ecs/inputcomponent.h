@@ -78,6 +78,7 @@ private:
         {SDLK_RSHIFT, BTN_RUN},
         {SDLK_r, BTN_RELOAD},
         {SDLK_TAB, BTN_FART},
+        {SDLK_SPACE, BTN_FART},
     };
 
 
