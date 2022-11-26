@@ -29,8 +29,24 @@ void ProjectileComponent::init()
 {
     if(!entity->hasComponent<TransformComponent>())
         entity->addComponent<TransformComponent>();
-    if(!entity->hasComponent<ColliderComponent>())
-        entity->addComponent<ColliderComponent>();
+    if(!entity->hasComponent<ColliderComponent>()){
+        entity->addComponent<ColliderComponent>().onCollision([&](Entity& enemy)
+        {
+            DamageModelComponent& enemyDamage = enemy.getComponent<DamageModelComponent>();
+            ColliderComponent& enemyCC = enemy.getComponent<ColliderComponent>();
+
+            ProjectileComponent& pc = entity->getComponent<ProjectileComponent>();
+            ColliderComponent& cc = entity->getComponent<ColliderComponent>();
+
+            if(Collision::AABB(cc, enemyCC))
+            {
+                enemyDamage.health -= pc.damage;
+                range-=enemyDamage.projectileRangeLoss;
+                pc.hit = true;
+            }
+
+        });
+    }
 
     transform = &entity->getComponent<TransformComponent>();
     if(!entity->hasComponent<ColliderComponent>())
@@ -71,7 +87,7 @@ void ProjectileComponent::update()
     if(distance > range){
         entity->setActive(false);
     }
-
+/*
     //spawnTrace();
 
     auto& enemies = entity->m_manager.getGroup(groupEnemies);
@@ -94,6 +110,6 @@ void ProjectileComponent::update()
 
     }
 
-
+*/
 
 }

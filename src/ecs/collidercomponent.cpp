@@ -35,7 +35,7 @@ void ColliderComponent::update()
 
     for(auto& c : otherColliders){
 
-        if(c->hasComponent<ColliderComponent>()){
+        if(c  != entity && c->hasComponent<ColliderComponent>()){
             ColliderComponent& targetCollider = c->getComponent<ColliderComponent>();
             if(Collision::AABB(*this, targetCollider))
             {

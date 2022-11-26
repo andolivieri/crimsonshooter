@@ -9,6 +9,7 @@
 enum groupLabels
 {
     groupMap,
+    groupColliders,
     groupBloodPatches,
     groupDeadEnemies,
     groupAuras,
@@ -16,7 +17,6 @@ enum groupLabels
     groupWeapons,
     groupPlayers,
     groupEnemies,
-    groupColliders,
     groupProjectiles,
     groupOverlay,
     groupLast

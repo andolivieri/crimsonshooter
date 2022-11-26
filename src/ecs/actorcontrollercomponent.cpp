@@ -115,8 +115,9 @@ void ActorControllerComponent::update()
 
 void ActorControllerComponent::fart()
 {
-    static auto lastFart = -1000;
-    if (SDL_GetTicks() - lastFart > 1000) {
+    static const uint16_t FART_COOLDOWN_MSEC = 10000;
+    static auto lastFart = -FART_COOLDOWN_MSEC;
+    if (SDL_GetTicks() - lastFart > FART_COOLDOWN_MSEC) {
         lastFart = SDL_GetTicks();
         std::string whichFart = "assets/sounds/fart" + std::to_string(rand() % 5) + ".wav";
         this->sound->play(whichFart, 0, 3);

@@ -164,7 +164,7 @@ void WeaponComponent::createProjectiles()
         Vector2D randpoint = Math2D::rotate_point(
                     bulletStart,
                     static_cast<float>(angle),
-        {mousePt.x, mousePt.y}
+                    {mousePt.x, mousePt.y}
                     );
         e.addComponent<ProjectileComponent>(
                     bulletStart,
@@ -172,6 +172,8 @@ void WeaponComponent::createProjectiles()
                 .setDamage(weapondata.projectileDamage)
                 .setSize(8,8)
                 .setRange(weapondata.range);
+        //e.addComponent<ColliderComponent>().onCollision([&])
+
         e.addComponent<SpriteComponent>(weapondata.projectileSprite)
                 .setSrcRect({2,2,2,2});
     }
