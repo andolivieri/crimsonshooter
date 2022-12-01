@@ -14,6 +14,8 @@
 #include "scenes/scenes.h"
 
 
+SDL_Rect Game::camera = {0,0,640,480};
+
 int Game::winWidth = 0;
 int Game::winHeigth = 0;
 std::set<SDL_Keycode> Game::pressedKeys;
@@ -36,6 +38,8 @@ Game::~Game()
 void Game::init(const char *title, int xpos, int ypos, int widht, int heigth, bool fullscreen)
 {
 
+    Game::camera.w = widht;
+    Game::camera.h = heigth;
     srand(static_cast<unsigned int>(time(NULL)));
     int flags = 0;
     if(fullscreen)
@@ -136,6 +140,23 @@ void Game::update()
 {
     manager.update();
     manager.refresh();
+
+    Vector2D pos = manager.get("player")->getComponent<TransformComponent>().pos;
+    camera.x = pos.x - winWidth / 2;
+    camera.y = pos.y - winHeigth / 2;
+
+    camera.x = camera.x < 0 ? 0 : camera.x;
+    camera.y = camera.y < 0 ? 0 : camera.y;
+    //camera.x = camera.x > camera.w ? camera.w: camera.x;
+    //camera.y = camera.y > camera.h ? camera.h: camera.y;
+
+
+    camera.x = camera.x + camera.w > GameMap::mapWidth ? GameMap::mapWidth - camera.w : camera.x;
+    camera.y = camera.y + camera.h > GameMap::mapHeight ? GameMap::mapHeight - camera.h : camera.y;
+
+
+    //camera.x = camera.x + camera.w > GameMap::mapWidth ? camera.x = Game
+
 }
 
 void Game::render()
@@ -175,4 +196,15 @@ bool Game::running()
 {
     return m_running;
 }
+
+Vector2D Game::cameraToWorld(Vector2D v)
+{
+    return {v.x + camera.x, v.y + camera.y};
+}
+
+Vector2D Game::worldToCamera(Vector2D v)
+{
+    return {v.x - camera.x, v.y - camera.y};
+}
+
 

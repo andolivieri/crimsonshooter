@@ -1,6 +1,7 @@
 #ifndef DUMBCOMPONENT_H
 #define DUMBCOMPONENT_H
 
+#include <functional>
 #include <time.h>
 #include <SDL.h>
 #include "ecs.h"
@@ -10,16 +11,22 @@ class DumbComponent : public Component
 {
 public:
 
-    DumbComponent(int t=1){ dummyValue = t;}
+    DumbComponent(){}
 
     void init() override;
     void update() override;
     void draw() override;
 
+    void onDraw(std::function<void()> f);
+    void onUpdate(std::function<void()> f);
+    void onInit(std::function<void()> f);
+
 
 private:
-    int dummyValue;
-    time_t startTime;
+
+    std::function<void ()> m_onDraw;
+    std::function<void ()> m_onUpdate;
+    std::function<void ()> m_onInit;
 
 };
 #endif // DUMBCOMPONENT_H

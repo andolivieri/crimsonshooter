@@ -1,8 +1,10 @@
 #include "damagemodel.h"
 
-DamageModelComponent::DamageModelComponent(const int h)
+
+DamageModelComponent::DamageModelComponent(const int start)
 {
-    health = h;
+    health = start;
+    startHealth = start;
     deceaseTime = 0;
 }
 

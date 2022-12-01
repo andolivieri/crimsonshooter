@@ -14,13 +14,17 @@ void TimerComponent::init()
 
 void TimerComponent::update()
 {
-    if(SDL_GetTicks() - m_startTime >= m_timeoutMsec )
+    if(SDL_GetTicks() - m_startTime >= m_timeoutMsec && !triggered)
     {
         if(m_onTrigger)
             m_onTrigger(*entity);
 
-        if(m_repeating)
+        triggered =  true;
+
+        if(m_repeating){
             m_startTime = SDL_GetTicks();
+            triggered = false;
+        }
     }
 
 }

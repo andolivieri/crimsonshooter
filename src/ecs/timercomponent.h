@@ -27,6 +27,7 @@ private:
     uint32_t m_timeoutMsec;
     bool m_repeating;
     uint32_t m_startTime;
+    bool triggered = false;
 
     std::function<void(Entity& )> m_onTrigger;
 

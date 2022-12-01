@@ -3,6 +3,7 @@
 #include "SDL_ttf.h"
 #include "assetmanager.h"
 #include "texturemanager.h"
+#include "game.h"
 
 void TextComponent::init()
 {
@@ -28,8 +29,11 @@ void TextComponent::draw()
 
 
     SDL_Rect Message_rect; //create a rect
-    Message_rect.x = static_cast<int>(transform->pos.x + padding.x);  //controls the rect's x coordinate
-    Message_rect.y = static_cast<int>(transform->pos.y + padding.y); // controls the rect's y coordinte
+    auto pp = (transform->pos);
+    if(!absolute)
+        pp = Game::worldToCamera(pp);
+    Message_rect.x = static_cast<int>(pp.x + padding.x);  //controls the rect's x coordinate
+    Message_rect.y = static_cast<int>(pp.y + padding.y); // controls the rect's y coordinte
     Message_rect.w = padding.w ? padding.w: transform->width; // controls the width of the rect
     Message_rect.h = padding.h ? padding.h: transform->height; // controls the height of the rect
 
@@ -49,4 +53,10 @@ void TextComponent::draw()
     // Don't forget to free your surface and texture
     SDL_FreeSurface(surfaceMessage);
     SDL_DestroyTexture(Message);
+}
+
+TextComponent &TextComponent::setAbsolute(bool v)
+{
+    absolute = v;
+    return *this;
 }

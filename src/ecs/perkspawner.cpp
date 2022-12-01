@@ -21,7 +21,7 @@ void PerkSpawnerComponent::update()
 
 void PerkSpawnerComponent::spawnPerk()
 {
-    auto& theFoe = entity->m_manager.addEntity();
+    auto& perk = entity->m_manager.addEntity();
 
     auto width = 32;
     auto height = 32;
@@ -30,15 +30,12 @@ void PerkSpawnerComponent::spawnPerk()
 
     Vector2D spawnPt = scoreData.lastKillPosition;
 
-    theFoe.addComponent<TransformComponent>(spawnPt.x,spawnPt.y, width, height);
-    theFoe.addComponent<PerkComponent>(w);
-    theFoe.addComponent<DecayComponent>(10*TIME_SECOND);
-    theFoe.getComponent<SpriteComponent>().setSrcRect({0,0, 64,64});
-    theFoe.addComponent<TextComponent>(w.substr(0, 1), SDL_Rect({8, 8, 16, 16}));
+    perk.addComponent<TransformComponent>(spawnPt.x,spawnPt.y, width, height);
+    perk.addComponent<PerkComponent>(w);
+    perk.addComponent<DecayComponent>(10*TIME_SECOND);
+    perk.getComponent<SpriteComponent>().setSrcRect({0,0, 64,64});
+    perk.addComponent<TextComponent>(w.substr(0, 1), SDL_Rect({8, 8, 16, 16})).setAbsolute(false);
 
-    theFoe.addGroup(groupPerks);
-
-    std::cout << "Spawning at " << spawnPt << std::endl;
-
+    perk.addGroup(groupPerks);
 
 }

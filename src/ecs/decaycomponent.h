@@ -11,13 +11,13 @@ public:
 
     DecayComponent(int t, int d=0):
         decayInMsec(t),
-        fadeAfterMsec(d) {}
+        startFadeAfterMsec(d) {}
 
     void init() override;
     void update() override;
 
 private:
-    Uint32 fadeAfterMsec;
+    Uint32 startFadeAfterMsec;
 
     Uint32 decayInMsec;
     Uint32 startTimeMsec;

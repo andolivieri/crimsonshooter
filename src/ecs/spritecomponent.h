@@ -24,6 +24,7 @@ public:
     void play(const std::string& anim, int repeat=-1);
     void stop();
 
+    bool absolute = false;
     SDL_Rect srcRect, dstRect;
     SDL_RendererFlip flip = SDL_FLIP_NONE;
 
@@ -34,7 +35,7 @@ public:
     SpriteComponent& addAnimation(const char* name, const Animation& a);
     SpriteComponent& setAlpha(uint8_t a);
     SpriteComponent& setTransform(TransformComponent* t);
-
+    SpriteComponent& setAbsolute(bool b);
 private:
 
     std::map<std::string, Animation> m_animation;

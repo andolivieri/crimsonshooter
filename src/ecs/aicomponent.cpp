@@ -1,20 +1,14 @@
 #include "aicomponent.h"
 #include "game.h"
+#include "utils.h"
 
 void AIComponent::update()
 {
 
     Entity* player = entity->m_manager.getGroup(groupPlayers)[0];
 
-    if(victory){
-        sprite->play("idle");
-        transform->velocity = {0,0};
-        return;
-    }
-
     if(damage->isDead()){
 
-        int decaytime = 180*1000;
 
         if(damage->diedNow()){
             sprite->play("dying", 1);
@@ -30,17 +24,25 @@ void AIComponent::update()
                 splat.addComponent<BloodSplatComponent>(Math2D::randomAround(8, transform->center()))
                         .setStartSize(startSize,startSize)
                         .setMaxSize(endsize, endsize);
-                splat.addComponent<DecayComponent>(decaytime);
+                splat.addComponent<DecayComponent>(TIME_MINUTE, TIME_MINUTE - 5*TIME_SECOND);
                 family->addChildren(&splat, "splat_" + std::to_string(i));
             }
 
             family->getChild("shadow")->setActive(false);
-            entity->addComponent<DecayComponent>(decaytime);
+            entity->addComponent<DecayComponent>(TIME_MINUTE, TIME_MINUTE - 5*TIME_SECOND);
             entity->removeComponent<ColliderComponent>();
 
         }
         return;
     }
+
+
+    if(player->getComponent<DamageModelComponent>().isDead()){
+        sprite->play("idle");
+        transform->velocity = {0,0};
+        return;
+    }
+
 
 
     Vector2D target = player->getComponent<TransformComponent>().pos;

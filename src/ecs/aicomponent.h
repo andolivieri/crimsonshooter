@@ -17,9 +17,9 @@ private:
     RelationshipComponent* family;
 
 public:
-    float speed = 0.5;
-    bool victory = false;
     AIComponent() = default;
+
+    float speed = 0.5;
 
 
     void init() override

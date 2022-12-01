@@ -31,7 +31,7 @@ Entity &WeaponFactory::createShotgun(Entity &e)
     wp.automatic = false;
     wp.range = 500;
     wp.muzzlePos.x = 40;
-    wp.rate = 300;
+    wp.rate = 180;
     wp.magazine = 2;
     wp.reloadTimeMsec = 1200;
 
@@ -67,8 +67,8 @@ Entity &WeaponFactory::createUzi(Entity &e)
     wp.range = 800;
     wp.muzzlePos.x = 25;
     wp.muzzlePos.y = -6;
-    wp.rate = 80;
-    wp.magazine = 25;
+    wp.rate = 600;
+    wp.magazine = 32;
     wp.reloadTimeMsec = 2000;
 
 
@@ -106,7 +106,7 @@ Entity &WeaponFactory::createHandgun(Entity &e)
     wp.range = 800;
     wp.muzzlePos.x = 25;
     wp.muzzlePos.y = -6;
-    wp.rate = 800;
+    wp.rate = 90;
     wp.magazine = 17;
     wp.reloadTimeMsec = 2000;
 

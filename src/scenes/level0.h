@@ -20,7 +20,7 @@ void stuff(EntityManager& manager)
 
     GameMap::LoadMap("assets/themap.json");
 
-    auto& thePlayer(manager.addEntity());
+    auto& thePlayer(manager.addEntity("player"));
     thePlayer.addComponent<SoundComponent>();
     thePlayer.addComponent<TransformComponent>(100.f,100.f, 64,64);
     thePlayer.getComponent<TransformComponent>().width = 64;
@@ -43,6 +43,7 @@ void stuff(EntityManager& manager)
             .setAttachPoint({8,20}, 1)
             .equip("pistol",0);
     thePlayer.addComponent<ActorControllerComponent>();
+    thePlayer.tag = "player";
     thePlayer.addGroup(groupPlayers);
 
     auto& foespawn = manager.addEntity()
@@ -60,7 +61,7 @@ void stuff(EntityManager& manager)
     // wincondition
     manager.addEntity()
             .addComponent<PredicateComponent>(
-                [&](){return foespawn.isFinished();})
+                [&](){return false;})
             .then([&]()
     {
         auto &e = manager.addEntity();
@@ -81,10 +82,6 @@ void stuff(EntityManager& manager)
         e.addComponent<TransformComponent>(0.f, 0.f, 500, 150)
                 .centerOn({Game::winWidth/2, Game::winHeigth/2});
         e.addComponent<TextComponent>("WASTED");
-        for (auto& e: manager.getGroup(groupEnemies))
-        {
-            e->getComponent<AIComponent>().victory = true;
-        }
         e.addGroup(groupOverlay);
     });
 

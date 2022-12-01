@@ -1,5 +1,6 @@
 #include "actorcontrollercomponent.h"
 #include "../game.h"
+#include "../gamemap.h"
 #include "../collision.h"
 #include "utils.h"
 
@@ -8,8 +9,15 @@ void ActorControllerComponent::update()
 {
 
 
+
     if(damage->isDead())
     {
+        if(damage->diedNow()){
+            std::cout << "died now" << std::endl;
+            entity->addComponent<TimerComponent>(5 * TIME_SECOND).onTrigger([&](Entity& _){
+                this->fart(true);
+            });
+        }
         sprite->play("dead",1);
         entity->removeComponent<ColliderComponent>();
 
@@ -25,8 +33,8 @@ void ActorControllerComponent::update()
     SDL_GetMouseState(&mousePt.x,&mousePt.y);
 
     SDL_Point playerPt;
-    playerPt.x = static_cast<int>(transform->center().x);
-    playerPt.y = static_cast<int>(transform->center().y);
+    playerPt.x = static_cast<int>(transform->center().x  - Game::camera.x);
+    playerPt.y = static_cast<int>(transform->center().y - Game::camera.y);
 
     double angle = Math2D::angleBetweenPoints(playerPt, mousePt);
     transform->rotation = angle;
@@ -39,7 +47,6 @@ void ActorControllerComponent::update()
                            enemy->getComponent<ColliderComponent>()))
         {
             damage->health -= 10;
-            std::cout << "Player hit. Health=" << damage->health <<  std::endl;
         }
     }
 
@@ -57,10 +64,6 @@ void ActorControllerComponent::update()
     float speedMultiplier = 1;
     for(auto evt : input->frameEvents)
     {
-        if(evt.button == BTN_RUN)
-        {
-            speedMultiplier = 2;
-        }
 
         if(evt.button == BTN_UP)
         {
@@ -87,6 +90,11 @@ void ActorControllerComponent::update()
             fart();
         }
 
+        if(evt.button == BTN_RUN)
+        {
+            speedMultiplier = 2;
+        }
+
 
     }
 
@@ -96,11 +104,11 @@ void ActorControllerComponent::update()
 
     // Let's not allow the player off screen
 
-    transform->pos.x = std::max<float>(transform->pos.x, 0);
-    transform->pos.x = std::min<float>(transform->pos.x, static_cast<float>(Game::winWidth) - transform->width);
+   transform->pos.x = std::max<float>(transform->pos.x, 0);
+   transform->pos.x = std::min<float>(transform->pos.x, static_cast<float>(GameMap::mapWidth) - transform->width);
 
-    transform->pos.y = std::max<float>(transform->pos.y, 0);
-    transform->pos.y = std::min<float>(transform->pos.y, static_cast<float>(Game::winHeigth) - transform->height);
+   transform->pos.y = std::max<float>(transform->pos.y, 0);
+   transform->pos.y = std::min<float>(transform->pos.y, static_cast<float>(GameMap::mapHeight) - transform->height);
 
 
 
@@ -115,12 +123,12 @@ void ActorControllerComponent::update()
 
 }
 
-void ActorControllerComponent::fart()
+void ActorControllerComponent::fart(bool force)
 {
-    static const auto FART_COOLDOWN = 20 * TIME_SECOND;
+    static const auto FART_COOLDOWN = 15 * TIME_SECOND;
     static const uint16_t FART_DECAY = 8 * TIME_SECOND;
     static auto lastFart = -FART_COOLDOWN;
-    if (SDL_GetTicks() - lastFart > FART_COOLDOWN) {
+    if (SDL_GetTicks() - lastFart > FART_COOLDOWN ||  force) {
         lastFart = SDL_GetTicks();
         std::string whichFart = "assets/sounds/fart" + std::to_string(rand() % 5) + ".wav";
         this->sound->play(whichFart, 0, 3);
@@ -136,13 +144,14 @@ void ActorControllerComponent::fart()
         fart.addComponent<SpriteComponent>("assets/smoke.png")
                 .setSrcRect({0,0,64,64})
                 .addAnimation("fog", {0, 0, 8, 800 })
-                .play("fog");
+                .play("fog",1);
 
         fart.addComponent<ColliderComponent>().onCollision([&](Entity& t)
         {
             if(t.hasComponent<DamageModelComponent>()){
+                auto damage = 1;
                 DamageModelComponent& enemyDamage = t.getComponent<DamageModelComponent>();
-                 enemyDamage.health -= 1;
+                enemyDamage.health -= damage;
             }
         });
 

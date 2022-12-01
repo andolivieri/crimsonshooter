@@ -131,9 +131,7 @@ void WeaponStateShooting::shoot()
 {
     sound->play(weaponData.soundShoot, weaponData.automatic ? -1 : 0, 1);
     weapon->createProjectiles();
-    lastShot = SDL_GetTicks();
     weapon->currentMagazineShotCount++;
-    std::cout << "SHOTS: " << weapon->currentMagazineShotCount << std::endl;
 }
 
 
@@ -142,6 +140,7 @@ void WeaponComponent::createProjectiles()
 
     SDL_Point mousePt;
     SDL_GetMouseState(&mousePt.x,&mousePt.y);
+    Vector2D mousePtWorld = Game::cameraToWorld({mousePt.x, mousePt.y});
 
 
     Vector2D bulletStart = transform->center();
@@ -164,7 +163,7 @@ void WeaponComponent::createProjectiles()
         Vector2D randpoint = Math2D::rotate_point(
                     bulletStart,
                     static_cast<float>(angle),
-                    {mousePt.x, mousePt.y}
+                    mousePtWorld
                     );
         e.addComponent<ProjectileComponent>(
                     bulletStart,
@@ -205,9 +204,10 @@ FSM_StateBase *WeaponStateShooting::handleInput()
             return new WeaponStateIdle(weaponData, entity);
     }
 
-    if(SDL_GetTicks() - lastShot >= weaponData.rate)
+    if(SDL_GetTicks() - lastShot >= (60.0 / weaponData.rate) * TIME_SECOND)
     {
         shoot();
+        lastShot = SDL_GetTicks();
     }
     return this;
 }

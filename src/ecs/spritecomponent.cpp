@@ -1,5 +1,8 @@
 #include "spritecomponent.h"
 #include "assetmanager.h"
+#include "game.h"
+#include "spritecomponent.h"
+#include "spritecomponent.h"
 
 SpriteComponent::SpriteComponent(const std::string& path)
 {
@@ -49,6 +52,12 @@ void SpriteComponent::update()
 void SpriteComponent::draw()
 {
 
+    SDL_Rect cameraDst = dstRect;
+    if(!absolute){
+        cameraDst.x = transform->pos.x - Game::camera.x;
+        cameraDst.y = transform->pos.y - Game::camera.y;
+    }
+
     // THIS is a mess already :(
 
     if(m_animated && (m_animLoopCounter < m_animationLoops || m_animationLoops <= 0)){
@@ -69,7 +78,7 @@ void SpriteComponent::draw()
         srcRect.y = a.row * srcRect.h;
     }
 
-    TextureManager::drawTexture(m_texture, srcRect, dstRect, transform->rotation, flip, alpha);
+    TextureManager::drawTexture(m_texture, srcRect, cameraDst, transform->rotation, flip, alpha);
 
 #if 0
     SDL_SetRenderDrawColor(TextureManager::renderer, 255, 255,255,1);
@@ -96,6 +105,12 @@ void SpriteComponent::stop()
 SpriteComponent &SpriteComponent::setSrcRect(const SDL_Rect &s)
 {
     srcRect = s;
+    return *this;
+}
+
+SpriteComponent &SpriteComponent::setAbsolute(bool b)
+{
+    absolute = b;
     return *this;
 }
 

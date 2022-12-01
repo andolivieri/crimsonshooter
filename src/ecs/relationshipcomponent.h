@@ -70,6 +70,7 @@ public:
 
     RelationshipComponent& removeChild(Entity* child)
     {
+        // TODO andoli std::remove_if
         for(auto i : children){
             if(i.second == child){
                 children.erase(i.first);

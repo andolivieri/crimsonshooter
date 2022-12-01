@@ -1,5 +1,6 @@
 #include "foespawnercomponent.h"
 #include "game.h"
+#include "gamemap.h"
 
 void FoeSpawnerComponent::update()
 {
@@ -44,22 +45,22 @@ void FoeSpawnerComponent::spawnFoe(const std::string foekind)
     case 0:
         // CENTER
         spawnPt.y = -128;
-        spawnPt.x = static_cast<float>(rand() % Game::winWidth);
+        spawnPt.x = static_cast<float>(rand() % GameMap::mapWidth);
         break;
     case 1:
         // LEFT
-        spawnPt.y = static_cast<float>(rand() % Game::winHeigth);
+        spawnPt.y = static_cast<float>(rand() % GameMap::mapHeight);
         spawnPt.x = 0;
         break;
     case 2:
         // RIGHT
-        spawnPt.y = static_cast<float>(rand() % Game::winHeigth);
-        spawnPt.x = static_cast<float>(Game::winWidth);
+        spawnPt.y = static_cast<float>(rand() % GameMap::mapHeight);
+        spawnPt.x = static_cast<float>(GameMap::mapWidth);
         break;
     case 3:
         // BOTTOM
-        spawnPt.y = static_cast<float>(Game::winHeigth);
-        spawnPt.x = static_cast<float>(rand() % Game::winWidth);
+        spawnPt.y = static_cast<float>(GameMap::mapHeight);
+        spawnPt.x = static_cast<float>(rand() % GameMap::mapWidth);
         break;
     default:
         break;

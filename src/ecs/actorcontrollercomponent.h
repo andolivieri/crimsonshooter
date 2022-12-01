@@ -8,6 +8,7 @@
 #include "spritecomponent.h"
 #include "damagemodel.h"
 #include "weaponbaycomponent.h"
+#include "utils.h"
 
 
 class ActorControllerComponent : public Component
@@ -15,6 +16,9 @@ class ActorControllerComponent : public Component
 public:
 
     float speed = 2;
+    int maxSprintMsec = 3 * TIME_SECOND;
+    int currentSprintMsec = 3*TIME_SECOND;
+    uint32_t lastSprintStart = 0;
 
     ActorControllerComponent(){}
 
@@ -33,7 +37,7 @@ public:
 
 
 private:
-    void fart();
+    void fart(bool force=false);
 
     DamageModelComponent* damage;
     InputComponent* input;

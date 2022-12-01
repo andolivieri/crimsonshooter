@@ -18,6 +18,7 @@ enum groupLabels
     groupPlayers,
     groupEnemies,
     groupProjectiles,
+    groupOverlayBg,
     groupOverlay,
     groupLast
 };
@@ -37,6 +38,11 @@ public:
     void clean();
 
     bool running();
+
+    static SDL_Rect camera;
+    static Vector2D cameraToWorld(Vector2D v);
+    static Vector2D worldToCamera(Vector2D v);
+
 
     static int winWidth;
     static int winHeigth;

@@ -12,6 +12,9 @@ const unsigned FLIPPED_HORIZONTALLY_FLAG = 0x80000000;
 const unsigned FLIPPED_VERTICALLY_FLAG   = 0x40000000;
 const unsigned FLIPPED_DIAGONALLY_FLAG   = 0x20000000;
 
+int GameMap::mapWidth = 0;
+int GameMap::mapHeight = 0;
+
 GameMap::GameMap()
 {
 
@@ -34,6 +37,9 @@ void GameMap::LoadMap(const std::string &path)
     int h = j["height"];
     int tilewidth = j["tilewidth"];
     int tileheight = j["tileheight"];
+
+    mapWidth = w * tilewidth;
+    mapHeight = h * tileheight;
 
     SDL_Texture* tilesetTexture = TextureManager::loadTexture("assets/maptiles.png");
 

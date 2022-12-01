@@ -20,6 +20,9 @@ public:
         GRASS
     };
 
+    static int mapWidth;
+    static int mapHeight;
+
     static void LoadMap(const std::string& path);
 
 private:
