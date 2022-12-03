@@ -58,7 +58,7 @@ Entity &WeaponFactory::createChainsaw(Entity &e)
 
         if(target.hasComponent<DamageModelComponent>() && &(target) != e.m_manager.get("player")){
             auto& dm = target.getComponent<DamageModelComponent>();
-            dm.health -= 100;
+            dm.health -= 5;
 
             auto& bloodSpit = e.m_manager.addEntity();
             TransformComponent targetTt = target.getComponent<TransformComponent>();
