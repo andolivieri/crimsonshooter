@@ -91,7 +91,7 @@ void FoeSpawnerComponent::spawnFoe(const std::string foekind)
 
 
     theFoe.addComponent<AIComponent>();
-    float speed = .1f + (rand() / (float)RAND_MAX );
+    float speed = .5f + (rand() / (float)RAND_MAX );
     theFoe.getComponent<AIComponent>().speed = speed;
 
 

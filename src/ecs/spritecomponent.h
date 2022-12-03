@@ -36,6 +36,7 @@ public:
     SpriteComponent& setAlpha(uint8_t a);
     SpriteComponent& setTransform(TransformComponent* t);
     SpriteComponent& setAbsolute(bool b);
+    SpriteComponent& showFrame(bool b);
 private:
 
     std::map<std::string, Animation> m_animation;
@@ -49,6 +50,7 @@ private:
     int m_animCurrentFrameIndex = 0;
     uint32_t lastTick = 0;
     int alpha = 255;
+    bool _showFrame = false;
 
 
 

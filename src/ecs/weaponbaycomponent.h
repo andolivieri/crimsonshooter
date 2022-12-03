@@ -44,7 +44,6 @@ private:
     std::array<bool, 2> mirror;
     std::array<Vector2D, 2> slots;
     std::array<AttachedWeapon, 2> weapons;
-    Vector2D attachPoint;
 
     TransformComponent* transform;
     InputComponent* input;

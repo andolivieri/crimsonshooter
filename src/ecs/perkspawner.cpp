@@ -2,7 +2,7 @@
 #include "../game.h"
 #include "../utils.h"
 
-static std::array<std::string, 3> weaponz{"pistol", "uzi", "shotgun"};
+static std::array<std::string, 4> weaponz{"pistol", "uzi", "shotgun", "chainsaw"};
 
 void PerkSpawnerComponent::init()
 {

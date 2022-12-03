@@ -45,6 +45,7 @@ public:
     void onEnter()
     {
         sprite->play("idle");
+        sound->play(weaponData.soundIdle, -1, 1);
     }
 
     FSM_StateBase* handleInput() override;
@@ -62,15 +63,18 @@ public:
 
     void onEnter()
     {
+        std::cout << "WeaponStateShooting onEnter" << std::endl;
         lastShot = 0;
         sprite->play("shoot", weaponData.automatic ? -1 : 1);
+        if(weaponData.chainsaw)
+            sound->play(weaponData.soundShoot, -1 , 1);
     }
 
     FSM_StateBase* handleInput() override;
 
     void onExit()
     {
-        sound->play(weaponData.soundEndfire, 0, 1);
+        sound->play(weaponData.soundEndfire, 0, weaponData.chainsaw ? 2 : 1);
     }
 
     void shoot();
@@ -108,6 +112,7 @@ void WeaponComponent::init()
     input = &entity->getComponent<InputComponent>();
     transform = &entity->getComponent<TransformComponent>();
     state = new WeaponStateIdle(weapondata, *entity);
+    state->onEnter();
 }
 
 void WeaponComponent::update()
@@ -129,7 +134,9 @@ void WeaponComponent::update()
 
 void WeaponStateShooting::shoot()
 {
-    sound->play(weaponData.soundShoot, weaponData.automatic ? -1 : 0, 1);
+    std::cout << "shoot" << std::endl;
+    if(!weaponData.chainsaw)
+        sound->play(weaponData.soundShoot, weaponData.automatic ? -1 : 0, 1);
     weapon->createProjectiles();
     weapon->currentMagazineShotCount++;
 }
@@ -185,6 +192,11 @@ WeaponComponent &WeaponComponent::bindFireButtonTo(PlayerControl p)
     return *this;
 }
 
+Vector2D WeaponComponent::getAttachMargin()
+{
+    return weapondata.attachMargin;
+}
+
 
 /////////////////////////////////////////////////////////////////
 ///                 SHOOTING                                   //
@@ -203,6 +215,9 @@ FSM_StateBase *WeaponStateShooting::handleInput()
         if(e.button == weapon->fireBtn && e.evt == BTN_RELEASE)
             return new WeaponStateIdle(weaponData, entity);
     }
+
+    if(weaponData.chainsaw)
+        return this;
 
     if(SDL_GetTicks() - lastShot >= (60.0 / weaponData.rate) * TIME_SECOND)
     {

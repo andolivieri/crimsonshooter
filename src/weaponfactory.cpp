@@ -3,6 +3,7 @@
 #include "ecs/animation.h"
 #include "ecs/components.h"
 #include "ecs/weaponcomponent.h"
+#include <iostream>
 
 
 Entity &WeaponFactory::createWeaponEntity(const std::string &weapon, bool mirrored)
@@ -12,6 +13,8 @@ Entity &WeaponFactory::createWeaponEntity(const std::string &weapon, bool mirror
         createShotgun(theweapon);
     else if(weapon == "uzi")
         createUzi(theweapon);
+    else if(weapon == "chainsaw")
+        createChainsaw(theweapon);
     else
         createHandgun(theweapon);
     theweapon.addGroup(groupWeapons);
@@ -20,12 +23,71 @@ Entity &WeaponFactory::createWeaponEntity(const std::string &weapon, bool mirror
     return theweapon;
 }
 
+Entity &WeaponFactory::createChainsaw(Entity &e)
+{
+
+    WeaponData wp;
+    wp.sprite = "assets/chainsaw.png";
+    wp.automatic = true;
+    wp.range = 0;
+    wp.rate = 50;
+    wp.magazine = INT_MAX;
+    wp.reloadTimeMsec = 0;
+
+    wp.soundShoot = "assets/sounds/chainsaw_run.wav";
+    wp.soundEndfire =  "assets/sounds/chainsaw_release.wav";
+    wp.soundIdle =  "assets/sounds/chainsaw_idle.wav";
+
+
+    wp.attachMargin.x = 5;
+    wp.attachMargin.y = 5;
+    wp.chainsaw = true;
+
+
+    e.addComponent<TransformComponent>();
+    e.getComponent<TransformComponent>().width = 64;
+    e.getComponent<TransformComponent>().height = 64;
+    e.addComponent<SpriteComponent>("assets/chainsaw.png")
+            .addAnimation("idle", {0, 0, 2, 100 })
+            .addAnimation("reload", {0, 0, 1, 100 })
+            .addAnimation("shoot", {2, 0, 2, 50});
+    e.addComponent<SoundComponent>();
+    e.addComponent<InputComponent>();
+    e.addComponent<WeaponComponent>(wp);
+    e.addComponent<ColliderComponent>().onCollision([&](Entity& target) {
+
+        if(target.hasComponent<DamageModelComponent>() && &(target) != e.m_manager.get("player")){
+            auto& dm = target.getComponent<DamageModelComponent>();
+            dm.health -= 100;
+
+            auto& bloodSpit = e.m_manager.addEntity();
+            TransformComponent targetTt = target.getComponent<TransformComponent>();
+            targetTt.velocity.x =  targetTt.velocity.y = 0;
+
+            targetTt.rotation = rand() % 180;
+            targetTt.pos.x +=  std::pow(-1, rand() % 3) * (rand() % targetTt.width/2);
+            targetTt.pos.y +=  std::pow(-1, rand() % 3) * (rand() % targetTt.height/2);
+            bloodSpit.addComponent<TransformComponent>(targetTt);
+            const auto bf  = 10;
+            bloodSpit.addComponent<SpriteComponent>("assets/blood.png")
+                    .addAnimation("splat", {0, 0, 3 + (rand() % (bf-4)), 20 })
+                    //.showFrame(true)
+                    .play("splat", 1);
+            bloodSpit.addGroup(groupBloodPatches);
+            target.emplaceComponent<RelationshipComponent>().addChildren(&bloodSpit,"");
+            std::cout << "splat" << std::endl;
+
+
+        }
+    });
+    e.addGroup(groupWeapons);
+    return e;
+}
+
 Entity &WeaponFactory::createShotgun(Entity &e)
 {
 
     WeaponData wp;
-    wp.animationFire = "shooting";
-    wp.animationIdle = "idle";
     wp.animationReload = "reload";
     wp.sprite = "assets/shotgun.png";
     wp.automatic = false;
@@ -59,9 +121,6 @@ Entity &WeaponFactory::createUzi(Entity &e)
 {
 
     WeaponData wp;
-    wp.animationFire = "shooting";
-    wp.animationIdle = "idle";
-    wp.animationReload = "reload";
     wp.sprite = "assets/uzi.png";
     wp.automatic = true;
     wp.range = 800;
@@ -98,9 +157,6 @@ Entity &WeaponFactory::createHandgun(Entity &e)
 {
 
     WeaponData wp;
-    wp.animationFire = "shooting";
-    wp.animationIdle = "idle";
-    wp.animationReload = "reload";
     wp.sprite = "assets/handgun.png";
     wp.automatic = false;
     wp.range = 800;

@@ -24,6 +24,7 @@ public:
     void createProjectiles();
 
     WeaponComponent& bindFireButtonTo(PlayerControl p);
+    Vector2D getAttachMargin();
 
     int currentMagazineShotCount = 0;
     PlayerControl fireBtn = BTN_FIRE_1;

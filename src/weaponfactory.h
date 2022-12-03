@@ -18,12 +18,14 @@ public:
 
 
     bool automatic = false;
+    bool chainsaw = false;
     // Stati: idle, shooting, reloading
 
     std::string animationIdle = "idle";
     std::string animationReload = "reload";
     std::string animationFire = "shoot";
 
+    std::string soundIdle;
     std::string soundShoot;
     std::string soundReload;
     std::string soundEndfire;
@@ -35,6 +37,8 @@ public:
     int projectileGauges = 1;
     int projectileSpreadAngle = 0;
     int projectileSpeed = 1;
+
+    Vector2D attachMargin;
 
 
     void update()
@@ -58,6 +62,7 @@ private:
     Entity& createShotgun(Entity& e);
     Entity& createUzi(Entity& e);
     Entity& createHandgun(Entity &e);
+    Entity& createChainsaw(Entity &e);
 };
 
 #endif // WEAPONFACTORY_H

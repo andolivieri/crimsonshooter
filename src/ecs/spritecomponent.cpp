@@ -80,10 +80,12 @@ void SpriteComponent::draw()
 
     TextureManager::drawTexture(m_texture, srcRect, cameraDst, transform->rotation, flip, alpha);
 
-#if 0
-    SDL_SetRenderDrawColor(TextureManager::renderer, 255, 255,255,1);
-    SDL_RenderDrawRect(TextureManager::renderer, &dstRect);
-#endif
+    if(_showFrame)
+    {
+        SDL_SetRenderDrawColor(TextureManager::renderer, 255, 255,255,1);
+        SDL_RenderDrawRect(TextureManager::renderer, &cameraDst);
+    }
+
 }
 
 void SpriteComponent::play(const std::string &anim, int repeat)
@@ -111,6 +113,12 @@ SpriteComponent &SpriteComponent::setSrcRect(const SDL_Rect &s)
 SpriteComponent &SpriteComponent::setAbsolute(bool b)
 {
     absolute = b;
+    return *this;
+}
+
+SpriteComponent &SpriteComponent::showFrame(bool b)
+{
+    _showFrame = b;
     return *this;
 }
 

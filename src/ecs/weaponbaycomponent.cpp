@@ -75,8 +75,9 @@ void WeaponBayComponent::update()
         if(weapons[i].entity){
 
             auto center = transform->center();
-            center.x += weapons[i].attachPoint.x;
-            center.y += weapons[i].attachPoint.y;
+            auto attMargin = weapons[i].entity->getComponent<WeaponComponent>().getAttachMargin();
+            center.x += weapons[i].attachPoint.x + attMargin.x;
+            center.y += weapons[i].attachPoint.y +  attMargin.y;
             Vector2D rotatedCenter = Math2D::rotate_point(transform->center(), transform->rotation, center);
             weapons[i].entity->getComponent<TransformComponent>().centerOn(rotatedCenter);
             weapons[i].entity->getComponent<TransformComponent>().rotation = transform->rotation;
