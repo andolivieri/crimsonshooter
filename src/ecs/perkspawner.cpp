@@ -1,6 +1,7 @@
 #include "perkspawner.h"
 #include "../game.h"
 #include "../utils.h"
+#include "collision.h"
 
 static std::array<std::string, 4> weaponz{"pistol", "uzi", "shotgun", "chainsaw"};
 
@@ -26,15 +27,24 @@ void PerkSpawnerComponent::spawnPerk()
     auto width = 32;
     auto height = 32;
 
-    std::string w = weaponz[rand() % weaponz.size()];
+    std::string theWeapon = weaponz[rand() % weaponz.size()];
 
     Vector2D spawnPt = scoreData.lastKillPosition;
 
     perk.addComponent<TransformComponent>(spawnPt.x,spawnPt.y, width, height);
-    perk.addComponent<PerkComponent>(w);
     perk.addComponent<DecayComponent>(10*TIME_SECOND);
-    perk.getComponent<SpriteComponent>().setSrcRect({0,0, 64,64});
-    perk.addComponent<TextComponent>(w.substr(0, 1), SDL_Rect({8, 8, 16, 16})).setAbsolute(false);
+    perk.addComponent<PerkComponent>(theWeapon);
+    perk.emplaceComponent<SpriteComponent>().setSrcRect({0,0, 64,64});
+    perk.emplaceComponent<ColliderComponent>().onCollision([=,&perk](Entity& target){
+        Entity* player = target.m_manager.get("player");
+        if(&target == player){
+            player->getComponent<WeaponBayComponent>()
+                    .autoequip(theWeapon);
+            perk.setActive(false);
+        }
+    });
+
+    perk.addComponent<TextComponent>(theWeapon.substr(0, 1), SDL_Rect({8, 8, 16, 16})).setAbsolute(false);
 
     perk.addGroup(groupPerks);
 

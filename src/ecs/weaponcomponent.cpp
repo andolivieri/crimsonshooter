@@ -63,7 +63,6 @@ public:
 
     void onEnter()
     {
-        std::cout << "WeaponStateShooting onEnter" << std::endl;
         lastShot = 0;
         sprite->play("shoot", weaponData.automatic ? -1 : 1);
         if(weaponData.chainsaw)
@@ -134,7 +133,6 @@ void WeaponComponent::update()
 
 void WeaponStateShooting::shoot()
 {
-    std::cout << "shoot" << std::endl;
     if(!weaponData.chainsaw)
         sound->play(weaponData.soundShoot, weaponData.automatic ? -1 : 0, 1);
     weapon->createProjectiles();

@@ -75,7 +75,6 @@ Entity &WeaponFactory::createChainsaw(Entity &e)
                     .play("splat", 1);
             bloodSpit.addGroup(groupBloodPatches);
             target.emplaceComponent<RelationshipComponent>().addChildren(&bloodSpit,"");
-            std::cout << "splat" << std::endl;
 
 
         }

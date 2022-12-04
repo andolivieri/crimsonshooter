@@ -1,6 +1,7 @@
 #include "foespawnercomponent.h"
 #include "game.h"
 #include "gamemap.h"
+#include "collision.h"
 
 void FoeSpawnerComponent::update()
 {
@@ -74,7 +75,16 @@ void FoeSpawnerComponent::spawnFoe(const std::string foekind)
             .addAnimation("idle", {0, 2, 2, 500 });
     theFoe.addComponent<DamageModelComponent>(30);
     theFoe.addComponent<ScoreCollector>(scoreData);
-    theFoe.addComponent<ColliderComponent>(foekind + std::to_string(enemyCount++), 4, 4, .8f);
+    theFoe.addComponent<ColliderComponent>(foekind + std::to_string(enemyCount++), 4, 4, .8f)
+            .onCollision([&](Entity& target){
+
+        Entity* player = theFoe.m_manager.get("player");
+
+        if(&target == player){
+            player->getComponent<DamageModelComponent>().health -= 10;
+        }
+
+    });
     theFoe.addComponent<RelationshipComponent>();
     theFoe.addGroup(groupEnemies);
 

@@ -40,27 +40,6 @@ void ActorControllerComponent::update()
     transform->rotation = angle;
 
 
-    // TODO handle collision here but we should really not
-    for(auto &enemy : entity->m_manager.getGroup(groupEnemies))
-    {
-        if(Collision::AABB(entity->getComponent<ColliderComponent>(),
-                           enemy->getComponent<ColliderComponent>()))
-        {
-            damage->health -= 10;
-        }
-    }
-
-    // TODO handle collision here but we should really not
-    for(auto &perk : entity->m_manager.getGroup(groupPerks))
-    {
-        if(Collision::AABB(entity->getComponent<ColliderComponent>(),
-                           perk->getComponent<ColliderComponent>()))
-        {
-            wbay->autoequip(perk->getComponent<PerkComponent>().weapon);
-            perk->setActive(false);
-        }
-    }
-
     float speedMultiplier = 1;
     for(auto evt : input->frameEvents)
     {
