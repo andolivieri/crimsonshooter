@@ -37,6 +37,7 @@ void stuff(EntityManager& manager)
             .addAnimation("moving", {0, 1, 4, 200 });
     thePlayer.addComponent<InputComponent>();
     thePlayer.addComponent<ColliderComponent>("player");
+    thePlayer.addComponent<GrenadeComponent>();
 
     thePlayer.addComponent<WeaponBayComponent>()
             .setAttachPoint({8,-20}, 0, true)

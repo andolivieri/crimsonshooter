@@ -27,5 +27,6 @@
 #include "perkcomponent.h"
 #include "perkspawner.h"
 #include "overlaycomponent.h"
+#include "grenadecomponent.h"
 
 #endif // COMPONENTS_H

@@ -33,6 +33,7 @@ public:
 
 
     SpriteComponent& addAnimation(const char* name, const Animation& a);
+    SpriteComponent& addAnimation(const char* name, const Animation& a, const uint32_t flags);
     SpriteComponent& setAlpha(uint8_t a);
     SpriteComponent& setTransform(TransformComponent* t);
     SpriteComponent& setAbsolute(bool b);

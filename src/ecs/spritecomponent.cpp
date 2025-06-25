@@ -60,6 +60,10 @@ void SpriteComponent::draw()
 
     // THIS is a mess already :(
 
+    bool animationEnded = m_animated && m_animationLoops >= 0 && m_animLoopCounter == m_animationLoops;
+    if(animationEnded && m_animation[m_currentAnimation].flags & ANIMATION_FLAG_HIDE_AFTER_END)
+        return;
+
     if(m_animated && (m_animLoopCounter < m_animationLoops || m_animationLoops <= 0)){
         Animation a = m_animation[m_currentAnimation];
 
@@ -124,7 +128,17 @@ SpriteComponent &SpriteComponent::showFrame(bool b)
 
 SpriteComponent &SpriteComponent::addAnimation(const char *name, const Animation &a)
 {
-    m_animation.emplace(name, a);
+    auto aa = a;
+    aa.flags = 0x0;
+    m_animation.emplace(name, aa);
+    return *this;
+}
+
+SpriteComponent &SpriteComponent::addAnimation(const char *name, const Animation &a, const uint32_t flags)
+{
+    auto aa = a;
+    aa.flags = flags;
+    m_animation.emplace(name, aa);
     return *this;
 }
 

@@ -1,4 +1,5 @@
 #include "vector2d.h"
+#include <cmath>
 
 
 Vector2D::Vector2D()
@@ -70,6 +71,11 @@ Vector2D &Vector2D::operator*=(const Vector2D &vec)
 Vector2D &Vector2D::operator/=(const Vector2D &vec)
 {
     return divide(vec);
+}
+
+float Vector2D::magnitude() const
+{
+    return sqrt(x * x + y * y);
 }
 
 

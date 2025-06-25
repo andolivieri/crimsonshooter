@@ -38,6 +38,8 @@ public:
     Vector2D& operator*=(const Vector2D& vec);
     Vector2D& operator/=(const Vector2D& vec);
 
+    float magnitude() const;
+
     friend std::ostream& operator<<(std::ostream& s, const Vector2D& v)
     {
         s << "Vector2D(" << v.x << "," << v.y << ")";
