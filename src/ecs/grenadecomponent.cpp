@@ -26,6 +26,9 @@ void GrenadeComponent::update()
                 isCharging = true;
                 chargeLevel = 0.0f;
                 chargeStartTime = SDL_GetTicks();
+                auto& click = entity->m_manager.addEntity();
+                click.addComponent<SoundComponent>().play("assets/grenade_load.wav", 0, 4);
+                click.addComponent<DecayComponent>(2000);
             }
             else if (event.evt == BTN_RELEASE && isCharging) {
                 // Release grenade

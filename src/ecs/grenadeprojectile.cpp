@@ -9,6 +9,7 @@
 #include "math2d.h"
 #include <cmath>
 #include <SDL.h>
+#include <bloodspit.h>
 
 GrenadeProjectileComponent::GrenadeProjectileComponent(const Vector2D& startPos, const Vector2D& targetPos)
     : startPosition(startPos), targetPosition(targetPos)
@@ -99,7 +100,7 @@ void GrenadeProjectileComponent::createExplosion()
         maxDamageRadius * 2, 
         maxDamageRadius * 2
     );
-    shockwave.addComponent<ShockwaveComponent>(maxDamageRadius, 4, 1.5f);
+    shockwave.addComponent<ShockwaveComponent>(maxDamageRadius, 1 , 0.5f);
     shockwave.addComponent<DecayComponent>(2000);
     shockwave.addGroup(groupProjectiles);
     
@@ -140,6 +141,7 @@ void GrenadeProjectileComponent::createExplosion()
                     float finalDamage = minDamage + (maxDamage - minDamage) * damageMultiplier;
                     
                     dm.health -= static_cast<int>(finalDamage);
+                    createBloodSpit(target);
                     
                     // Calculate knockback (inversely proportional to distance)
                     Vector2D knockbackDir;
@@ -168,6 +170,5 @@ void GrenadeProjectileComponent::createExplosion()
     
     // Damage area exists for a short time
     damageArea.addComponent<DecayComponent>(100);
-    
     damageArea.addGroup(groupProjectiles);
 }

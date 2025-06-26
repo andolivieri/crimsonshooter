@@ -1,6 +1,11 @@
 #include "projectilecomponent.h"
 #include "game.h"
 #include "../collision.h"
+#include "bloodpatch.h"
+#include "decaycomponent.h"
+#include "math2d.h"
+#include "../utils.h"
+#include <bloodspit.h>
 
 
 
@@ -39,6 +44,20 @@ void ProjectileComponent::init()
                 enemyDamage.health -= pc.damage;
                 range-=enemyDamage.projectileRangeLoss;
                 pc.hit = true;
+                
+                // Create blood splat on projectile hit
+                if(enemy.hasComponent<TransformComponent>()) {
+                    auto& enemyTransform = enemy.getComponent<TransformComponent>();
+                    auto& splat = entity->m_manager.addEntity();
+                    int startSize = 4 + rand() % 8;
+                    int endSize = startSize + 4 + rand() % 16;
+                    splat.addComponent<BloodSplatComponent>(enemyTransform.center())
+                            .setStartSize(startSize, startSize)
+                            .setMaxSize(endSize, endSize);
+                    splat.addComponent<DecayComponent>(TIME_MINUTE, TIME_MINUTE - 5*TIME_SECOND);
+
+                    createBloodSpit(enemy);
+                }
             }
 
         });
