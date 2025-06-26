@@ -38,6 +38,7 @@ void stuff(EntityManager& manager)
     thePlayer.addComponent<InputComponent>();
     thePlayer.addComponent<ColliderComponent>("player");
     thePlayer.addComponent<GrenadeComponent>();
+    thePlayer.addComponent<StaminaComponent>(100.0f);
 
     thePlayer.addComponent<WeaponBayComponent>()
             .setAttachPoint({8,-20}, 0, true)

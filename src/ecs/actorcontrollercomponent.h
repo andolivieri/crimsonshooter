@@ -8,6 +8,7 @@
 #include "spritecomponent.h"
 #include "damagemodel.h"
 #include "weaponbaycomponent.h"
+#include "staminacomponent.h"
 #include "utils.h"
 
 
@@ -31,6 +32,7 @@ public:
         input = &entity->getComponent<InputComponent>();
         wbay = &entity->getComponent<WeaponBayComponent>();
         sound =  &entity->getComponent<SoundComponent>();
+        stamina = &entity->getComponent<StaminaComponent>();
     }
 
     void update() override;
@@ -45,6 +47,7 @@ private:
     SpriteComponent* sprite;
     WeaponBayComponent* wbay;
     SoundComponent* sound;
+    StaminaComponent* stamina;
 
 };
 

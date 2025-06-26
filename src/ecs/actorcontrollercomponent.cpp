@@ -41,6 +41,8 @@ void ActorControllerComponent::update()
 
 
     float speedMultiplier = 1;
+    bool tryingToSprint = false;
+    
     for(auto evt : input->frameEvents)
     {
 
@@ -69,12 +71,26 @@ void ActorControllerComponent::update()
             fart();
         }
 
-        if(evt.button == BTN_RUN)
+        if(evt.button == BTN_RUN && evt.evt == BTN_PRESS)
         {
-            speedMultiplier = 2;
+            tryingToSprint = true;
         }
-
-
+    }
+    
+    // stamina
+    uint32_t currentTime = SDL_GetTicks();
+    static uint32_t lastStaminaUpdate = currentTime;
+    float deltaTime = (currentTime - lastStaminaUpdate) / 1000.0f;
+    lastStaminaUpdate = currentTime;
+    
+    bool isMoving = (transform->velocity.x != 0 || transform->velocity.y != 0);
+    bool canSprint = stamina->canSprint();
+    
+    if(tryingToSprint && isMoving && canSprint) {
+        speedMultiplier = 2;
+        stamina->consumeStamina(deltaTime);
+    } else {
+        stamina->rechargeStamina(deltaTime);
     }
 
     transform->velocity.x *= speedMultiplier;

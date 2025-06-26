@@ -29,5 +29,6 @@
 #include "overlaycomponent.h"
 #include "grenadecomponent.h"
 #include "shockwavecomponent.h"
+#include "staminacomponent.h"
 
 #endif // COMPONENTS_H
