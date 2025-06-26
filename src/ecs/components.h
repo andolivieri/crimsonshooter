@@ -28,5 +28,6 @@
 #include "perkspawner.h"
 #include "overlaycomponent.h"
 #include "grenadecomponent.h"
+#include "shockwavecomponent.h"
 
 #endif // COMPONENTS_H

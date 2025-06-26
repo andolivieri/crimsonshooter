@@ -18,19 +18,16 @@ private:
     
     Vector2D startPosition;
     Vector2D targetPosition;
-    Vector2D currentVelocity;
+    Vector2D velocity;
     
-    float gravity = 300.0f; // pixels/second^2
-    float initialSpeed = 400.0f; // pixels/second
-    float arcHeight = 100.0f; // pixels
-    
+    float speed = 600.0f; // pixels/second
     float timeAlive = 0.0f;
     float flightTime = 0.0f; // Total time to reach target
     uint32_t lastUpdateTime = 0;
     
     bool hasExploded = false;
     
-    void calculateInitialVelocity();
+    void calculateMovement();
     void explode();
     void createExplosion();
 };

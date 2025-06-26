@@ -3,6 +3,7 @@
 #include "grenadeprojectile.h"
 #include "spritecomponent.h"
 #include "texturemanager.h"
+#include "math2d.h"
 #include <SDL.h>
 #include <algorithm>
 #include <cmath>
@@ -10,7 +11,7 @@
 void GrenadeComponent::init()
 {
     input = &entity->getComponent<InputComponent>();
-    transform = &entity->emplaceComponent<TransformComponent>();
+    transform = &entity->getComponent<TransformComponent>();
 }
 
 void GrenadeComponent::update()
@@ -47,6 +48,7 @@ void GrenadeComponent::draw()
 {
     if (isCharging) {
         drawChargeBar();
+        drawTrajectoryLine();
     }
 }
 
@@ -55,20 +57,21 @@ void GrenadeComponent::throwGrenade(float chargeLevel)
     if (!transform) return;
     
     // Calculate throw distance based on charge level
-    float throwDistance = 100.0f + (chargeLevel * 300.0f); // 100-400 pixel range
+    float throwDistance = 10.0f + (chargeLevel * 300.0f); // 100-400 pixel range
     
     // Get mouse position for direction
-    int mouseX, mouseY;
-    SDL_GetMouseState(&mouseX, &mouseY);
+    SDL_Point mousePt;
+    SDL_GetMouseState(&mousePt.x, &mousePt.y);
     
-    // Convert screen coordinates to world coordinates
-    Vector2D playerPos = transform->pos;
-    Vector2D targetPos(mouseX + Game::camera.x, mouseY + Game::camera.y);
-    
+    // Convert screen coordinates to world coordinates using the proper camera function
+    Vector2D playerPos = transform->center();
+    Vector2D targetPos = calculateLandingPoint(chargeLevel);
+
     // Calculate direction vector
     Vector2D direction;
     direction.x = targetPos.x - playerPos.x;
     direction.y = targetPos.y - playerPos.y;
+
     
     // Normalize direction vector
     float length = direction.magnitude();
@@ -86,7 +89,7 @@ void GrenadeComponent::throwGrenade(float chargeLevel)
     auto& grenade = entity->m_manager.addEntity();
     grenade.addComponent<TransformComponent>(playerPos.x, playerPos.y, 32, 32);
     grenade.addComponent<SpriteComponent>("assets/bomb.png").setSrcRect({0, 0, 128, 128});
-    grenade.addComponent<GrenadeProjectileComponent>(playerPos, finalTarget);
+    grenade.addComponent<GrenadeProjectileComponent>(playerPos, targetPos);
     grenade.addGroup(groupProjectiles);
 }
 
@@ -142,4 +145,113 @@ void GrenadeComponent::drawChargeBar()
     // Draw border
     SDL_SetRenderDrawColor(TextureManager::renderer, 255, 255, 255, 255); // White border
     SDL_RenderDrawRect(TextureManager::renderer, &bgRect);
+}
+
+Vector2D GrenadeComponent::calculateLandingPoint(float chargeLevel)
+{
+    if (!transform) return Vector2D(0, 0);
+    
+    // Calculate throw distance based on charge level (same formula as throwGrenade)
+    float throwDistance = 10.0f + (chargeLevel * 300.0f);
+    
+    // Get mouse position for direction
+    SDL_Point mousePt;
+    SDL_GetMouseState(&mousePt.x, &mousePt.y);
+    
+    // Convert screen coordinates to world coordinates
+    Vector2D playerPos = transform->center();
+    Vector2D targetPos = Game::cameraToWorld(Vector2D(mousePt.x, mousePt.y));
+    
+    // Calculate direction vector
+    Vector2D direction;
+    direction.x = targetPos.x - playerPos.x;
+    direction.y = targetPos.y - playerPos.y;
+    
+    // Normalize direction vector
+    float length = direction.magnitude();
+    if (length > 0) {
+        direction.x /= length;
+        direction.y /= length;
+    }
+    
+    // Calculate final landing position based on charge level
+    Vector2D landingPoint;
+    landingPoint.x = playerPos.x + (direction.x * throwDistance);
+    landingPoint.y = playerPos.y + (direction.y * throwDistance);
+    
+    return landingPoint;
+}
+
+void GrenadeComponent::drawTrajectoryLine()
+{
+    if (!transform) return;
+    
+    Vector2D playerPos = transform->center();
+    Vector2D landingPoint = calculateLandingPoint(chargeLevel);
+    
+    // Convert world coordinates to screen coordinates
+    Vector2D playerScreenPos = Game::worldToCamera(playerPos);
+    Vector2D landingScreenPos = Game::worldToCamera(landingPoint);
+    
+    // Set line color (green for low charge, yellow for medium, red for high)
+    if (chargeLevel < 0.3f) {
+        SDL_SetRenderDrawColor(TextureManager::renderer, 0, 255, 0, 255); // Green
+    } else if (chargeLevel < 0.7f) {
+        SDL_SetRenderDrawColor(TextureManager::renderer, 255, 255, 0, 255); // Yellow
+    } else {
+        SDL_SetRenderDrawColor(TextureManager::renderer, 255, 0, 0, 255); // Red
+    }
+    
+    // Draw dotted line
+    float totalDistance = Math2D::distanceBetweenPoints(playerScreenPos, landingScreenPos);
+    float dotSpacing = 8.0f; // pixels between dots
+    int numDots = static_cast<int>(totalDistance / dotSpacing);
+    
+    if (numDots > 0) {
+        for (int i = 0; i <= numDots; ++i) {
+            float t = static_cast<float>(i) / numDots;
+            
+            int dotX = static_cast<int>(playerScreenPos.x + t * (landingScreenPos.x - playerScreenPos.x));
+            int dotY = static_cast<int>(playerScreenPos.y + t * (landingScreenPos.y - playerScreenPos.y));
+            
+            // Draw small circle for each dot
+            for (int dx = -1; dx <= 1; ++dx) {
+                for (int dy = -1; dy <= 1; ++dy) {
+                    if (dx*dx + dy*dy <= 1) { // Circle approximation
+                        SDL_RenderDrawPoint(TextureManager::renderer, dotX + dx, dotY + dy);
+                    }
+                }
+            }
+        }
+    }
+    
+    // Draw landing point indicator (larger circle)
+    int landingX = static_cast<int>(landingScreenPos.x);
+    int landingY = static_cast<int>(landingScreenPos.y);
+    
+    // Draw circle using Bresenham's algorithm
+    int radius = 5;
+    int x = 0;
+    int y = radius;
+    int d = 1 - radius;
+    
+    while (x <= y) {
+        // Draw 8 symmetric points
+        SDL_RenderDrawPoint(TextureManager::renderer, landingX + x, landingY + y);
+        SDL_RenderDrawPoint(TextureManager::renderer, landingX + y, landingY + x);
+        SDL_RenderDrawPoint(TextureManager::renderer, landingX - x, landingY + y);
+        SDL_RenderDrawPoint(TextureManager::renderer, landingX - y, landingY + x);
+        SDL_RenderDrawPoint(TextureManager::renderer, landingX + x, landingY - y);
+        SDL_RenderDrawPoint(TextureManager::renderer, landingX + y, landingY - x);
+        SDL_RenderDrawPoint(TextureManager::renderer, landingX - x, landingY - y);
+        SDL_RenderDrawPoint(TextureManager::renderer, landingX - y, landingY - x);
+        
+        if (d < 0) {
+            d += 2 * x + 3;
+        } else {
+            d += 2 * (x - y) + 5;
+            y--;
+        }
+        x++;
+    }
 }

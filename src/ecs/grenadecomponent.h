@@ -29,6 +29,8 @@ private:
     uint32_t chargeStartTime = 0;
     
     void drawChargeBar();
+    void drawTrajectoryLine();
+    Vector2D calculateLandingPoint(float chargeLevel);
 };
 
 #endif // GRENADECOMPONENT_H
