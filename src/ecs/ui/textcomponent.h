@@ -16,7 +16,7 @@ public:
     float scale = 1;
     bool absolute = true;
 
-    TextComponent(const std::string& text, SDL_Rect padding={0,0,0,0}):
+    TextComponent(const std::string& text = "", SDL_Rect padding={0,0,0,0}):
         txt(text), padding(padding){}
 
     void init() override;

@@ -38,6 +38,9 @@ public:
     void update() override;
 
     void drop(int slot);
+
+    int grenadeCount;
+
 private:
 
     std::array<PlayerControl, 2> bindKeys;

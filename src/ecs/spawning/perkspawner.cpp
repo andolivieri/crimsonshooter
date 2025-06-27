@@ -3,7 +3,7 @@
 #include "utils.h"
 #include "collision.h"
 
-static std::array<std::string, 4> weaponz{"pistol", "uzi", "shotgun", "chainsaw"};
+static std::array<std::string, 5> weaponz{"pistol", "uzi", "shotgun", "chainsaw", "grenade"};
 
 void PerkSpawnerComponent::init()
 {

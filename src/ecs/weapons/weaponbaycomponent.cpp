@@ -6,7 +6,7 @@
 #include "ecs/core/fsmcomponent.h"
 #include "weaponcomponent.h"
 
-WeaponBayComponent::WeaponBayComponent()
+WeaponBayComponent::WeaponBayComponent() : grenadeCount(5)
 {
 
 }
@@ -35,13 +35,18 @@ void WeaponBayComponent::init()
 WeaponBayComponent & WeaponBayComponent::equip(const std::string& weaponId, int slot)
 {
 
-    AttachedWeapon a;
-    a.weaponId = weaponId;
-    a.entity = &WeaponFactory(entity->m_manager).createWeaponEntity(weaponId, mirror[slot]);
-    a.entity->getComponent<WeaponComponent>().bindFireButtonTo(slot == 0 ? BTN_FIRE_1 : BTN_FIRE_2);
-    a.attachPoint = slots[slot];
-    drop(slot);
-    weapons[slot] = a;
+    if(weaponId == "grenade"){
+        grenadeCount++;
+    }else{
+        AttachedWeapon a;
+        a.weaponId = weaponId;
+        a.entity = &WeaponFactory(entity->m_manager).createWeaponEntity(weaponId, mirror[slot]);
+        a.entity->getComponent<WeaponComponent>().bindFireButtonTo(slot == 0 ? BTN_FIRE_1 : BTN_FIRE_2);
+        a.attachPoint = slots[slot];
+        drop(slot);
+        weapons[slot] = a;
+    }
+
     return *this;
 
 }

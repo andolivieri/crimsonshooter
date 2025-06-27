@@ -17,13 +17,16 @@ void GrenadeComponent::init()
 void GrenadeComponent::update()
 {
     if (!input || !transform) return;
+
+    auto wBay = entity->m_manager.get("player")->getComponent<WeaponBayComponent>();
     
     // Check for grenade button press/release
     for (auto& event : input->frameEvents) {
         if (event.button == BTN_GRENADE) {
-            if (event.evt == BTN_PRESS && !isCharging) {
+            if (event.evt == BTN_PRESS && !isCharging && wBay.grenadeCount > 0) {
                 // Start charging
                 isCharging = true;
+                wBay.grenadeCount = wBay.grenadeCount - 1;
                 chargeLevel = 0.0f;
                 chargeStartTime = SDL_GetTicks();
                 auto& click = entity->m_manager.addEntity();
@@ -91,7 +94,7 @@ void GrenadeComponent::throwGrenade(float chargeLevel)
     // Create grenade projectile
     auto& grenade = entity->m_manager.addEntity();
     grenade.addComponent<TransformComponent>(playerPos.x, playerPos.y, 32, 32);
-    grenade.addComponent<SpriteComponent>("assets/bomb.png").setSrcRect({0, 0, 128, 128});
+    grenade.addComponent<SpriteComponent>("assets/grenade.png").setSrcRect({0, 0, 32, 32});
     grenade.addComponent<GrenadeProjectileComponent>(playerPos, targetPos);
     grenade.addGroup(groupProjectiles);
 }
