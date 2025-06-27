@@ -1,10 +1,10 @@
 #ifndef LEVEL1_H
 #define LEVEL1_H
 
-#include "../game.h"
-#include "../gamemap.h"
-#include "../ecs.h"
-#include "../ecs/components.h"
+#include "game.h"
+#include "gamemap.h"
+#include "ecs.h"
+#include "ecs/components.h"
 #include "overlay.h"
 
 ScoreData score;

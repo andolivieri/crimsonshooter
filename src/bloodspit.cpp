@@ -1,8 +1,8 @@
 #include "bloodspit.h"
 #include "ecs.h"
-#include "ecs/transformcomponent.h"
-#include "ecs/spritecomponent.h"
-#include "ecs/relationshipcomponent.h"
+#include "ecs/core/transformcomponent.h"
+#include "ecs/core/spritecomponent.h"
+#include "ecs/core/relationshipcomponent.h"
 #include "game.h"
 
 

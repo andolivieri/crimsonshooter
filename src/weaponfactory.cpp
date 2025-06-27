@@ -1,8 +1,8 @@
 #include "weaponfactory.h"
 #include "game.h"
-#include "ecs/animation.h"
+#include "ecs/core/animation.h"
 #include "ecs/components.h"
-#include "ecs/weaponcomponent.h"
+#include "ecs/weapons/weaponcomponent.h"
 #include <iostream>
 
 
