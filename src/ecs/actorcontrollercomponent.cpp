@@ -125,7 +125,7 @@ void ActorControllerComponent::fart(bool force)
     static auto lastFart = -FART_COOLDOWN;
     if (SDL_GetTicks() - lastFart > FART_COOLDOWN ||  force) {
         lastFart = SDL_GetTicks();
-        std::string whichFart = "assets/sounds/fart" + std::to_string(rand() % 5) + ".wav";
+        std::string whichFart = "assets/sounds/fart" + std::to_string(rand() % 5) + ".ogg";
         this->sound->play(whichFart, 0, 3);
 
         auto& fart = entity->m_manager.addEntity();

@@ -87,7 +87,7 @@ void GrenadeProjectileComponent::createExplosion()
         .setSrcRect({0, 0, 64, 64})
         .addAnimation("explode", {0, 0, 16, 50}, ANIMATION_FLAG_HIDE_AFTER_END)
         .play("explode", 1);
-    explosion.addComponent<SoundComponent>().play("assets/explosion.wav", 0, 2);
+    explosion.addComponent<SoundComponent>().play("assets/sounds/explosion.ogg", 0, 2);
     explosion.addComponent<DecayComponent>(2000);
     explosion.addGroup(groupProjectiles);
     

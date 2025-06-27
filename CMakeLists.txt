@@ -57,6 +57,15 @@ if(WIN32)
             ${CMAKE_SOURCE_DIR}/libs/SDL2_mixer/lib/x86/SDL2_mixer.dll
             $<TARGET_FILE_DIR:${PROJECT_NAME}>/SDL2_mixer.dll
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            ${CMAKE_SOURCE_DIR}/libs/SDL2_mixer/lib/x86/libogg-0.dll
+            $<TARGET_FILE_DIR:${PROJECT_NAME}>/libogg-0.dll
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            ${CMAKE_SOURCE_DIR}/libs/SDL2_mixer/lib/x86/libvorbis-0.dll
+            $<TARGET_FILE_DIR:${PROJECT_NAME}>/libvorbis-0.dll
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            ${CMAKE_SOURCE_DIR}/libs/SDL2_mixer/lib/x86/libvorbisfile-3.dll
+            $<TARGET_FILE_DIR:${PROJECT_NAME}>/libvorbisfile-3.dll
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
             ${CMAKE_SOURCE_DIR}/libs/SDL2_ttf/lib/x86/libfreetype-6.dll
             $<TARGET_FILE_DIR:${PROJECT_NAME}>/libfreetype-6.dll
         COMMAND ${CMAKE_COMMAND} -E copy_if_different

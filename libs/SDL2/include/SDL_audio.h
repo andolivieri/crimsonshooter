@@ -461,7 +461,7 @@ extern DECLSPEC void SDLCALL SDL_PauseAudioDevice(SDL_AudioDeviceID dev,
  *
  *  Example:
  *  \code
- *      SDL_LoadWAV_RW(SDL_RWFromFile("sample.wav", "rb"), 1, ...);
+ *      SDL_LoadWAV_RW(SDL_RWFromFile("sample.ogg", "rb"), 1, ...);
  *  \endcode
  *
  *  \param src The data source with the WAVE data

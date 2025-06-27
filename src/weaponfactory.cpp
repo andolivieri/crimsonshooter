@@ -34,9 +34,9 @@ Entity &WeaponFactory::createChainsaw(Entity &e)
     wp.magazine = INT_MAX;
     wp.reloadTimeMsec = 0;
 
-    wp.soundShoot = "assets/sounds/chainsaw_run.wav";
-    wp.soundEndfire =  "assets/sounds/chainsaw_release.wav";
-    wp.soundIdle =  "assets/sounds/chainsaw_idle.wav";
+    wp.soundShoot = "assets/sounds/chainsaw_run.ogg";
+    wp.soundEndfire =  "assets/sounds/chainsaw_release.ogg";
+    wp.soundIdle =  "assets/sounds/chainsaw_idle.ogg";
 
 
     wp.attachMargin.x = 5;
@@ -96,7 +96,7 @@ Entity &WeaponFactory::createShotgun(Entity &e)
     wp.magazine = 2;
     wp.reloadTimeMsec = 1200;
 
-    wp.soundShoot = "assets/sounds/shotgun_shoot.wav";
+    wp.soundShoot = "assets/sounds/shotgun_shoot.ogg";
     wp.projectileGauges = 12;
     wp.projectileSpreadAngle = 25;
     wp.projectileDamage = 30;
@@ -130,9 +130,9 @@ Entity &WeaponFactory::createUzi(Entity &e)
     wp.reloadTimeMsec = 2000;
 
 
-    wp.soundShoot = "assets/sounds/uzi_shoot.wav";
-    wp.soundEndfire = "assets/sounds/uzi_endshoot.wav";
-    wp.soundReload = "assets/sounds/uzi_reload.wav";
+    wp.soundShoot = "assets/sounds/uzi_shoot.ogg";
+    wp.soundEndfire = "assets/sounds/uzi_endshoot.ogg";
+    wp.soundReload = "assets/sounds/uzi_reload.ogg";
     wp.projectileGauges = 1;
     wp.projectileSize = 4;
     wp.projectileSpreadAngle = 7;
@@ -166,8 +166,8 @@ Entity &WeaponFactory::createHandgun(Entity &e)
     wp.reloadTimeMsec = 2000;
 
 
-    wp.soundShoot = "assets/sounds/handgun_shoot.wav";
-    wp.soundReload = "assets/sounds/handgun_reload.wav";
+    wp.soundShoot = "assets/sounds/handgun_shoot.ogg";
+    wp.soundReload = "assets/sounds/handgun_reload.ogg";
     wp.projectileGauges = 1;
     wp.projectileSize = 2;
     wp.projectileSpreadAngle = 2;

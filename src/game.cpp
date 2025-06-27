@@ -58,9 +58,16 @@ void Game::init(const char *title, int xpos, int ypos, int widht, int heigth, bo
 
     if(SDL_Init(sdlFlags) == 0)
     {
+        int mixerFlags = MIX_INIT_OGG;
+        if(Mix_Init(mixerFlags) != mixerFlags)
+        {
+            std::cout << "Mix_Init failed: " << Mix_GetError() << std::endl;
+            return;
+        }
+
         if(Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096) == -1 )
         {
-            std::cout << "Mix_OpenAudio failed" << SDL_GetError() << std::endl;
+            std::cout << "Mix_OpenAudio failed: " << Mix_GetError() << std::endl;
             return;
         }
 
@@ -179,6 +186,7 @@ void Game::render()
 
 void Game::clean()
 {
+    Mix_Quit();
     SDL_DestroyWindow(m_win);
     SDL_DestroyRenderer(m_renderer);
     SDL_Quit();
