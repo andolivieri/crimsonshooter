@@ -13,7 +13,7 @@ void TextComponent::init()
 void TextComponent::draw()
 {
     //this opens a font style and sets a size
-    TTF_Font* Sans = AssetManager::getFont("assets/pixelart.ttf");
+    TTF_Font* Sans = AssetManager::getFont("assets/8bit16.ttf");
 
     // this is the color in rgb format,
     // maxing out all would give you the color white,
