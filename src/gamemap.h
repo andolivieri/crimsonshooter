@@ -37,7 +37,6 @@ public:
     static std::vector<MapLayer> layers;
 
     static void LoadMap(const std::string& path);
-    static void LoadMapWithLayers(const std::string& path);
 
 private:
 
