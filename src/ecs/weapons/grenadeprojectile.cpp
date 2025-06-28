@@ -22,6 +22,7 @@ void GrenadeProjectileComponent::init()
 {
     transform = &entity->getComponent<TransformComponent>();
     transform->pos = startPosition;
+    currentRotation = 0.0f;
 }
 
 void GrenadeProjectileComponent::update()
@@ -36,6 +37,17 @@ void GrenadeProjectileComponent::update()
     // Update position using simple linear movement
     transform->pos.x += velocity.x * deltaTime;
     transform->pos.y += velocity.y * deltaTime;
+    
+    // Update rotation during flight
+    currentRotation += rotationSpeed * deltaTime;
+    if (currentRotation >= 360.0f) {
+        currentRotation -= 360.0f;
+    }
+    
+    // Apply rotation to sprite if available
+    if (entity->hasComponent<TransformComponent>()) {
+        entity->getComponent<TransformComponent>().rotation = currentRotation;
+    }
     
     // Check if grenade has reached target or hit ground
     float distanceToTarget = Math2D::distanceBetweenPoints(transform->pos, targetPosition);

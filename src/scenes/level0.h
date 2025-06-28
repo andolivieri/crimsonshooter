@@ -34,7 +34,7 @@ void stuff(EntityManager& manager)
             .addAnimation("idle", {0, 0, 2, 600 })
             .addAnimation("fast", {0, 1, 4, 100 })
             .addAnimation("dead", {0, 2, 1, 100 })
-            .addAnimation("moving", {0, 1, 4, 200 });
+            .addAnimation("moving", {0, 1, 4, 150 });
     thePlayer.addComponent<InputComponent>();
     thePlayer.addComponent<ColliderComponent>("player");
     thePlayer.addComponent<GrenadeComponent>();

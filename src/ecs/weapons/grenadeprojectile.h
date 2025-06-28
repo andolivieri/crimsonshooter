@@ -27,6 +27,10 @@ private:
     
     bool hasExploded = false;
     
+    // Rotation properties
+    float rotationSpeed = 720.0f; // degrees per second
+    float currentRotation = 0.0f;
+    
     void calculateMovement();
     void explode();
     void createExplosion();
