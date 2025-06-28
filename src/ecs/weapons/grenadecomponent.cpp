@@ -18,7 +18,7 @@ void GrenadeComponent::update()
 {
     if (!input || !transform) return;
 
-    auto wBay = entity->m_manager.get("player")->getComponent<WeaponBayComponent>();
+    auto& wBay = entity->m_manager.get("player")->getComponent<WeaponBayComponent>();
     
     // Check for grenade button press/release
     for (auto& event : input->frameEvents) {
