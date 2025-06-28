@@ -7,6 +7,18 @@
 #define TILESIZE 32
 
 #include <string>
+#include <vector>
+
+struct MapLayer {
+    std::string name;
+    int id;
+    bool visible;
+    float opacity;
+    std::string type; // "tilelayer", "objectgroup", "imagelayer", "group"
+    std::vector<unsigned int> data; // For tile layers
+    int width, height;
+    int offsetX, offsetY; // Layer offset
+};
 
 class GameMap
 {
@@ -22,8 +34,10 @@ public:
 
     static int mapWidth;
     static int mapHeight;
+    static std::vector<MapLayer> layers;
 
     static void LoadMap(const std::string& path);
+    static void LoadMapWithLayers(const std::string& path);
 
 private:
 
