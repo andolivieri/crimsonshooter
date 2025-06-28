@@ -37,6 +37,8 @@ void GameMap::LoadMap(const std::string &path)
     int h = j["height"];
     int tilewidth = j["tilewidth"];
     int tileheight = j["tileheight"];
+    int tilesetRows = 14;
+    int tilesetCols = 14;
 
     mapWidth = w * tilewidth;
     mapHeight = h * tileheight;
@@ -70,8 +72,8 @@ void GameMap::LoadMap(const std::string &path)
             int firstgid = 1;
 
             SDL_Rect src;
-            src.y = (static_cast<int>((tileid - firstgid) / 16)) * tileheight;
-            src.x = ((tileid-firstgid) % 16) * tilewidth;
+            src.y = (static_cast<int>((tileid - firstgid) / tilesetRows)) * tileheight;
+            src.x = ((tileid-firstgid) % tilesetCols) * tilewidth;
 
             src.w = tilewidth;
             src.h = tileheight;
