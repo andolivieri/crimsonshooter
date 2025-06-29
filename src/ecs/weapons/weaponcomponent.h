@@ -1,7 +1,6 @@
 #ifndef WEAPONCOMPONENT_H
 #define WEAPONCOMPONENT_H
 #include "projectilecomponent.h"
-#include "ecs/ui/tilecomponent.h"
 #include "ecs/input/inputcomponent.h"
 #include "assetmanager.h"
 #include "weaponfactory.h"
