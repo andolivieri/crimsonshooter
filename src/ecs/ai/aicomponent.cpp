@@ -11,13 +11,18 @@ void AIComponent::update()
 
 
         if(damage->diedNow()){
-            sprite->play("dying", 1);
+            if(damage->wasCriticalHit()){
+                sprite->play("critical", 1);
+            } else {
+                sprite->play("dying", 1);
+            }
             transform->velocity.x = 0;
             transform->velocity.y = 0;
             entity->delGroup(groupEnemies);
             entity->addGroup(groupDeadEnemies);
 
-            for(int i=0; i<3; i++){
+            // TODO andoli: can be removed
+            for(int i=0; i<0; i++){
                 auto& splat = entity->m_manager.addEntity();
                 int startSize = 8 + rand() % 16;
                 int endsize = startSize + 8 +  rand() % 32;

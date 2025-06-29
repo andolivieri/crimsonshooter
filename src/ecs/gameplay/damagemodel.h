@@ -25,7 +25,7 @@ public:
 
     bool diedNow();
 
-
+    bool wasCriticalHit();
 
     int health;
     int startHealth;
@@ -33,7 +33,8 @@ public:
 
 private:
     int lastHealth;
-    bool justDied = false;\
+    bool justDied = false;
+    int lastDamageTaken = 0;
     time_t deceaseTime;
 
 };
