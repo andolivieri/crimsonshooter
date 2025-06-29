@@ -54,15 +54,13 @@ void GameMap::LoadMap(const std::string &path)
 
     SDL_Texture* tilesetTexture = TextureManager::loadTexture("assets/maptiles.png");
 
-    // Process all layers
     if (j.contains("layers")) {
         for (const auto& layer : j["layers"]) {
-            // Skip non-tile layers (object layers, image layers, etc.)
+
             if (layer["type"] != "tilelayer") {
                 continue;
             }
             
-            // Skip invisible layers
             if (layer.contains("visible") && !layer["visible"]) {
                 continue;
             }
@@ -74,7 +72,6 @@ void GameMap::LoadMap(const std::string &path)
             int layerWidth = layer["width"];
             int layerHeight = layer["height"];
             
-            // Process tiles in this layer
             for(int y = 0; y < layerHeight; y++) {
                 for(int x = 0; x < layerWidth; x++) {
                     unsigned int tileid = layer["data"][y * layerWidth + x];

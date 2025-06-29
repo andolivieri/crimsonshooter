@@ -117,7 +117,7 @@ void Game::handleEvents()
         case SDL_KEYDOWN:
             if(evt.key.keysym.sym == SDLK_p)
                 togglePause();
-            if(evt.key.keysym.sym == SDLK_MINUS)
+            if(evt.key.keysym.sym == SDLK_m)
                 dumpStats();
             Game::pressedKeys.insert(evt.key.keysym.sym);
             break;

@@ -6,6 +6,24 @@
 #include "SDL.h"
 #include "ecs/components.h"
 
+struct TileData {
+    SDL_Texture* texture;
+    SDL_Rect srcRect;
+    SDL_Rect dstRect;
+    SDL_RendererFlip flip;
+    
+    TileData(SDL_Texture* tex, const SDL_Rect& src, const SDL_Rect& dst, SDL_RendererFlip f)
+        : texture(tex), srcRect(src), dstRect(dst), flip(f) {}
+};
+
+class TileRenderer {
+public:
+    static std::vector<TileData> tiles;
+    static void addTile(SDL_Texture* texture, const SDL_Rect& src, const SDL_Rect& dst, SDL_RendererFlip flip);
+    static void renderTiles(SDL_Renderer* renderer, const SDL_Rect& camera);
+    static void clearTiles();
+};
+
 enum groupLabels
 {
     groupMap,
