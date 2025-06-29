@@ -22,7 +22,10 @@ std::set<SDL_Keycode> Game::pressedKeys;
 std::set<Uint8> Game::pressedMouseButtons;
 std::vector<ColliderComponent*> Game::colliders;
 
+std::vector<TileData> TileRenderer::tiles;
+
 EntityManager manager;
+static SDL_Renderer* staticRenderer = nullptr;
 
 
 Game::Game()
@@ -89,7 +92,7 @@ void Game::init(const char *title, int xpos, int ypos, int widht, int heigth, bo
         }
 
         TextureManager::renderer = m_renderer;
-
+        staticRenderer = m_renderer;
 
         m_running = true;
 
@@ -178,6 +181,9 @@ void Game::render()
 {
     SDL_RenderClear(m_renderer);
 
+    // Render static tiles first (background)
+    TileRenderer::renderTiles(m_renderer, camera);
+
     for(int g = 0; g != groupLast; g++)
     {
         auto& entities = manager.getGroup(g);
@@ -203,9 +209,7 @@ void Game::clean()
 
 void Game::addTile(SDL_Texture* sdlTexture, const SDL_Rect& src, const SDL_Rect& dst, SDL_RendererFlip flip)
 {
-    auto& tile(manager.addEntity());
-    tile.addComponent<TileComponent>(sdlTexture, src, dst, flip);
-    tile.addGroup(groupMap);
+    TileRenderer::addTile(sdlTexture, src, dst, flip);
 }
 
 bool Game::running()
@@ -221,6 +225,36 @@ Vector2D Game::cameraToWorld(Vector2D v)
 Vector2D Game::worldToCamera(Vector2D v)
 {
     return {v.x - camera.x, v.y - camera.y};
+}
+
+SDL_Renderer* Game::getRenderer()
+{
+    return staticRenderer;
+}
+
+
+void TileRenderer::addTile(SDL_Texture* texture, const SDL_Rect& src, const SDL_Rect& dst, SDL_RendererFlip flip)
+{
+    tiles.emplace_back(texture, src, dst, flip);
+}
+
+void TileRenderer::renderTiles(SDL_Renderer* renderer, const SDL_Rect& camera)
+{
+    for (const auto& tile : tiles) {
+        SDL_Rect cameraDst = tile.dstRect;
+        cameraDst.x -= camera.x;
+        cameraDst.y -= camera.y;
+        
+        if (cameraDst.x + cameraDst.w > 0 && cameraDst.x < camera.w &&
+            cameraDst.y + cameraDst.h > 0 && cameraDst.y < camera.h) {
+            SDL_RenderCopyEx(renderer, tile.texture, &tile.srcRect, &cameraDst, 0, nullptr, tile.flip);
+        }
+    }
+}
+
+void TileRenderer::clearTiles()
+{
+    tiles.clear();
 }
 
 

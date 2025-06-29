@@ -68,7 +68,11 @@ public:
     static std::set<SDL_Keycode> pressedKeys;
     static std::set<Uint8> pressedMouseButtons;
     static std::vector<ColliderComponent*> colliders;
+    
     static void addTile(SDL_Texture *sdlTexture, const SDL_Rect &src, const SDL_Rect &dst, SDL_RendererFlip flip);
+    
+    static SDL_Renderer* getRenderer();
+    
     bool paused();
 private:
 

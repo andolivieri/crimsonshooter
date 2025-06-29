@@ -49,7 +49,7 @@ void GameMap::LoadMap(const std::string &path)
     
     if (j.contains("tilesets") && !j["tilesets"].empty()) {
         firstgid = j["tilesets"][0]["firstgid"];
-        // Note: Could extract tileset dimensions from .tsx file if needed
+        // todo andoli: Could extract tileset dimensions from .tsx file if needed
     }
 
     SDL_Texture* tilesetTexture = TextureManager::loadTexture("assets/maptiles.png");
@@ -68,7 +68,6 @@ void GameMap::LoadMap(const std::string &path)
             std::string layerName = layer.contains("name") ? layer["name"] : "Unnamed";
             std::cout << "Processing layer: " << layerName << std::endl;
             
-            // Get layer dimensions (should match map dimensions for tile layers)
             int layerWidth = layer["width"];
             int layerHeight = layer["height"];
             
@@ -76,12 +75,10 @@ void GameMap::LoadMap(const std::string &path)
                 for(int x = 0; x < layerWidth; x++) {
                     unsigned int tileid = layer["data"][y * layerWidth + x];
                     
-                    // Skip empty tiles (tileid 0)
                     if (tileid == 0) {
                         continue;
                     }
 
-                    // Read out the flags
                     bool flipped_horizontally = (tileid & FLIPPED_HORIZONTALLY_FLAG);
                     bool flipped_vertically = (tileid & FLIPPED_VERTICALLY_FLAG);
                     bool flipped_diagonally = (tileid & FLIPPED_DIAGONALLY_FLAG);
@@ -97,17 +94,14 @@ void GameMap::LoadMap(const std::string &path)
                     if(flipped_diagonally)
                         flip |= SDL_FLIP_VERTICAL | SDL_FLIP_HORIZONTAL;
 
-                    // Clear the flags
                     tileid &= ~(FLIPPED_HORIZONTALLY_FLAG | FLIPPED_VERTICALLY_FLAG | FLIPPED_DIAGONALLY_FLAG);
 
-                    // Calculate source rectangle in tileset
                     SDL_Rect src;
                     src.y = (static_cast<int>((tileid - firstgid) / tilesetRows)) * tileheight;
                     src.x = ((tileid - firstgid) % tilesetCols) * tilewidth;
                     src.w = tilewidth;
                     src.h = tileheight;
 
-                    // Calculate destination rectangle on screen
                     SDL_Rect dst;
                     dst.x = x * tilewidth;
                     dst.y = y * tileheight;
