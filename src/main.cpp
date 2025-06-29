@@ -1,18 +1,24 @@
 #include "Game.h"
 #include "utils.h"
+
+struct GameLaunchOpts {
+    bool windowed = false; // -w --windowed
+    
+    GameLaunchOpts() = default;
+};
+static GameLaunchOpts parseArgs(int argc, char* argv[]);
+
 int main(int argc, char* argv[])
 {
-    Game* g = new Game();
-    ENG_UNUSED(argc);
-    ENG_UNUSED(argv);
+    GameLaunchOpts args = parseArgs(argc, argv);
+    
+    Game g;
 
-
-
-    g->init("GAME_TITLE",
+    g.init("Crimson Shooter",
             SDL_WINDOWPOS_CENTERED,
             SDL_WINDOWPOS_CENTERED,
             1280, 720,
-            false // fullscreen
+            !args.windowed
             );
 
     const int FPS = 60;
@@ -21,13 +27,13 @@ int main(int argc, char* argv[])
     uint32_t frameStart;
     int frameTime;
 
-    while(g->running()){
+    while(g.running()){
         frameStart = SDL_GetTicks();
 
-        g->handleEvents();
-        if(!g->paused()){
-            g->update();
-            g->render();
+        g.handleEvents();
+        if(!g.paused()){
+            g.update();
+            g.render();
         }
 
         frameTime = SDL_GetTicks() - frameStart;
@@ -37,8 +43,25 @@ int main(int argc, char* argv[])
 
     }
 
-    g->clean();
+    g.clean();
 
     return 0;
 
+}
+
+static GameLaunchOpts parseArgs(int argc, char* argv[])
+{
+    GameLaunchOpts args;
+    
+    for (int i = 1; i < argc; ++i) {
+        std::string arg = argv[i];
+        
+        if (arg == "-w" || arg == "--windowed") {
+            args.windowed = true;
+        } else {
+            std::cout << "Unknown argument: " << arg << std::endl;
+        }
+    }
+    
+    return args;
 }
