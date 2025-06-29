@@ -75,7 +75,7 @@ void FoeSpawnerComponent::spawnFoe(const std::string foekind)
     theFoe.addComponent<SpriteComponent>("assets/foe.png")
             .setSrcRect({0,0,32,32})
             .addAnimation("moving", {0, 0, 4, 200 })
-            .addAnimation("dying", {4, 0, 4, 300 })
+            .addAnimation("dying", {4, 0, 4, 150 })
             .addAnimation("idle", {8, 0, 2, 500 })
             .addAnimation("critical", {10, 0, 3, 50 });
     theFoe.addComponent<DamageModelComponent>(30);
