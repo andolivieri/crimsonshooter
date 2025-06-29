@@ -35,6 +35,8 @@ public:
 
     void update() override;
 
+    bool allEnemiesDefeated() const;
+
     bool isFinished()
     {
         return finished;
