@@ -8,6 +8,7 @@
 #include "ecs.h"
 #include "ecs/input/inputcomponent.h"
 #include "ecs/gameplay/scorecollector.h"
+#include "ecs/core/relationshipcomponent.h"
 #include "perkcomponent.h"
 
 

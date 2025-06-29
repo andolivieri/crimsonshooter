@@ -40,12 +40,12 @@ std::string PerkSpawnerComponent::drawPerk()
 void PerkSpawnerComponent::createPerkEntity(const std::string& perkName, PerkType perkType, const Vector2D& position)
 {
     auto& perk = entity->m_manager.addEntity();
-
-    auto width = 32;
-    auto height = 32;
+    const auto decayTime = 10*TIME_SECOND;
+    const auto width = 32;
+    const auto height = 32;
 
     perk.addComponent<TransformComponent>(position.x, position.y, width, height);
-    perk.addComponent<DecayComponent>(10*TIME_SECOND);
+    perk.addComponent<DecayComponent>(decayTime);
     perk.addComponent<PerkComponent>(perkName, perkType);
     perk.emplaceComponent<SpriteComponent>("assets/perk.png").setSrcRect({0,0, 64,64});
     
@@ -69,10 +69,34 @@ void PerkSpawnerComponent::createPerkEntity(const std::string& perkName, PerkTyp
         }
     });
 
-    // Display first letter of perk name on sprite
-    std::string displayLetter = perkName.substr(0, 1);
-    std::transform(displayLetter.begin(), displayLetter.end(), displayLetter.begin(), ::toupper);
-    perk.addComponent<TextComponent>(displayLetter, SDL_Rect({8, 8, 16, 16})).setAbsolute(false);
+    if (perkType == PerkType::WEAPON) {
+        // Display first letter of perk name on sprite for weapon perks
+        std::string displayLetter = perkName.substr(0, 1);
+        std::transform(displayLetter.begin(), displayLetter.end(), displayLetter.begin(), ::toupper);
+        perk.addComponent<TextComponent>(displayLetter, SDL_Rect({8, 8, 16, 16})).setAbsolute(false);
+    } else {
+        // For OTHER perks, use icons
+        perk.addComponent<RelationshipComponent>();
+        
+        auto& icon = entity->m_manager.addEntity();
+        icon.addComponent<TransformComponent>(position.x, position.y, width, height);
+        
+        std::string iconSprite;
+        if (perkName == "health") {
+            iconSprite = "assets/life.png";
+        } else if (perkName == "grenade") {
+            iconSprite = "assets/grenade.png";
+        }
+        
+        if (!iconSprite.empty()) {
+            icon.emplaceComponent<SpriteComponent>(iconSprite)
+                .setTransform(&perk.getComponent<TransformComponent>());
+            icon.addComponent<DecayComponent>(decayTime);
+            icon.addGroup(groupPerksIcon);
+            
+            perk.getComponent<RelationshipComponent>().addChildren(&icon, "icon");
+        }
+    }
 
     perk.addGroup(groupPerks);
 }

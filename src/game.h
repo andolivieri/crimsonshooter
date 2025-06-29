@@ -32,6 +32,7 @@ enum groupLabels
     groupDeadEnemies,
     groupAuras,
     groupPerks,
+    groupPerksIcon,
     groupWeapons,
     groupPlayers,
     groupEnemies,
