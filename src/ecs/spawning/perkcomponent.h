@@ -7,16 +7,24 @@
 #include "ecs/input/inputcomponent.h"
 #include "ecs/core/collidercomponent.h"
 
+enum class PerkType {
+    WEAPON,
+    OTHER
+};
+
 class PerkComponent : public Component
 {
 public:
 
-    std::string weapon;
-    PerkComponent(const std::string w): weapon(w){}
+    std::string perkName;
+    PerkType perkType;
+    
+    PerkComponent(const std::string& name, PerkType type): 
+        perkName(name), perkType(type) {}
 
     void init() override;
     void update() override;
-
+    void applyPerk(Entity& player);
 
 private:
     TransformComponent* transform;

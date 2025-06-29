@@ -6,6 +6,8 @@ int main(int argc, char* argv[])
     ENG_UNUSED(argc);
     ENG_UNUSED(argv);
 
+
+
     g->init("GAME_TITLE",
             SDL_WINDOWPOS_CENTERED,
             SDL_WINDOWPOS_CENTERED,

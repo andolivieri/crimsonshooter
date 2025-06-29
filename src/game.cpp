@@ -117,6 +117,8 @@ void Game::handleEvents()
         case SDL_KEYDOWN:
             if(evt.key.keysym.sym == SDLK_p)
                 togglePause();
+            if(evt.key.keysym.sym == SDLK_MINUS)
+                dumpStats();
             Game::pressedKeys.insert(evt.key.keysym.sym);
             break;
         case SDL_MOUSEBUTTONDOWN:
@@ -138,6 +140,11 @@ void Game::togglePause()
     m_paused = !m_paused;
 }
 
+void Game::dumpStats()
+{
+    std::cout << "Entity count: " << manager.getEntityCount() << std::endl;
+}
+
 bool Game::paused()
 {
     return m_paused;
@@ -145,6 +152,7 @@ bool Game::paused()
 
 void Game::update()
 {
+    
     manager.update();
     manager.refresh();
 

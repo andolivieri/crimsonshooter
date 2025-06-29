@@ -101,4 +101,7 @@ Entity& EntityManager::addEntity(const std::string tag)
     return *e;
 }
 
-
+int EntityManager::getEntityCount()
+{
+    return m_entities.size();
+}

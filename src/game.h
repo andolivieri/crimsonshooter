@@ -61,9 +61,8 @@ private:
     SDL_Renderer *m_renderer = nullptr;
 
 
-
-    void spawnFoe();
     void togglePause();
+    void dumpStats();
 };
 
 #endif // GAME_H

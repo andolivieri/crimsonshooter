@@ -167,6 +167,8 @@ public:
     void addToGroup(Entity* e, Group g);
     std::vector<Entity*>& getGroup(Group g);
     Entity& addEntity(const std::string tag="");
+
+    int getEntityCount();
 };
 
 #endif // ECS_H
