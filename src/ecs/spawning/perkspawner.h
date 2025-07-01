@@ -34,15 +34,13 @@ private:
     int killsFromLastPerk;
     int startPerkSpawned = false;
     
-    // Perk tracking
     bool hasPickedFirstWeaponPerk = false;
     int totalPerksPickedUp = 0;
     int totalPerksSpawned = 0;
     std::vector<std::string> perkHistory;
     
-    // Perk pools
     std::vector<std::string> weaponPerks = {"pistol", "uzi", "shotgun", "chainsaw"};
-    std::vector<std::string> otherPerks = {"fire"};
+    std::vector<std::string> otherPerks = {"fire", "grenade", "health"};
     
     std::string drawPerk();
     void createPerkEntity(const std::string& perkName, PerkType perkType, const Vector2D& position);

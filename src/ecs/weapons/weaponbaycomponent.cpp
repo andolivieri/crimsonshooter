@@ -1,6 +1,5 @@
 #include "weaponbaycomponent.h"
 #include "projectilecomponent.h"
-#include "ecs/ui/tilecomponent.h"
 #include "assetmanager.h"
 #include "weaponfactory.h"
 #include "ecs/core/fsmcomponent.h"

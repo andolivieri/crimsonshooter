@@ -23,6 +23,40 @@ file(GLOB_RECURSE HEADERS "src/*.h")
 # Create executable
 add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
 
+# clang-tidy integration
+option(ENABLE_CLANG_TIDY "Enable clang-tidy analysis" OFF)
+
+if(ENABLE_CLANG_TIDY)
+    find_program(CLANG_TIDY_EXE NAMES "clang-tidy")
+    if(CLANG_TIDY_EXE)
+        set_target_properties(${PROJECT_NAME} PROPERTIES
+            CXX_CLANG_TIDY "${CLANG_TIDY_EXE};--config-file=${CMAKE_SOURCE_DIR}/.clang-tidy"
+        )
+        message(STATUS "clang-tidy found: ${CLANG_TIDY_EXE}")
+    else()
+        message(WARNING "clang-tidy not found!")
+    endif()
+endif()
+
+# Custom target for running clang-tidy manually
+if(CLANG_TIDY_EXE)
+    add_custom_target(clang-tidy
+        COMMAND ${CLANG_TIDY_EXE}
+        --config-file=${CMAKE_SOURCE_DIR}/.clang-tidy
+        --header-filter=.*
+        ${SOURCES}
+        --
+        -std=c++17
+        -I${CMAKE_SOURCE_DIR}/src
+        -I${CMAKE_SOURCE_DIR}/libs/SDL2/include
+        -I${CMAKE_SOURCE_DIR}/libs/SDL2_image/include
+        -I${CMAKE_SOURCE_DIR}/libs/SDL2_mixer/include
+        -I${CMAKE_SOURCE_DIR}/libs/SDL2_ttf/include
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        COMMENT "Running clang-tidy on source files"
+    )
+endif()
+
 # Link SDL2 libraries
 if(WIN32)
     target_link_libraries(${PROJECT_NAME}

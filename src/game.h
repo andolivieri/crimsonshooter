@@ -31,6 +31,7 @@ enum groupLabels
     groupBloodPatches,
     groupDeadEnemies,
     groupAuras,
+    groupFlames,
     groupPerks,
     groupPerksIcon,
     groupWeapons,

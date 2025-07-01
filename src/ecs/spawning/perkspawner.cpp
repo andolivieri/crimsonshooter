@@ -115,7 +115,6 @@ void PerkSpawnerComponent::spawnPerk()
     std::string selectedPerk = drawPerk();
     Vector2D spawnPt = scoreData.lastKillPosition;
     
-    // Determine perk type
     PerkType perkType = PerkType::OTHER;
     for (const auto& weapon : weaponPerks) {
         if (weapon == selectedPerk) {

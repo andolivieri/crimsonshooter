@@ -11,7 +11,9 @@ public:
 
     DecayComponent(int t, int d=0):
         decayInMsec(t),
-        startFadeAfterMsec(d) {}
+        startFadeAfterMsec(d) {
+
+        }
 
     void init() override;
     void update() override;

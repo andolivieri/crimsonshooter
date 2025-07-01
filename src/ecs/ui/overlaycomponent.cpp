@@ -17,10 +17,6 @@ void OverlayComponent::init()
     auto overalyWidth = 420;
     auto overalyHeight = 50;
 
-    // entity->emplaceComponent<SpriteComponent>("assets/overlay.png");
-    // entity->getComponent<SpriteComponent>()
-    //         .setSrcRect({0,0,overalyWidth,overalyHeight})
-    //         .setAbsolute(true);
     entity->emplaceComponent<TransformComponent>().pos.x = Game::winWidth - overalyWidth - 16;
     entity->getComponent<TransformComponent>().width = overalyWidth;
     entity->getComponent<TransformComponent>().height = overalyHeight;
