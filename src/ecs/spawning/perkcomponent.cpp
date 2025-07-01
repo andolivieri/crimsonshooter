@@ -3,6 +3,7 @@
 #include "game.h"
 #include "ecs/weapons/weaponbaycomponent.h"
 #include "ecs/gameplay/damagemodel.h"
+#include "ecs/effects/firecomponent.h"
 #include <algorithm>
 #include <iostream>
 
@@ -47,6 +48,18 @@ void PerkComponent::applyPerk(Entity& player)
                     weaponBay.grenadeCount += 3; // Add 3 grenades
                     std::cout << "Applied grenade perk: +3 grenades (total: " 
                               << weaponBay.grenadeCount << ")" << std::endl;
+                }
+            } else if (perkName == "fire") {
+
+                auto enemies = player.m_manager.getGroup(groupEnemies);
+                int enemiesSet = 0;
+                for (auto enemy : enemies) {
+                    if (!enemy->hasComponent<FireComponent>() && enemy->hasComponent<DamageModelComponent>()) {
+                        if(!enemy->getComponent<DamageModelComponent>().isDead()){
+                            enemy->addComponent<FireComponent>(10.0f * TIME_SECOND, 5);
+                            enemiesSet++;
+                        }
+                    }
                 }
             }
             break;

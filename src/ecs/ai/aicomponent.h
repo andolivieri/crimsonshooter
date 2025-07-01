@@ -9,6 +9,7 @@
 #include "ecs/core/collidercomponent.h"
 #include "ecs/core/decaycomponent.h"
 #include "ecs/effects/bloodpatch.h"
+#include "ecs/effects/firecomponent.h"
 #include "math2d.h"
 
 class AIComponent : public Component
@@ -36,8 +37,12 @@ public:
     void update() override;
 
     void randomtarget();
+    bool isOnFire();
+    void updateFireBehavior();
 
     Vector2D randtarget;
+    Vector2D fireDirection;
+    uint32_t lastFireDirectionChange = 0;
 
 };
 

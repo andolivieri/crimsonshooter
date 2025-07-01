@@ -17,6 +17,13 @@ void PerkSpawnerComponent::init()
 
 void PerkSpawnerComponent::update()
 {
+
+
+    if(!startPerkSpawned){
+        createPerkEntity("fire", PerkType::OTHER, {100,100});
+        startPerkSpawned = true;
+    }
+
     if(scoreData.kills > 0 && scoreData.kills - killsFromLastPerk > perkEveryKills)
     {
         spawnPerk();
@@ -86,6 +93,8 @@ void PerkSpawnerComponent::createPerkEntity(const std::string& perkName, PerkTyp
             iconSprite = "assets/life.png";
         } else if (perkName == "grenade") {
             iconSprite = "assets/grenade.png";
+        } else if (perkName == "fire") {
+            iconSprite = "assets/fire.png";
         }
         
         if (!iconSprite.empty()) {

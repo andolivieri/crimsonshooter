@@ -48,10 +48,13 @@ void AIComponent::update()
         return;
     }
 
-
+    // Check if enemy is on fire and handle fire behavior
+    if (isOnFire()) {
+        updateFireBehavior();
+        return;
+    }
 
     Vector2D target = player->getComponent<TransformComponent>().pos;
-
 
     if(transform->pos.x > target.x)
         transform->velocity.x = -speed;
@@ -86,4 +89,33 @@ void AIComponent::randomtarget()
         randtarget = {rand() % Game::winWidth, rand() & Game::winHeigth};
         lastChange = SDL_GetTicks();
     }
+}
+
+bool AIComponent::isOnFire()
+{
+    return entity->hasComponent<FireComponent>() && 
+           entity->getComponent<FireComponent>().isOnFire();
+}
+
+void AIComponent::updateFireBehavior()
+{
+    uint32_t currentTime = SDL_GetTicks();
+    
+    // Change direction every 2 seconds when on fire
+    if (currentTime - lastFireDirectionChange > 2000) {
+        float angle = (rand() % 360) * M_PI / 180.0f;
+        fireDirection.x = cos(angle);
+        fireDirection.y = sin(angle);
+        lastFireDirectionChange = currentTime;
+    }
+    
+    // Move faster when on fire (2x speed)
+    float fireSpeed = speed * 2.0f;
+    transform->velocity.x = fireDirection.x * fireSpeed;
+    transform->velocity.y = fireDirection.y * fireSpeed;
+    
+    // Rotate the enemy to face the movement direction
+    transform->rotation = Math2D::angleBetweenPoints({0, 0}, fireDirection);
+    
+    sprite->play("moving");
 }

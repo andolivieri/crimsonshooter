@@ -32,6 +32,7 @@ public:
 private:
     ScoreData& scoreData;
     int killsFromLastPerk;
+    int startPerkSpawned = false;
     
     // Perk tracking
     bool hasPickedFirstWeaponPerk = false;
@@ -41,7 +42,7 @@ private:
     
     // Perk pools
     std::vector<std::string> weaponPerks = {"pistol", "uzi", "shotgun", "chainsaw"};
-    std::vector<std::string> otherPerks = {"health", "grenade"};
+    std::vector<std::string> otherPerks = {"fire"};
     
     std::string drawPerk();
     void createPerkEntity(const std::string& perkName, PerkType perkType, const Vector2D& position);
