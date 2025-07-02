@@ -14,7 +14,7 @@ void ActorControllerComponent::update()
     {
         if(damage->diedNow()){
             std::cout << "died now" << std::endl;
-            entity->addComponent<TimerComponent>(5 * TIME_SECOND).onTrigger([&](Entity& _){
+            entity->addComponent<TimerComponent>(5 * ONE_SECOND).onTrigger([&](Entity& _){
                 this->fart(true);
             });
         }
@@ -120,8 +120,8 @@ void ActorControllerComponent::update()
 
 void ActorControllerComponent::fart(bool force)
 {
-    static const auto FART_COOLDOWN = 15 * TIME_SECOND;
-    static const uint16_t FART_DECAY = 8 * TIME_SECOND;
+    static const auto FART_COOLDOWN = 15 * ONE_SECOND;
+    static const uint16_t FART_DECAY = 8 * ONE_SECOND;
     static auto lastFart = -FART_COOLDOWN;
     if (SDL_GetTicks() - lastFart > FART_COOLDOWN ||  force) {
         lastFart = SDL_GetTicks();
@@ -150,13 +150,13 @@ void ActorControllerComponent::fart(bool force)
             }
         });
 
-        fart.addComponent<TimerComponent>(TIME_SECOND / 3, true).onTrigger([&](Entity& e){
+        fart.addComponent<TimerComponent>(ONE_SECOND / 3, true).onTrigger([&](Entity& e){
             const auto coeff =  1.07;
             e.getComponent<TransformComponent>().width *= coeff;
             e.getComponent<TransformComponent>().height *= coeff;
         });
 
-        fart.addComponent<DecayComponent>(FART_DECAY, FART_DECAY - 2*TIME_SECOND);
+        fart.addComponent<DecayComponent>(FART_DECAY, FART_DECAY - 2*ONE_SECOND);
         fart.addGroup(groupProjectiles);
 
     }

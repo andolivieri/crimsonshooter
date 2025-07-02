@@ -125,7 +125,7 @@ Entity &WeaponFactory::createUzi(Entity &e)
     wp.range = 800;
     wp.muzzlePos.x = 25;
     wp.muzzlePos.y = -6;
-    wp.rate = 600;
+    wp.rate = 800;
     wp.magazine = 32;
     wp.reloadTimeMsec = 2000;
 

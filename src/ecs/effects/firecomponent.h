@@ -5,11 +5,13 @@
 #include "ecs/ecs.h"
 #include "ecs/base/transformcomponent.h"
 #include "ecs/base/relationshipcomponent.h"
+#include "ecs/base/spritecomponent.h"
+#include "ecs/gameplay/damagemodel.h"
 #include "helpers/utils.h"
 
 class FireComponent : public Component {
 public:
-    FireComponent(float duration = 10.0f * TIME_SECOND, int damagePerSecond = 5);
+    FireComponent(float duration = 10.0f * ONE_SECOND, int damagePerSecond = 5);
     
     void init() override;
     void update() override;
@@ -23,7 +25,10 @@ private:
     uint32_t lastDamageTime;
     bool active = true;
     
-    TransformComponent* target_transform = nullptr;
+    TransformComponent* transform = nullptr;
+    DamageModelComponent* damageModel = nullptr;
+    SpriteComponent* sprite = nullptr;
+    RelationshipComponent* relationship = nullptr;
     
     void createFireVisual();
     void applyFireDamage();

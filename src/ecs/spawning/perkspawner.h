@@ -39,7 +39,10 @@ private:
     int totalPerksSpawned = 0;
     std::vector<std::string> perkHistory;
     
-    std::vector<std::string> weaponPerks = {"pistol", "uzi", "shotgun", "chainsaw"};
+    std::vector<std::string> weaponPerks = {
+        //"pistol", 
+        // "chainsaw"
+        "uzi", "shotgun"};
     std::vector<std::string> otherPerks = {"fire", "grenade", "health"};
     
     std::string drawPerk();

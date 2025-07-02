@@ -47,7 +47,7 @@ std::string PerkSpawnerComponent::drawPerk()
 void PerkSpawnerComponent::createPerkEntity(const std::string& perkName, PerkType perkType, const Vector2D& position)
 {
     auto& perk = entity->m_manager.addEntity();
-    const auto decayTime = 10*TIME_SECOND;
+    const auto decayTime = 10*ONE_SECOND;
     const auto width = 32;
     const auto height = 32;
 

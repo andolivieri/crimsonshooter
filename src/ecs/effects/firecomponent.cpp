@@ -10,12 +10,11 @@ FireComponent::FireComponent(float duration, int damagePerSecond)
 
 void FireComponent::init()
 {
-    if (!entity->hasComponent<TransformComponent>())
-    {
-        return;
-    }
 
-    target_transform = &entity->getComponent<TransformComponent>();
+    transform = &entity->getComponent<TransformComponent>();
+    damageModel = &entity->getComponent<DamageModelComponent>();
+    sprite = &entity->getComponent<SpriteComponent>();
+    relationship = &entity->getComponent<RelationshipComponent>();
     startTime = SDL_GetTicks();
     lastDamageTime = startTime;
 
@@ -33,53 +32,52 @@ void FireComponent::update()
         return;
     }
 
-    if (currentTime - lastDamageTime >= TIME_SECOND)
+    if (currentTime - lastDamageTime >= ONE_SECOND)
     {
-        applyFireDamage();
+        damageModel->health -= damagePerSecond;
         lastDamageTime = currentTime;
     }
-
-    auto& visual_tr = entity->getComponent<RelationshipComponent>()
-                                        .getChild("fire_effect")
-                                        ->getComponent<TransformComponent>();
-
-    auto center = target_transform->center();
-
-    auto attachPoint = target_transform->center().subtract({32, 0});
-    Vector2D rotatedCenter = Math2D::rotate_point(
-        center, 
-        target_transform->rotation, 
-        attachPoint
-    );
     
-    visual_tr.centerOn(rotatedCenter);
-    visual_tr.rotation = target_transform->rotation - 90;
+    // TODO andoli: relationships are BROKEN.
+    // here fire_effect has already been removed by DecayComponent
+
+    if(!relationship->hasChildren("fire_effect"))
+        return;
+    
+    auto fireVisual = relationship->getChild("fire_effect");
+
+    auto &visualTr = fireVisual->getComponent<TransformComponent>();
+
+    auto center = transform->center();
+
+    if(damageModel->diedNow()){
+        //fireVisual->emplaceComponent<DecayComponent>(3*ONE_SECOND);
+        visualTr.centerOn(center.subtract({0, 32}));
+        visualTr.rotation = 0;
+        sprite->setColorMod(128,128,128);
+    }else if(!damageModel->isDead()){
+        const auto attachPoint = transform->center().subtract({32, 0});
+        Vector2D rotatedCenter = Math2D::rotate_point(
+            center,
+            transform->rotation,
+            attachPoint);
+        visualTr.centerOn(rotatedCenter);
+        visualTr.rotation = transform->rotation - 90; // sucks but foe sprite is rotated 90 clockwise
+    }
+
 }
 
 void FireComponent::createFireVisual()
 {
-    if (!entity->hasComponent<RelationshipComponent>())
-    {
-        entity->addComponent<RelationshipComponent>();
-    }
-
+    
     auto &fireVisual = entity->m_manager.addEntity();
-    fireVisual.addComponent<TransformComponent>(target_transform->pos.x, target_transform->pos.y, 64, 64);
+    fireVisual.addComponent<TransformComponent>(transform->pos.x, transform->pos.y, 64, 64);
     fireVisual.addComponent<SpriteComponent>("assets/flames.png")
         .setSrcRect({0, 0, 64, 64})
         .addAnimation("burn", {0, 0, 4, 50})
         .play("burn");
-    fireVisual.addComponent<DecayComponent>(duration, duration);
+    fireVisual.addComponent<DecayComponent>(duration, duration * 0.8);
     fireVisual.addGroup(groupFlames);
 
-    entity->getComponent<RelationshipComponent>().addChildren(&fireVisual, "fire_effect");
-}
-
-void FireComponent::applyFireDamage()
-{
-    if (entity->hasComponent<DamageModelComponent>())
-    {
-        auto &damage = entity->getComponent<DamageModelComponent>();
-        damage.health -= damagePerSecond;
-    }
+    relationship->addChildren(&fireVisual, "fire_effect");
 }

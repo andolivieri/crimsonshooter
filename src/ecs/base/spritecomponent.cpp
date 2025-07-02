@@ -80,7 +80,7 @@ void SpriteComponent::draw()
         srcRect.y = a.row * srcRect.h;
     }
 
-    TextureManager::drawTexture(m_texture, srcRect, cameraDst, transform->rotation, flip, alpha);
+    TextureManager::drawTexture(m_texture, srcRect, cameraDst, transform->rotation, flip, alpha, colorR, colorG, colorB);
 
     if(_showFrame)
     {
@@ -143,6 +143,14 @@ SpriteComponent &SpriteComponent::addAnimation(const char *name, const Animation
 SpriteComponent &SpriteComponent::setAlpha(uint8_t a)
 {
     alpha = a;
+    return *this;
+}
+
+SpriteComponent &SpriteComponent::setColorMod(uint8_t r, uint8_t g, uint8_t b)
+{
+    colorR = r;
+    colorG = g;
+    colorB = b;
     return *this;
 }
 

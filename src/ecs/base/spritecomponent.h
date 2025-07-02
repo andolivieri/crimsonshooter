@@ -35,6 +35,7 @@ public:
     SpriteComponent& addAnimation(const char* name, const Animation& a);
     SpriteComponent& addAnimation(const char* name, const Animation& a, const uint32_t flags);
     SpriteComponent& setAlpha(uint8_t a);
+    SpriteComponent& setColorMod(uint8_t r, uint8_t g, uint8_t b);
     SpriteComponent& setTransform(TransformComponent* t);
     SpriteComponent& setAbsolute(bool b);
     SpriteComponent& showFrame(bool b);
@@ -51,6 +52,7 @@ private:
     int m_animCurrentFrameIndex = 0;
     uint32_t lastTick = 0;
     int alpha = 255;
+    uint8_t colorR = 255, colorG = 255, colorB = 255;
     bool _showFrame = false;
 
 

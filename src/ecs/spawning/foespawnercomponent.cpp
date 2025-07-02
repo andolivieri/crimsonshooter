@@ -6,7 +6,7 @@
 void FoeSpawnerComponent::update()
 {
 
-    finished = (scoreData.kills == totalEnemies);
+    finished = (scoreData.kills >= totalEnemies);
 
     if(waves.empty()){
         return;

@@ -9,7 +9,6 @@ void AIComponent::update()
 
     if(damage->isDead()){
 
-
         if(damage->diedNow()){
             if(damage->wasCriticalHit()){
                 sprite->play("critical", 1);
@@ -20,21 +19,8 @@ void AIComponent::update()
             transform->velocity.y = 0;
             entity->delGroup(groupEnemies);
             entity->addGroup(groupDeadEnemies);
-
-            // TODO andoli: can be removed
-            for(int i=0; i<0; i++){
-                auto& splat = entity->m_manager.addEntity();
-                int startSize = 8 + rand() % 16;
-                int endsize = startSize + 8 +  rand() % 32;
-                splat.addComponent<BloodSplatComponent>(Math2D::randomAround(8, transform->center()))
-                        .setStartSize(startSize,startSize)
-                        .setMaxSize(endsize, endsize);
-                splat.addComponent<DecayComponent>(TIME_MINUTE, TIME_MINUTE - 5*TIME_SECOND);
-                family->addChildren(&splat, "splat_" + std::to_string(i));
-            }
-
             family->getChild("shadow")->setActive(false);
-            entity->addComponent<DecayComponent>(TIME_MINUTE, TIME_MINUTE - 5*TIME_SECOND);
+            entity->addComponent<DecayComponent>(ONE_MINUTE, ONE_MINUTE - 5*ONE_SECOND);
             entity->removeComponent<ColliderComponent>();
 
         }
@@ -48,7 +34,6 @@ void AIComponent::update()
         return;
     }
 
-    // Check if enemy is on fire and handle fire behavior
     if (isOnFire()) {
         updateFireBehavior();
         return;
@@ -110,7 +95,7 @@ void AIComponent::updateFireBehavior()
     }
     
     // Move faster when on fire (2x speed)
-    float fireSpeed = speed * 2.0f;
+    float fireSpeed = 2.5;
     transform->velocity.x = fireDirection.x * fireSpeed;
     transform->velocity.y = fireDirection.y * fireSpeed;
     

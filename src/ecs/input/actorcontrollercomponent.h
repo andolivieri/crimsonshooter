@@ -17,8 +17,8 @@ class ActorControllerComponent : public Component
 public:
 
     float speed = 2;
-    int maxSprintMsec = 3 * TIME_SECOND;
-    int currentSprintMsec = 3*TIME_SECOND;
+    int maxSprintMsec = 3 * ONE_SECOND;
+    int currentSprintMsec = 3*ONE_SECOND;
     uint32_t lastSprintStart = 0;
 
     ActorControllerComponent(){}

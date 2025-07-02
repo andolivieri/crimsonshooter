@@ -54,7 +54,7 @@ void ProjectileComponent::init()
                     splat.addComponent<BloodSplatComponent>(enemyTransform.center())
                             .setStartSize(startSize, startSize)
                             .setMaxSize(endSize, endSize);
-                    splat.addComponent<DecayComponent>(TIME_MINUTE, TIME_MINUTE - 5*TIME_SECOND);
+                    splat.addComponent<DecayComponent>(ONE_MINUTE, ONE_MINUTE - 5*ONE_SECOND);
 
                     createBloodSpit(enemy);
                 }

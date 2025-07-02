@@ -219,7 +219,7 @@ FSM_StateBase *WeaponStateShooting::handleInput()
     if(weaponData.chainsaw)
         return this;
 
-    if(SDL_GetTicks() - lastShot >= (60.0 / weaponData.rate) * TIME_SECOND)
+    if(SDL_GetTicks() - lastShot >= (60.0 / weaponData.rate) * ONE_SECOND)
     {
         shoot();
         lastShot = SDL_GetTicks();

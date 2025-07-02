@@ -56,7 +56,7 @@ void PerkComponent::applyPerk(Entity& player)
                 for (auto enemy : enemies) {
                     if (!enemy->hasComponent<FireComponent>() && enemy->hasComponent<DamageModelComponent>()) {
                         if(!enemy->getComponent<DamageModelComponent>().isDead()){
-                            enemy->addComponent<FireComponent>(10.0f * TIME_SECOND, 5);
+                            enemy->addComponent<FireComponent>(10.0f * ONE_SECOND, 5);
                             enemiesSet++;
                         }
                     }
