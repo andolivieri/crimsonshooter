@@ -1,11 +1,11 @@
-#include "gamemap.h"
-#include "texturemanager.h"
+#include "engine/gamemap.h"
+#include "engine/texturemanager.h"
 
-#include "game.h"
+#include "engine/game.h"
 #include <fstream>
 #include <stdint.h>
 #include <iostream>
-#include <json.hpp>
+#include <helpers/json.hpp>
 using json = nlohmann::json;
 
 // Bits on the far end of the 32-bit global tile ID are used for tile flags

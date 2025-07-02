@@ -2,9 +2,9 @@
 #define SPRITECOMPONENT_H
 #include <map>
 #include "SDL.h"
-#include "ecs.h"
+#include "ecs/ecs.h"
 #include "transformcomponent.h"
-#include "texturemanager.h"
+#include "engine/texturemanager.h"
 #include "animation.h"
 
 

@@ -1,12 +1,12 @@
 #ifndef PROJECTILECOMPONENT_H
 #define PROJECTILECOMPONENT_H
 
-#include "ecs.h"
-#include "ecs/core/transformcomponent.h"
-#include "vector2d.h"
-#include "ecs/core/spritecomponent.h"
-#include "ecs/core/collidercomponent.h"
-#include "math2d.h"
+#include "ecs/ecs.h"
+#include "ecs/base/transformcomponent.h"
+#include "helpers/vector2d.h"
+#include "ecs/base/spritecomponent.h"
+#include "ecs/base/collidercomponent.h"
+#include "helpers/math2d.h"
 
 class ProjectileComponent : public Component
 {

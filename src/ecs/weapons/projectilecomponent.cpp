@@ -1,11 +1,11 @@
 #include "projectilecomponent.h"
-#include "game.h"
-#include "collision.h"
+#include "engine/game.h"
+#include "helpers/collision.h"
 #include "ecs/effects/bloodpatch.h"
-#include "ecs/core/decaycomponent.h"
-#include "math2d.h"
-#include "utils.h"
-#include "bloodspit.h"
+#include "ecs/base/decaycomponent.h"
+#include "helpers/math2d.h"
+#include "helpers/utils.h"
+#include "helpers/bloodspit.h"
 
 
 

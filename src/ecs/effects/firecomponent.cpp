@@ -1,6 +1,6 @@
 #include "firecomponent.h"
 #include "ecs/components.h"
-#include "game.h"
+#include "engine/game.h"
 #include <iostream>
 
 FireComponent::FireComponent(float duration, int damagePerSecond)

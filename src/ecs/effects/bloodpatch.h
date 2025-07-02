@@ -4,9 +4,9 @@
 #include <string>
 #include <time.h>
 #include <SDL.h>
-#include "ecs.h"
-#include "ecs/core/transformcomponent.h"
-#include "vector2d.h"
+#include "ecs/ecs.h"
+#include "ecs/base/transformcomponent.h"
+#include "helpers/vector2d.h"
 
 class BloodSplatComponent : public Component
 {

@@ -1,8 +1,8 @@
 #include <SDL.h>
 #include "overlaycomponent.h"
 #include "ecs/components.h"
-#include "utils.h"
-#include <game.h>
+#include "helpers/utils.h"
+#include <engine/game.h>
 
 
 #define HEALTHBARWIDTH 80

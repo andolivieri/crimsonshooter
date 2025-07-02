@@ -1,9 +1,9 @@
 #include "textcomponent.h"
 
 #include "SDL_ttf.h"
-#include "assetmanager.h"
-#include "texturemanager.h"
-#include "game.h"
+#include "engine/assetmanager.h"
+#include "engine/texturemanager.h"
+#include "engine/game.h"
 
 void TextComponent::init()
 {

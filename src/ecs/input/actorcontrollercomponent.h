@@ -2,14 +2,14 @@
 #define ACTORCONTROLLERCOMPONENT_H
 
 #include <SDL.h>
-#include "ecs.h"
-#include "ecs/core/transformcomponent.h"
+#include "ecs/ecs.h"
+#include "ecs/base/transformcomponent.h"
 #include "inputcomponent.h"
-#include "ecs/core/spritecomponent.h"
+#include "ecs/base/spritecomponent.h"
 #include "ecs/gameplay/damagemodel.h"
 #include "ecs/weapons/weaponbaycomponent.h"
 #include "ecs/gameplay/staminacomponent.h"
-#include "utils.h"
+#include "helpers/utils.h"
 
 
 class ActorControllerComponent : public Component

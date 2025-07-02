@@ -1,4 +1,4 @@
-﻿#include "game.h"
+﻿#include "engine/game.h"
 #include <iostream>
 #include <random>
 #include <time.h>
@@ -6,11 +6,11 @@
 #include "SDL_image.h"
 #include "SDL_ttf.h"
 #include "SDL_mixer.h"
-#include "texturemanager.h"
-#include "gamemap.h"
-#include "ecs.h"
+#include "engine/texturemanager.h"
+#include "engine/gamemap.h"
+#include "ecs/ecs.h"
 #include "ecs/components.h"
-#include "collision.h"
+#include "helpers/collision.h"
 #include "scenes/scenes.h"
 
 

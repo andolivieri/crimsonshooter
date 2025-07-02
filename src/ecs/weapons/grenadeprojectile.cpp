@@ -1,15 +1,15 @@
 #include "grenadeprojectile.h"
-#include "game.h"
+#include "engine/game.h"
 #include "ecs/gameplay/damagemodel.h"
-#include "ecs/core/collidercomponent.h"
-#include "ecs/core/spritecomponent.h"
-#include "ecs/core/timercomponent.h"
+#include "ecs/base/collidercomponent.h"
+#include "ecs/base/spritecomponent.h"
+#include "ecs/base/timercomponent.h"
 #include "ecs/effects/shockwavecomponent.h"
 #include "ecs/effects/soundcomponent.h"
-#include "math2d.h"
+#include "helpers/math2d.h"
 #include <cmath>
 #include <SDL.h>
-#include <bloodspit.h>
+#include <helpers/bloodspit.h>
 
 GrenadeProjectileComponent::GrenadeProjectileComponent(const Vector2D& startPos, const Vector2D& targetPos)
     : startPosition(startPos), targetPosition(targetPos)

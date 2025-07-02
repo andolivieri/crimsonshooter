@@ -2,9 +2,9 @@
 #define WEAPONCOMPONENT_H
 #include "projectilecomponent.h"
 #include "ecs/input/inputcomponent.h"
-#include "assetmanager.h"
-#include "weaponfactory.h"
-#include "ecs/core/fsmcomponent.h"
+#include "engine/assetmanager.h"
+#include "helpers/weaponfactory.h"
+#include "ecs/base/fsmcomponent.h"
 
 class WeaponComponent : public Component
 {

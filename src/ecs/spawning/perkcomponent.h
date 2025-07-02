@@ -3,9 +3,9 @@
 
 #include <time.h>
 #include <SDL.h>
-#include "ecs.h"
+#include "ecs/ecs.h"
 #include "ecs/input/inputcomponent.h"
-#include "ecs/core/collidercomponent.h"
+#include "ecs/base/collidercomponent.h"
 
 enum class PerkType {
     WEAPON,

@@ -1,7 +1,7 @@
 #include "foespawnercomponent.h"
-#include "game.h"
-#include "gamemap.h"
-#include "collision.h"
+#include "engine/game.h"
+#include "engine/gamemap.h"
+#include "helpers/collision.h"
 
 void FoeSpawnerComponent::update()
 {

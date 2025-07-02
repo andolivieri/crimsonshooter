@@ -1,6 +1,6 @@
-#include "weaponfactory.h"
-#include "game.h"
-#include "ecs/core/animation.h"
+#include "helpers/weaponfactory.h"
+#include "engine/game.h"
+#include "ecs/base/animation.h"
 #include "ecs/components.h"
 #include "ecs/weapons/weaponcomponent.h"
 #include <iostream>

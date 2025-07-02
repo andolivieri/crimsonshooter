@@ -1,8 +1,8 @@
 #ifndef POSITIONCOMPONENT_H
 #define POSITIONCOMPONENT_H
 
-#include "ecs.h"
-#include "vector2d.h"
+#include "ecs/ecs.h"
+#include "helpers/vector2d.h"
 
 class TransformComponent : public Component
 {

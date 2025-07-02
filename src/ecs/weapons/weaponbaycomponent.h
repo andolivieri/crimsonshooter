@@ -5,15 +5,15 @@
 #include <string>
 #include <time.h>
 #include <SDL.h>
-#include "ecs.h"
-#include "ecs/core/transformcomponent.h"
+#include "ecs/ecs.h"
+#include "ecs/base/transformcomponent.h"
 #include "projectilecomponent.h"
-#include "ecs/core/spritecomponent.h"
-#include "ecs/core/relationshipcomponent.h"
+#include "ecs/base/spritecomponent.h"
+#include "ecs/base/relationshipcomponent.h"
 #include "ecs/input/inputcomponent.h"
-#include "ecs/core/fsmcomponent.h"
+#include "ecs/base/fsmcomponent.h"
 #include "ecs/effects/soundcomponent.h"
-#include "weaponfactory.h"
+#include "helpers/weaponfactory.h"
 
 
 class AttachedWeapon

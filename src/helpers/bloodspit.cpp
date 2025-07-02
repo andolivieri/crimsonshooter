@@ -1,9 +1,9 @@
-#include "bloodspit.h"
-#include "ecs.h"
-#include "ecs/core/transformcomponent.h"
-#include "ecs/core/spritecomponent.h"
-#include "ecs/core/relationshipcomponent.h"
-#include "game.h"
+#include "helpers/bloodspit.h"
+#include "ecs/ecs.h"
+#include "ecs/base/transformcomponent.h"
+#include "ecs/base/spritecomponent.h"
+#include "ecs/base/relationshipcomponent.h"
+#include "engine/game.h"
 
 
 void createBloodSpit(Entity &target)

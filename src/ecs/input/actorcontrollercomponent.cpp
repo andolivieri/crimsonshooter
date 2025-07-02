@@ -1,8 +1,8 @@
 #include "actorcontrollercomponent.h"
-#include "game.h"
-#include "gamemap.h"
-#include "collision.h"
-#include "utils.h"
+#include "engine/game.h"
+#include "engine/gamemap.h"
+#include "helpers/collision.h"
+#include "helpers/utils.h"
 
 
 void ActorControllerComponent::update()

@@ -1,6 +1,6 @@
 #include "aicomponent.h"
-#include "game.h"
-#include "utils.h"
+#include "engine/game.h"
+#include "helpers/utils.h"
 
 void AIComponent::update()
 {

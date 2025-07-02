@@ -4,7 +4,7 @@
 #include <time.h>
 #include <map>
 #include <SDL.h>
-#include "ecs.h"
+#include "ecs/ecs.h"
 
 class RelationshipComponent : public Component
 {

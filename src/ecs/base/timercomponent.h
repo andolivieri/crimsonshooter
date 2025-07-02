@@ -5,7 +5,7 @@
 #include <functional>
 
 #include <SDL.h>
-#include "ecs.h"
+#include "ecs/ecs.h"
 
 class TimerComponent : public Component
 {

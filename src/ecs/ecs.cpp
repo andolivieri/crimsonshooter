@@ -1,4 +1,4 @@
-#include "ecs.h"
+#include "ecs/ecs.h"
 
 bool Entity::hasGroup(Group g)
 {

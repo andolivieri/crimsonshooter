@@ -1,8 +1,8 @@
 #include "weaponbaycomponent.h"
 #include "projectilecomponent.h"
-#include "assetmanager.h"
-#include "weaponfactory.h"
-#include "ecs/core/fsmcomponent.h"
+#include "engine/assetmanager.h"
+#include "helpers/weaponfactory.h"
+#include "ecs/base/fsmcomponent.h"
 #include "weaponcomponent.h"
 
 WeaponBayComponent::WeaponBayComponent() : grenadeCount(5)

@@ -1,8 +1,8 @@
 #ifndef SHOCKWAVECOMPONENT_H
 #define SHOCKWAVECOMPONENT_H
 
-#include "ecs.h"
-#include "ecs/core/transformcomponent.h"
+#include "ecs/ecs.h"
+#include "ecs/base/transformcomponent.h"
 #include <vector>
 #include <SDL.h>
 

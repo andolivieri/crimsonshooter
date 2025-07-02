@@ -1,16 +1,16 @@
 #ifndef AICOMPONENT_H
 #define AICOMPONENT_H
 
-#include "ecs.h"
-#include "ecs/core/transformcomponent.h"
-#include "ecs/core/spritecomponent.h"
+#include "ecs/ecs.h"
+#include "ecs/base/transformcomponent.h"
+#include "ecs/base/spritecomponent.h"
 #include "ecs/gameplay/damagemodel.h"
-#include "ecs/core/relationshipcomponent.h"
-#include "ecs/core/collidercomponent.h"
-#include "ecs/core/decaycomponent.h"
+#include "ecs/base/relationshipcomponent.h"
+#include "ecs/base/collidercomponent.h"
+#include "ecs/base/decaycomponent.h"
 #include "ecs/effects/bloodpatch.h"
 #include "ecs/effects/firecomponent.h"
-#include "math2d.h"
+#include "helpers/math2d.h"
 
 class AIComponent : public Component
 {

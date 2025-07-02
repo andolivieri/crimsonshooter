@@ -1,6 +1,6 @@
 #include "shockwavecomponent.h"
-#include "game.h"
-#include "texturemanager.h"
+#include "engine/game.h"
+#include "engine/texturemanager.h"
 #include <algorithm>
 #include <cmath>
 

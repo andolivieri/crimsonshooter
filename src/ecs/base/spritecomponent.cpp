@@ -1,6 +1,6 @@
 #include "spritecomponent.h"
-#include "assetmanager.h"
-#include "game.h"
+#include "engine/assetmanager.h"
+#include "engine/game.h"
 
 SpriteComponent::SpriteComponent(const std::string& path)
 {

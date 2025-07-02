@@ -1,7 +1,7 @@
 #include "perkspawner.h"
-#include "game.h"
-#include "utils.h"
-#include "collision.h"
+#include "engine/game.h"
+#include "helpers/utils.h"
+#include "helpers/collision.h"
 #include <cstdlib>
 #include <iostream>
 #include <algorithm>

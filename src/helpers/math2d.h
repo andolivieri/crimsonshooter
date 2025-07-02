@@ -2,7 +2,7 @@
 #define MATH2D_H
 
 #include "SDL.h"
-#include "vector2d.h"
+#include "helpers/vector2d.h"
 
 class Math2D
 {

@@ -1,9 +1,9 @@
 #include "grenadecomponent.h"
-#include "game.h"
+#include "engine/game.h"
 #include "grenadeprojectile.h"
-#include "ecs/core/spritecomponent.h"
-#include "texturemanager.h"
-#include "math2d.h"
+#include "ecs/base/spritecomponent.h"
+#include "engine/texturemanager.h"
+#include "helpers/math2d.h"
 #include <SDL.h>
 #include <algorithm>
 #include <cmath>
@@ -103,21 +103,17 @@ void GrenadeComponent::drawChargeBar()
 {
     if (!transform) return;
     
-    // Draw charge bar next to player
+
     Vector2D barPos = transform->pos;
-    barPos.x += transform->width + 10; // 10 pixels to the right of player
-    barPos.y += transform->height / 2 - 25; // Center vertically
+    barPos.x += transform->width + 10; 
+    barPos.y += transform->height / 2 - 25; 
     
-    // Apply camera offset (convert world to screen coordinates)
-    barPos.x -= Game::camera.x;
-    barPos.y -= Game::camera.y;
+    barPos = Game::worldToCamera(barPos);
     
-    // Bar dimensions
     int barWidth = 8;
     int barHeight = 50;
     int fillHeight = static_cast<int>(barHeight * chargeLevel);
     
-    // Draw background bar (empty)
     SDL_Rect bgRect = {
         static_cast<int>(barPos.x),
         static_cast<int>(barPos.y),
@@ -127,7 +123,6 @@ void GrenadeComponent::drawChargeBar()
     SDL_SetRenderDrawColor(TextureManager::renderer, 50, 50, 50, 255); // Dark gray
     SDL_RenderFillRect(TextureManager::renderer, &bgRect);
     
-    // Draw filled portion (charge level)
     if (fillHeight > 0) {
         SDL_Rect fillRect = {
             static_cast<int>(barPos.x),
@@ -136,7 +131,7 @@ void GrenadeComponent::drawChargeBar()
             fillHeight
         };
         
-        // Color changes based on charge level
+        // Color changes with chargeLevel
         if (chargeLevel < 0.5f) {
             SDL_SetRenderDrawColor(TextureManager::renderer, 255, 255, 0, 255); // Yellow
         } else if (chargeLevel < 0.8f) {
@@ -148,8 +143,7 @@ void GrenadeComponent::drawChargeBar()
         SDL_RenderFillRect(TextureManager::renderer, &fillRect);
     }
     
-    // Draw border
-    SDL_SetRenderDrawColor(TextureManager::renderer, 255, 255, 255, 255); // White border
+    SDL_SetRenderDrawColor(TextureManager::renderer, 255, 255, 255, 255);
     SDL_RenderDrawRect(TextureManager::renderer, &bgRect);
 }
 
@@ -157,30 +151,25 @@ Vector2D GrenadeComponent::calculateLandingPoint(float chargeLevel)
 {
     if (!transform) return Vector2D(0, 0);
     
-    // Calculate throw distance based on charge level (same formula as throwGrenade)
     float throwDistance = 10.0f + (chargeLevel * 300.0f);
     
-    // Get mouse position for direction
     SDL_Point mousePt;
     SDL_GetMouseState(&mousePt.x, &mousePt.y);
     
-    // Convert screen coordinates to world coordinates
+    // screen 2 world
     Vector2D playerPos = transform->center();
     Vector2D targetPos = Game::cameraToWorld(Vector2D(mousePt.x, mousePt.y));
     
-    // Calculate direction vector
+    // direction vector
     Vector2D direction;
     direction.x = targetPos.x - playerPos.x;
     direction.y = targetPos.y - playerPos.y;
     
-    // Normalize direction vector
     float length = direction.magnitude();
     if (length > 0) {
         direction.x /= length;
         direction.y /= length;
     }
-    
-    // Calculate final landing position based on charge level
     Vector2D landingPoint;
     landingPoint.x = playerPos.x + (direction.x * throwDistance);
     landingPoint.y = playerPos.y + (direction.y * throwDistance);
@@ -195,11 +184,9 @@ void GrenadeComponent::drawTrajectoryLine()
     Vector2D playerPos = transform->center();
     Vector2D landingPoint = calculateLandingPoint(chargeLevel);
     
-    // Convert world coordinates to screen coordinates
     Vector2D playerScreenPos = Game::worldToCamera(playerPos);
     Vector2D landingScreenPos = Game::worldToCamera(landingPoint);
     
-    // Set line color (green for low charge, yellow for medium, red for high)
     if (chargeLevel < 0.3f) {
         SDL_SetRenderDrawColor(TextureManager::renderer, 0, 255, 0, 255); // Green
     } else if (chargeLevel < 0.7f) {
@@ -208,9 +195,9 @@ void GrenadeComponent::drawTrajectoryLine()
         SDL_SetRenderDrawColor(TextureManager::renderer, 255, 0, 0, 255); // Red
     }
     
-    // Draw dotted line
+    // dotted line
     float totalDistance = Math2D::distanceBetweenPoints(playerScreenPos, landingScreenPos);
-    float dotSpacing = 8.0f; // pixels between dots
+    float dotSpacing = 8.0f; 
     int numDots = static_cast<int>(totalDistance / dotSpacing);
     
     if (numDots > 0) {

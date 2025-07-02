@@ -1,9 +1,9 @@
 #ifndef GRENADEPROJECTILE_H
 #define GRENADEPROJECTILE_H
 
-#include "ecs.h"
-#include "ecs/core/transformcomponent.h"
-#include "vector2d.h"
+#include "ecs/ecs.h"
+#include "ecs/base/transformcomponent.h"
+#include "helpers/vector2d.h"
 
 class GrenadeProjectileComponent : public Component
 {

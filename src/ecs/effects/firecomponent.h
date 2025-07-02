@@ -2,10 +2,10 @@
 #define FIRECOMPONENT_H
 
 #include <SDL.h>
-#include "ecs.h"
-#include "ecs/core/transformcomponent.h"
-#include "ecs/core/relationshipcomponent.h"
-#include "utils.h"
+#include "ecs/ecs.h"
+#include "ecs/base/transformcomponent.h"
+#include "ecs/base/relationshipcomponent.h"
+#include "helpers/utils.h"
 
 class FireComponent : public Component {
 public:

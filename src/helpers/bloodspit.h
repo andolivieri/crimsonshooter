@@ -1,4 +1,4 @@
-#include "ecs.h"
+#include "ecs/ecs.h"
 
 #ifndef BLOODSPIT_H
 #define BLOODSPIT_H

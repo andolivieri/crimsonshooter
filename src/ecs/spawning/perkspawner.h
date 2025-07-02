@@ -5,10 +5,10 @@
 #include <SDL.h>
 #include <vector>
 #include <string>
-#include "ecs.h"
+#include "ecs/ecs.h"
 #include "ecs/input/inputcomponent.h"
 #include "ecs/gameplay/scorecollector.h"
-#include "ecs/core/relationshipcomponent.h"
+#include "ecs/base/relationshipcomponent.h"
 #include "perkcomponent.h"
 
 

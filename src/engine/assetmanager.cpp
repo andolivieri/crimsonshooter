@@ -1,5 +1,5 @@
-#include "assetmanager.h"
-#include "texturemanager.h"
+#include "engine/assetmanager.h"
+#include "engine/texturemanager.h"
 #include <iostream>
 
 std::map<std::string, SDL_Texture*> AssetManager::textures;

@@ -1,4 +1,4 @@
-#include "math2d.h"
+#include "helpers/math2d.h"
 #include <math.h>
 
 double Math2D::angleBetweenPoints(const SDL_Point &p1, const SDL_Point &p2)

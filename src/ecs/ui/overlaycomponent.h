@@ -3,8 +3,8 @@
 
 #include <time.h>
 #include <SDL.h>
-#include "ecs.h"
-#include "ecs/core/relationshipcomponent.h"
+#include "ecs/ecs.h"
+#include "ecs/base/relationshipcomponent.h"
 #include "ecs/gameplay/scorecollector.h"
 
 class OverlayComponent : public Component

@@ -4,7 +4,7 @@
 #include <string>
 #include <functional>
 #include <SDL.h>
-#include "ecs.h"
+#include "ecs/ecs.h"
 #include "transformcomponent.h"
 
 class ColliderComponent : public Component

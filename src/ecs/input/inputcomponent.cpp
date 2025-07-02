@@ -1,10 +1,10 @@
 #include "inputcomponent.h"
 #include <cmath>
-#include "math2d.h"
-#include "texturemanager.h"
-#include "utils.h"
-#include "collision.h"
-#include "game.h"
+#include "helpers/math2d.h"
+#include "engine/texturemanager.h"
+#include "helpers/utils.h"
+#include "helpers/collision.h"
+#include "engine/game.h"
 
 void InputComponent::init()
 {

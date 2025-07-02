@@ -1,6 +1,6 @@
 #include "perkcomponent.h"
-#include "collision.h"
-#include "game.h"
+#include "helpers/collision.h"
+#include "engine/game.h"
 #include "ecs/weapons/weaponbaycomponent.h"
 #include "ecs/gameplay/damagemodel.h"
 #include "ecs/effects/firecomponent.h"

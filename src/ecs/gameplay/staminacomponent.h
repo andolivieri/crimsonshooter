@@ -1,7 +1,7 @@
 #ifndef STAMINACOMPONENT_H
 #define STAMINACOMPONENT_H
 
-#include "ecs.h"
+#include "ecs/ecs.h"
 #include <SDL.h>
 
 class StaminaComponent : public Component

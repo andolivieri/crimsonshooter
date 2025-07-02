@@ -1,9 +1,9 @@
 #ifndef LEVEL1_H
 #define LEVEL1_H
 
-#include "game.h"
-#include "gamemap.h"
-#include "ecs.h"
+#include "engine/game.h"
+#include "engine/gamemap.h"
+#include "ecs/ecs.h"
 #include "ecs/components.h"
 #include "overlay.h"
 

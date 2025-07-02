@@ -3,8 +3,8 @@
 
 #include <time.h>
 #include <SDL.h>
-#include "ecs.h"
-#include "ecs/core/transformcomponent.h"
+#include "ecs/ecs.h"
+#include "ecs/base/transformcomponent.h"
 
 class TextComponent : public Component
 {

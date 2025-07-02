@@ -1,6 +1,6 @@
 #include "collidercomponent.h"
-#include "game.h"
-#include "collision.h"
+#include "engine/game.h"
+#include "helpers/collision.h"
 
 ColliderComponent::ColliderComponent(const std::string &t, int paddingX, int paddingY, float scale): tag(t)
 {

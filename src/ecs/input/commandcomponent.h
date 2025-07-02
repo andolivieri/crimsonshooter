@@ -4,8 +4,8 @@
 #include <time.h>
 #include <deque>
 #include <SDL.h>
-#include "ecs.h"
-#include "ecs/core/transformcomponent.h"
+#include "ecs/ecs.h"
+#include "ecs/base/transformcomponent.h"
 
 // TODO is this shit really necessary? maybe not...
 

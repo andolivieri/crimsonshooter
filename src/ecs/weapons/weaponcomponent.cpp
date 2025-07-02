@@ -1,6 +1,6 @@
 #include "weaponcomponent.h"
 #include <ecs/effects/soundcomponent.h>
-#include <game.h>
+#include <engine/game.h>
 
 
 class WeaponStateBase : public FSM_StateBase

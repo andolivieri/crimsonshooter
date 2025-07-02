@@ -1,10 +1,10 @@
 #ifndef GRENADECOMPONENT_H
 #define GRENADECOMPONENT_H
 
-#include "ecs.h"
-#include "ecs/core/transformcomponent.h"
+#include "ecs/ecs.h"
+#include "ecs/base/transformcomponent.h"
 #include "ecs/input/inputcomponent.h"
-#include "vector2d.h"
+#include "helpers/vector2d.h"
 
 class GrenadeComponent : public Component
 {

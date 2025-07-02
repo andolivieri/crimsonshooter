@@ -1,5 +1,5 @@
 #include "bloodpatch.h"
-#include "game.h"
+#include "engine/game.h"
 
 
 BloodSplatComponent::BloodSplatComponent(const Vector2D &v):

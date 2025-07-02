@@ -1,5 +1,5 @@
-#include "Game.h"
-#include "utils.h"
+#include "engine/game.h"
+#include "helpers/utils.h"
 
 struct GameLaunchOpts {
     bool windowed = false; // -w --windowed

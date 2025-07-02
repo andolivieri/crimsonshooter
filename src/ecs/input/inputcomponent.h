@@ -3,11 +3,11 @@
 
 #include <string>
 #include <SDL.h>
-#include "ecs.h"
+#include "ecs/ecs.h"
 #include <map>
 #include <deque>
-#include "ecs/core/transformcomponent.h"
-#include "ecs/core/spritecomponent.h"
+#include "ecs/base/transformcomponent.h"
+#include "ecs/base/spritecomponent.h"
 #include "ecs/gameplay/damagemodel.h"
 
 typedef enum {

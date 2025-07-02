@@ -3,7 +3,7 @@
 
 #include <time.h>
 #include <SDL.h>
-#include "ecs.h"
+#include "ecs/ecs.h"
 #include "damagemodel.h"
 
 

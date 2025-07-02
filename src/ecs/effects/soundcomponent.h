@@ -5,8 +5,8 @@
 #include <deque>
 #include <time.h>
 #include <SDL.h>
-#include "ecs.h"
-#include "assetmanager.h"
+#include "ecs/ecs.h"
+#include "engine/assetmanager.h"
 
 
 struct SoundEvent

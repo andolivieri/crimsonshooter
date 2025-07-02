@@ -3,7 +3,7 @@
 
 #include <time.h>
 #include <SDL.h>
-#include "ecs.h"
+#include "ecs/ecs.h"
 
 class DecayComponent : public Component
 {
