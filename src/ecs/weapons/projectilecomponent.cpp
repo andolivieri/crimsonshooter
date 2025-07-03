@@ -37,7 +37,7 @@ void ProjectileComponent::init()
     if(!entity->hasComponent<ColliderComponent>()){
         entity->addComponent<ColliderComponent>().onCollision([&](Entity& enemy)
         {
-            if(enemy.hasComponent<DamageModelComponent>()) {
+            if(enemy.hasComponent<DamageModelComponent>() && enemy.tag != "player") {
                 DamageModelComponent& enemyDamage = enemy.getComponent<DamageModelComponent>();
                 ProjectileComponent& pc = entity->getComponent<ProjectileComponent>();
 
