@@ -54,6 +54,7 @@ public:
 
     void handleEvents();
     void update();
+    void inline applyCameraShake();
     void render();
     void clean();
 
@@ -62,6 +63,7 @@ public:
     static SDL_Rect camera;
     static Vector2D cameraToWorld(Vector2D v);
     static Vector2D worldToCamera(Vector2D v);
+    static void shakeCamera(float intensity, float duration);
 
 
     static int winWidth;
@@ -84,6 +86,10 @@ private:
     SDL_Window* m_win = nullptr;
     SDL_Renderer *m_renderer = nullptr;
 
+    static float shakeIntensity;
+    static float shakeDuration;
+    static uint32_t shakeStartTime;
+    static Vector2D shakeOffset;
 
     void togglePause();
     void dumpStats();

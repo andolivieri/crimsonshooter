@@ -12,7 +12,7 @@
 #include "ecs/components.h"
 #include "helpers/collision.h"
 #include "scenes/scenes.h"
-
+#include "game.h"
 
 SDL_Rect Game::camera = {0,0,640,480};
 
@@ -21,6 +21,11 @@ int Game::winHeigth = 0;
 std::set<SDL_Keycode> Game::pressedKeys;
 std::set<Uint8> Game::pressedMouseButtons;
 std::vector<ColliderComponent*> Game::colliders;
+
+float Game::shakeIntensity = 0.0f;
+float Game::shakeDuration = 0.0f;
+uint32_t Game::shakeStartTime = 0;
+Vector2D Game::shakeOffset = {0.0f, 0.0f};
 
 std::vector<TileData> TileRenderer::tiles;
 
@@ -163,20 +168,43 @@ void Game::update()
     camera.x = pos.x - winWidth / 2;
     camera.y = pos.y - winHeigth / 2;
 
+    // Apply boundary constraints first
     camera.x = camera.x < 0 ? 0 : camera.x;
     camera.y = camera.y < 0 ? 0 : camera.y;
-    //camera.x = camera.x > camera.w ? camera.w: camera.x;
-    //camera.y = camera.y > camera.h ? camera.h: camera.y;
-
-
     camera.x = camera.x + camera.w > GameMap::mapWidth ? GameMap::mapWidth - camera.w : camera.x;
     camera.y = camera.y + camera.h > GameMap::mapHeight ? GameMap::mapHeight - camera.h : camera.y;
 
+    applyCameraShake();
 
-    //camera.x = camera.x + camera.w > GameMap::mapWidth ? camera.x = Game
 
 }
 
+void inline Game::applyCameraShake()
+{
+    uint32_t currentTime = SDL_GetTicks();
+    if (shakeDuration > 0 && currentTime - shakeStartTime < shakeDuration)
+    {
+        float progress = (currentTime - shakeStartTime) / shakeDuration;
+        float currentIntensity = shakeIntensity * (1.0f - progress);
+
+        float shakeX = (rand() % 200 - 100) / 100.0f * currentIntensity;
+        float shakeY = (rand() % 200 - 100) / 100.0f * currentIntensity;
+
+        // Apply shake but keep within bounds
+        int newX = camera.x + (int)shakeX;
+        int newY = camera.y + (int)shakeY;
+
+        // shake doesn't go outside map boundaries
+        if (newX >= 0 && newX + camera.w <= GameMap::mapWidth)
+        {
+            camera.x = newX;
+        }
+        if (newY >= 0 && newY + camera.h <= GameMap::mapHeight)
+        {
+            camera.y = newY;
+        }
+    }
+}
 void Game::render()
 {
     SDL_RenderClear(m_renderer);
@@ -225,6 +253,13 @@ Vector2D Game::cameraToWorld(Vector2D v)
 Vector2D Game::worldToCamera(Vector2D v)
 {
     return {v.x - camera.x, v.y - camera.y};
+}
+
+void Game::shakeCamera(float intensity, float duration)
+{
+    shakeIntensity = intensity;
+    shakeDuration = duration;
+    shakeStartTime = SDL_GetTicks();
 }
 
 SDL_Renderer* Game::getRenderer()

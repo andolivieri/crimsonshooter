@@ -92,6 +92,8 @@ void GrenadeProjectileComponent::createExplosion()
     if (!transform) return;
     
     std::cout << "Grenade exploded at position: " << transform->pos.x << ", " << transform->pos.y << std::endl;
+    
+    Game::shakeCamera(8.0f, 300.0f); 
     // Create explosion visual effect
     auto& explosion = entity->m_manager.addEntity();
     explosion.addComponent<TransformComponent>(transform->pos.x - 32, transform->pos.y - 32, 128, 128);
