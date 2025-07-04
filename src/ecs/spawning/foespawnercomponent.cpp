@@ -33,7 +33,8 @@ void FoeSpawnerComponent::update()
 
 bool FoeSpawnerComponent::allEnemiesDefeated() const
 {
-    return (scoreData.kills == totalEnemies);
+    // TODO andoli booooooooooooooooo bug more kills than enemy spawned?
+    return (scoreData.kills >= totalEnemies);
 }
 
 void FoeSpawnerComponent::spawnFoe(const std::string foekind)

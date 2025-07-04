@@ -14,9 +14,6 @@ public:
     void render() override;
 
 private:
-    Entity* m_logoEntity = nullptr;
-    Entity* m_textEntity = nullptr;
-    Entity* m_timerEntity = nullptr;
     
     void createLogo();
     void createText();

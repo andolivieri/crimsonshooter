@@ -14,11 +14,7 @@ SplashScene::~SplashScene()
 
 void SplashScene::init()
 {
-    std::cout << "Initializing SplashScene" << std::endl;
-    
-    // Set dark blue background by clearing with that color
     SDL_SetRenderDrawColor(Game::getRenderer(), 10, 10, 30, 255);
-    
     createLogo();
     createText();
     createTimer();
@@ -50,8 +46,6 @@ void SplashScene::createLogo()
         .setAbsolute(true);
     
     logoEntity.addGroup(groupOverlay);
-    
-    m_logoEntity = &logoEntity;
 }
 
 void SplashScene::createText()
@@ -68,20 +62,16 @@ void SplashScene::createText()
         .setColor({255, 255, 255, 255});
     
     textEntity.addGroup(groupOverlay);
-    
-    m_textEntity = &textEntity;
 }
 
 void SplashScene::createTimer()
 {
     auto& timerEntity = m_entityManager.addEntity("splash_timer");
     
-    timerEntity.addComponent<TimerComponent>(3500, false)
+    timerEntity.addComponent<TimerComponent>(5000, false)
         .onTrigger([this](Entity& _) {
             m_sceneManager.popScene({false, 2.0, 2.0});
             m_sceneManager.pushScene(std::make_unique<MenuScene>(m_sceneManager), 
                                    {false, 1.0, 3.0});
         });
-    
-    m_timerEntity = &timerEntity;
 }
