@@ -6,7 +6,10 @@
 #include <string>
 #include <functional>
 #include <vector>
+#include <queue>
 #include "ecs/ecs.h"
+
+class Scene;
 
 enum class SceneExecutionMode {
     RUN_ALL,        // All loaded scenes run simultaneously
@@ -18,6 +21,18 @@ enum class FadeState {
     FADE_IN,
     FADE_OUT,
     VISIBLE
+};
+
+enum class SceneCommand {
+    PUSH_SCENE,
+    POP_SCENE,
+    POP_ALL_SCENES
+};
+
+struct DeferredSceneCommand {
+    SceneCommand command;
+    std::unique_ptr<Scene> scene;  // Only used for PUSH_SCENE
+    bool skipFade = false;
 };
 
 class SceneManager; // Forward declaration
@@ -92,6 +107,8 @@ public:
     void renderScenes();
     void cleanupScenes();
     
+    void processDeferredCommands();
+    
     // Getters
     Scene* getCurrentScene() const;
     Scene* getScene(const std::string& name) const;
@@ -106,8 +123,16 @@ private:
     std::stack<std::unique_ptr<Scene>> m_sceneStack;
     SceneExecutionMode m_globalExecutionMode = SceneExecutionMode::RUN_TOP_ONLY;
     
+    // Deferred commands
+    std::queue<DeferredSceneCommand> m_commandQueue;
+    bool m_processingScenes = false;
+    
     void updatePauseStates();
     void executeOnAllScenes(std::function<void(Scene*)> func);
+    
+    void pushSceneImmediate(std::unique_ptr<Scene> scene, bool skipFade = false);
+    void popSceneImmediate(bool skipFade = false);
+    void popAllScenesImmediate();
 };
 
 #endif // SCENEMANAGER_H

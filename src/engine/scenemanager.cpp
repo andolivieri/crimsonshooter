@@ -154,6 +154,21 @@ void SceneManager::pushScene(std::unique_ptr<Scene> scene, bool skipFade)
 {
     if (!scene) return;
     
+    if (m_processingScenes) {
+        DeferredSceneCommand cmd;
+        cmd.command = SceneCommand::PUSH_SCENE;
+        cmd.scene = std::move(scene);
+        cmd.skipFade = skipFade;
+        m_commandQueue.push(std::move(cmd));
+    } else {
+        pushSceneImmediate(std::move(scene), skipFade);
+    }
+}
+
+void SceneManager::pushSceneImmediate(std::unique_ptr<Scene> scene, bool skipFade)
+{
+    if (!scene) return;
+    
     std::cout << "Pushing scene: " << scene->getName() << std::endl;
     
     // fade out current scene
@@ -178,6 +193,20 @@ void SceneManager::pushScene(std::unique_ptr<Scene> scene, bool skipFade)
 }
 
 void SceneManager::popScene(bool skipFade)
+{
+    if (m_sceneStack.empty()) return;
+    
+    if (m_processingScenes) {
+        DeferredSceneCommand cmd;
+        cmd.command = SceneCommand::POP_SCENE;
+        cmd.skipFade = skipFade;
+        m_commandQueue.push(std::move(cmd));
+    } else {
+        popSceneImmediate(skipFade);
+    }
+}
+
+void SceneManager::popSceneImmediate(bool skipFade)
 {
     if (m_sceneStack.empty()) return;
     
@@ -206,14 +235,27 @@ void SceneManager::popScene(bool skipFade)
 
 void SceneManager::popAllScenes()
 {
+    if (m_processingScenes) {
+        DeferredSceneCommand cmd;
+        cmd.command = SceneCommand::POP_ALL_SCENES;
+        m_commandQueue.push(std::move(cmd));
+    } else {
+        popAllScenesImmediate();
+    }
+}
+
+void SceneManager::popAllScenesImmediate()
+{
     while (!m_sceneStack.empty()) {
-        popScene();
+        popSceneImmediate();
     }
 }
 
 void SceneManager::updateScenes()
 {
     if (m_sceneStack.empty()) return;
+    
+    m_processingScenes = true;
     
     if (m_globalExecutionMode == SceneExecutionMode::RUN_ALL) {
         // Update all scenes from bottom to top
@@ -224,11 +266,15 @@ void SceneManager::updateScenes()
         // Update only the top scene
         m_sceneStack.top()->update();
     }
+    
+    m_processingScenes = false;
 }
 
 void SceneManager::renderScenes()
 {
     if (m_sceneStack.empty()) return;
+    
+    m_processingScenes = true;
     
     if (m_globalExecutionMode == SceneExecutionMode::RUN_ALL) {
         // Render all scenes from bottom to top
@@ -238,6 +284,29 @@ void SceneManager::renderScenes()
     } else {
         // Render only the top scene
         m_sceneStack.top()->render();
+    }
+    
+    m_processingScenes = false;
+}
+
+void SceneManager::processDeferredCommands()
+{
+    while (!m_commandQueue.empty()) {
+        auto& cmd = m_commandQueue.front();
+        
+        switch (cmd.command) {
+            case SceneCommand::PUSH_SCENE:
+                pushSceneImmediate(std::move(cmd.scene), cmd.skipFade);
+                break;
+            case SceneCommand::POP_SCENE:
+                popSceneImmediate(cmd.skipFade);
+                break;
+            case SceneCommand::POP_ALL_SCENES:
+                popAllScenesImmediate();
+                break;
+        }
+        
+        m_commandQueue.pop();
     }
 }
 

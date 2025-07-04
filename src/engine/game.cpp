@@ -14,6 +14,7 @@
 #include "game.h"
 #include "scenemanager.h"
 #include "scenes/menu.h"
+#include "scenes/splash.h"
 #include <scenes/gamescene.h>
 
 SDL_Rect Game::camera = {0,0,640,480};
@@ -39,7 +40,7 @@ void Game::mainLoop()
     static uint32_t lastFrameTime = SDL_GetTicks();
 
     
-    sceneMgr->pushScene(std::make_unique<MenuScene>(*sceneMgr));
+    sceneMgr->pushScene(std::make_unique<SplashScene>(*sceneMgr));
 
     while(running()){
         frameStart = SDL_GetTicks();
@@ -50,6 +51,7 @@ void Game::mainLoop()
         if(!paused()){
             sceneMgr->updateScenes();
             sceneMgr->renderScenes();
+            sceneMgr->processDeferredCommands();
         }
 
         frameTime = SDL_GetTicks() - frameStart;

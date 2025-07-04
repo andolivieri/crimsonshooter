@@ -43,6 +43,7 @@ void MenuScene::createUI()
     
     auto& menuComp = mainMenu.addComponent<MenuComponent>(menuWidth, menuHeight);
     menuComp.addEntry("Start Game", [this]() {
+        m_sceneManager.popAllScenes();
         m_sceneManager.pushScene(std::make_unique<GameScene>(m_sceneManager));
     });
     
