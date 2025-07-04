@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <SDL_render.h>
+#include <algorithm>
 #include "game.h"
 
 // Scene implementation
@@ -24,6 +25,7 @@ void Scene::update()
         m_initialized = true;
     }
     
+    updateFade();
     m_entityManager.update();
     m_entityManager.refresh();
 }
@@ -43,7 +45,8 @@ void Scene::render()
             entities[i]->draw();
         }
     }
-
+    
+    renderFadeOverlay();
     SDL_RenderPresent(Game::getRenderer());
 }
 
@@ -69,27 +72,134 @@ void Scene::resume()
     }
 }
 
-void SceneManager::pushScene(std::unique_ptr<Scene> scene)
+void Scene::startFadeIn(float duration)
+{
+    if (!m_fadeEnabled) {
+        m_fadeState = FadeState::VISIBLE;
+        m_fadeAlpha = 1.0f;
+        return;
+    }
+    
+    m_fadeState = FadeState::FADE_IN;
+    m_fadeDuration = duration;
+    m_fadeTimer = 0.0f;
+    m_fadeAlpha = 0.0f;
+}
+
+void Scene::startFadeOut(float duration)
+{
+    if (!m_fadeEnabled) {
+        m_fadeState = FadeState::NONE;
+        m_fadeAlpha = 0.0f;
+        return;
+    }
+    
+    m_fadeState = FadeState::FADE_OUT;
+    m_fadeDuration = duration;
+    m_fadeTimer = 0.0f;
+    m_fadeAlpha = 1.0f;
+}
+
+bool Scene::isFadeComplete() const
+{
+    return m_fadeState == FadeState::VISIBLE || m_fadeState == FadeState::NONE;
+}
+
+void Scene::updateFade()
+{
+    if (m_fadeState == FadeState::NONE || m_fadeState == FadeState::VISIBLE) {
+        return;
+    }
+    
+    m_fadeTimer += Game::deltaTime;
+    
+    if (m_fadeTimer >= m_fadeDuration) {
+        if (m_fadeState == FadeState::FADE_IN) {
+            m_fadeState = FadeState::VISIBLE;
+            m_fadeAlpha = 1.0f;
+        } else if (m_fadeState == FadeState::FADE_OUT) {
+            m_fadeState = FadeState::NONE;
+            m_fadeAlpha = 0.0f;
+        }
+        m_fadeTimer = 0.0f;
+    } else {
+        float t = m_fadeTimer / m_fadeDuration;
+        if (m_fadeState == FadeState::FADE_IN) {
+            m_fadeAlpha = t;
+        } else if (m_fadeState == FadeState::FADE_OUT) {
+            m_fadeAlpha = 1.0f - t;
+        }
+    }
+}
+
+void Scene::renderFadeOverlay()
+{
+    if (!m_fadeEnabled || m_fadeState == FadeState::VISIBLE) {
+        return;
+    }
+    
+    SDL_Renderer* renderer = Game::getRenderer();
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    
+    Uint8 alpha = static_cast<Uint8>((1.0f - m_fadeAlpha) * 255);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, alpha);
+    
+    SDL_Rect fullscreen = {0, 0, Game::winWidth, Game::winHeigth};
+    SDL_RenderFillRect(renderer, &fullscreen);
+    
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
+}
+
+void SceneManager::pushScene(std::unique_ptr<Scene> scene, bool skipFade)
 {
     if (!scene) return;
     
     std::cout << "Pushing scene: " << scene->getName() << std::endl;
     
+    // fade out current scene
+    if (!m_sceneStack.empty() && !skipFade) {
+        Scene* currentScene = m_sceneStack.top().get();
+        if (currentScene->isFadeEnabled()) {
+            currentScene->startFadeOut();
+        }
+    }
+    
     scene->onPush();
+    
+    // fade in on new one
+    if (!skipFade) {
+        scene->startFadeIn();
+    } else {
+        scene->setFadeEnabled(false);
+    }
+    
     m_sceneStack.push(std::move(scene));
     updatePauseStates();
 }
 
-void SceneManager::popScene()
+void SceneManager::popScene(bool skipFade)
 {
     if (m_sceneStack.empty()) return;
     
     auto& topScene = m_sceneStack.top();
     std::cout << "Popping scene: " << topScene->getName() << std::endl;
     
+    // fade out on current scene
+    if (!skipFade && topScene->isFadeEnabled()) {
+        topScene->startFadeOut();
+    }
+    
     topScene->onPop();
     topScene->cleanup();
     m_sceneStack.pop();
+    
+    // fade in the next one
+    if (!m_sceneStack.empty() && !skipFade) {
+        Scene* newCurrentScene = m_sceneStack.top().get();
+        if (newCurrentScene->isFadeEnabled()) {
+            newCurrentScene->startFadeIn();
+        }
+    }
     
     updatePauseStates();
 }

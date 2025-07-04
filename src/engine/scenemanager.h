@@ -13,6 +13,13 @@ enum class SceneExecutionMode {
     RUN_TOP_ONLY    // Only the top scene runs, others are paused
 };
 
+enum class FadeState {
+    NONE,      
+    FADE_IN,
+    FADE_OUT,
+    VISIBLE
+};
+
 class SceneManager; // Forward declaration
 
 class Scene {
@@ -41,6 +48,15 @@ public:
     virtual void onPop() {}     // Called when scene is popped from stack
     virtual void onPause() {}   // Called when scene is paused
     virtual void onResume() {}  // Called when scene is resumed
+    
+    // Fade transition methods
+    void startFadeIn(float duration = 0.5f);
+    void startFadeOut(float duration = 0.5f);
+    void setFadeEnabled(bool enabled) { m_fadeEnabled = enabled; }
+    bool isFadeEnabled() const { return m_fadeEnabled; }
+    FadeState getFadeState() const { return m_fadeState; }
+    bool isFadeComplete() const;
+    float getFadeAlpha() const { return m_fadeAlpha; }
 
 protected:
     EntityManager m_entityManager;
@@ -49,6 +65,16 @@ protected:
     SceneExecutionMode m_executionMode;
     bool m_paused = false;
     bool m_initialized = false;
+    
+    // Fade transition properties
+    bool m_fadeEnabled = true;
+    FadeState m_fadeState = FadeState::NONE;
+    float m_fadeAlpha = 1.0f;
+    float m_fadeDuration = 0.5f;
+    float m_fadeTimer = 0.0f;
+    
+    void updateFade();
+    void renderFadeOverlay();
 };
 
 class SceneManager {
@@ -57,8 +83,8 @@ public:
     ~SceneManager() = default;
     
     // Scene stack operations
-    void pushScene(std::unique_ptr<Scene> scene);
-    void popScene();
+    void pushScene(std::unique_ptr<Scene> scene, bool skipFade = false);
+    void popScene(bool skipFade = false);
     void popAllScenes();
     
     // Scene management

@@ -57,6 +57,7 @@ public:
     static std::set<SDL_Keycode> pressedKeys;
     static std::set<Uint8> pressedMouseButtons;
     static std::vector<ColliderComponent*> colliders;
+    static float deltaTime;
     
     
     static SDL_Renderer* getRenderer();

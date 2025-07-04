@@ -23,6 +23,7 @@ int Game::winHeigth = 0;
 std::set<SDL_Keycode> Game::pressedKeys;
 std::set<Uint8> Game::pressedMouseButtons;
 std::vector<ColliderComponent*> Game::colliders;
+float Game::deltaTime = 0.0f;
 
 
 static SDL_Renderer* staticRenderer = nullptr;
@@ -35,12 +36,15 @@ void Game::mainLoop()
 
     uint32_t frameStart;
     int frameTime;
+    static uint32_t lastFrameTime = SDL_GetTicks();
 
     
     sceneMgr->pushScene(std::make_unique<MenuScene>(*sceneMgr));
 
     while(running()){
         frameStart = SDL_GetTicks();
+        deltaTime = (frameStart - lastFrameTime) / 1000.0f;
+        lastFrameTime = frameStart;
 
         handleEvents();
         if(!paused()){
@@ -206,7 +210,5 @@ SDL_Renderer* Game::getRenderer()
 {
     return staticRenderer;
 }
-
-
 
 
