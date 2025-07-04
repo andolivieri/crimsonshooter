@@ -30,7 +30,7 @@ void drawCircle(SDL_Renderer *renderer, SDL_Point center, int radius, SDL_Color 
 std::string strLeftPad(const std::string &str, const size_t num, const char paddingChar)
 {
     std::string out(str);
-    if(num > out.size())
+    if(num > out.length())
         out.insert(0, num - out.size(), paddingChar);
     return out;
 }
@@ -38,7 +38,7 @@ std::string strLeftPad(const std::string &str, const size_t num, const char padd
 std::string strRightPad(const std::string &str, const size_t num, const char paddingChar)
 {
     std::string out(str);
-    if(num > out.size())
-        out += paddingChar;
+    if(num > out.length())
+        out.append(num - out.size(), paddingChar);
     return out;
 }

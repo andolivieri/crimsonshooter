@@ -13,9 +13,11 @@ enum class SceneExecutionMode {
     RUN_TOP_ONLY    // Only the top scene runs, others are paused
 };
 
+class SceneManager; // Forward declaration
+
 class Scene {
 public:
-    Scene(const std::string& name, SceneExecutionMode mode = SceneExecutionMode::RUN_TOP_ONLY);
+    Scene(const std::string& name, SceneManager& sceneManager, SceneExecutionMode mode = SceneExecutionMode::RUN_TOP_ONLY);
     virtual ~Scene();
 
     // Scene lifecycle methods
@@ -42,6 +44,7 @@ public:
 
 protected:
     EntityManager m_entityManager;
+    SceneManager& m_sceneManager;
     std::string m_name;
     SceneExecutionMode m_executionMode;
     bool m_paused = false;

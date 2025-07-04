@@ -7,7 +7,7 @@
 
 class GameScene : public Scene {
 public:
-    GameScene();
+    GameScene(SceneManager& sceneManager);
     ~GameScene() override;
 
     void init() override;

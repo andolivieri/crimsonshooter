@@ -10,6 +10,7 @@
 
 enum groupLabels
 {
+    groupFirst,
     groupMap,
     groupColliders,
     groupBloodPatches,

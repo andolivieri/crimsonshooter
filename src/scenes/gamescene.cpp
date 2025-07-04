@@ -5,8 +5,7 @@
 #include "ecs/ecs.h"
 #include "ecs/components.h"
 
-// GameScene implementation
-GameScene::GameScene() : Scene("GameScene", SceneExecutionMode::RUN_TOP_ONLY)
+GameScene::GameScene(SceneManager& sceneManager) : Scene("GameScene", sceneManager, SceneExecutionMode::RUN_TOP_ONLY)
 {
 }
 

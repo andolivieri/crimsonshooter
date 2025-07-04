@@ -37,7 +37,7 @@ void Game::mainLoop()
     int frameTime;
 
     
-    sceneMgr->pushScene(std::make_unique<GameScene>());
+    sceneMgr->pushScene(std::make_unique<MenuScene>(*sceneMgr));
 
     while(running()){
         frameStart = SDL_GetTicks();

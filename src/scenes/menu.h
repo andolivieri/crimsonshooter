@@ -7,7 +7,7 @@
 
 class MenuScene : public Scene {
 public:
-    MenuScene();
+    MenuScene(SceneManager& sceneManager);
     ~MenuScene() override;
 
     void init() override;

@@ -30,6 +30,7 @@
 #include "spawning/perkspawner.h"
 #include "ui/overlaycomponent.h"
 #include "ui/textcomponent.h"
+#include "ui/menucomponent.h"
 #include "weapons/grenadecomponent.h"
 #include "weapons/projectilecomponent.h"
 #include "weapons/weaponbaycomponent.h"

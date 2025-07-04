@@ -15,6 +15,7 @@ public:
     SDL_Rect padding;
     float scale = 1;
     bool absolute = true;
+    SDL_Color color = {255, 255, 255};
 
     TextComponent(const std::string& text = "", SDL_Rect padding={0,0,0,0}):
         txt(text), padding(padding){}
@@ -23,6 +24,7 @@ public:
     void draw() override;
 
     TextComponent& setAbsolute(bool v);
+    TextComponent& setColor(SDL_Color c);
 
 
 private:

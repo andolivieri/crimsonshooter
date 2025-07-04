@@ -5,8 +5,8 @@
 #include "game.h"
 
 // Scene implementation
-Scene::Scene(const std::string& name, SceneExecutionMode mode)
-    : m_name(name), m_executionMode(mode)
+Scene::Scene(const std::string& name, SceneManager& sceneManager, SceneExecutionMode mode)
+    : m_name(name), m_sceneManager(sceneManager), m_executionMode(mode)
 {
 }
 
