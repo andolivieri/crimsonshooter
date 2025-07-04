@@ -31,8 +31,8 @@ enum groupLabels
 class Game
 {
 public:
-    Game();
-    ~Game();
+    Game() = default;
+    ~Game() = default;
 
     void mainLoop();
     void init(const char* title, int xpos, int ypos, int widht, int heigth, bool fullscreen);
@@ -57,7 +57,6 @@ public:
     static std::set<Uint8> pressedMouseButtons;
     static std::vector<ColliderComponent*> colliders;
     
-    static void addTile(SDL_Texture *sdlTexture, const SDL_Rect &src, const SDL_Rect &dst, SDL_RendererFlip flip);
     
     static SDL_Renderer* getRenderer();
     

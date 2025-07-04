@@ -25,20 +25,7 @@ std::set<Uint8> Game::pressedMouseButtons;
 std::vector<ColliderComponent*> Game::colliders;
 
 
-
-EntityManager manager;
 static SDL_Renderer* staticRenderer = nullptr;
-
-
-Game::Game()
-{
-
-}
-
-Game::~Game()
-{
-
-}
 
 void Game::mainLoop()
 {
@@ -180,7 +167,7 @@ void Game::togglePause()
 
 void Game::dumpStats()
 {
-    std::cout << "Entity count: " << manager.getEntityCount() << std::endl;
+    //std::cout << "Entity count: " << manager.getEntityCount() << std::endl;
 }
 
 bool Game::paused()
@@ -198,14 +185,6 @@ void Game::clean()
     std::cout << "SDL_Quit()" << std::endl;
 }
 
-void Game::addTile(SDL_Texture* sdlTexture, const SDL_Rect& src, const SDL_Rect& dst, SDL_RendererFlip flip)
-{
-    // Create tile entity with TileComponent
-    auto& tile = manager.addEntity();
-    tile.addComponent<TransformComponent>(dst.x, dst.y, dst.w, dst.h);
-    tile.addComponent<TileComponent>(sdlTexture, src, flip);
-    tile.addGroup(groupMap);
-}
 
 bool Game::running()
 {
