@@ -161,6 +161,7 @@ public:
     void update();
     void draw();
     void refresh();
+    void clear();
 
     Entity* get(const std::string tag);
 

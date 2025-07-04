@@ -17,33 +17,11 @@ int main(int argc, char* argv[])
     g.init("Crimson Shooter",
             SDL_WINDOWPOS_CENTERED,
             SDL_WINDOWPOS_CENTERED,
-            1280, 720,
+            1920, 1080,
             !args.windowed
             );
 
-    const int FPS = 60;
-    const int frameDelay = 1000 / FPS;
-
-    uint32_t frameStart;
-    int frameTime;
-
-    while(g.running()){
-        frameStart = SDL_GetTicks();
-
-        g.handleEvents();
-        if(!g.paused()){
-            g.update();
-            g.render();
-        }
-
-        frameTime = SDL_GetTicks() - frameStart;
-
-        if(frameDelay > frameTime)
-            SDL_Delay(frameDelay - frameTime);
-
-    }
-
-    g.clean();
+    g.mainLoop();
 
     return 0;
 

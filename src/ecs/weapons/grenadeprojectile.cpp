@@ -93,7 +93,6 @@ void GrenadeProjectileComponent::createExplosion()
     
     std::cout << "Grenade exploded at position: " << transform->pos.x << ", " << transform->pos.y << std::endl;
     
-    Game::shakeCamera(8.0f, 300.0f); 
     // Create explosion visual effect
     auto& explosion = entity->m_manager.addEntity();
     explosion.addComponent<TransformComponent>(transform->pos.x - 32, transform->pos.y - 32, 128, 128);
@@ -103,6 +102,7 @@ void GrenadeProjectileComponent::createExplosion()
         .play("explode", 1);
     explosion.addComponent<SoundComponent>().play("assets/sounds/explosion.ogg", 0, 2);
     explosion.addComponent<DecayComponent>(2000);
+    explosion.addComponent<CameraShakeComponent>(8, 300);
     explosion.addGroup(groupProjectiles);
     
     // Create shockwave visual effect - match damage radius

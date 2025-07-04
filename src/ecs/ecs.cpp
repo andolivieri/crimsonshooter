@@ -27,6 +27,7 @@ void EntityManager::update()
 
 void EntityManager::draw()
 {
+    // TODO andoli: can be removed
     for(auto i{0}; i < m_entities.size(); i++)
     {
         m_entities[i]->draw();
@@ -62,6 +63,16 @@ void EntityManager::refresh()
         m_queuedEntities.pop_front();
     }
 
+}
+
+void EntityManager::clear()
+{
+    m_entities.clear();
+    m_queuedEntities.clear();
+    for (auto& group : m_groupedEntities) {
+        group.clear();
+    }
+    m_taggedEntities.clear();
 }
 
 Entity* EntityManager::get(const std::string tag)

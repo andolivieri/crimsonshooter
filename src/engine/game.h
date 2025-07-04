@@ -5,6 +5,7 @@
 #include <vector>
 #include "SDL.h"
 #include "ecs/components.h"
+#include "scenemanager.h"
 
 struct TileData {
     SDL_Texture* texture;
@@ -50,20 +51,20 @@ public:
     Game();
     ~Game();
 
+    void mainLoop();
     void init(const char* title, int xpos, int ypos, int widht, int heigth, bool fullscreen);
 
     void handleEvents();
     void update();
-    void inline applyCameraShake();
     void render();
     void clean();
 
     bool running();
 
+
     static SDL_Rect camera;
     static Vector2D cameraToWorld(Vector2D v);
     static Vector2D worldToCamera(Vector2D v);
-    static void shakeCamera(float intensity, float duration);
 
 
     static int winWidth;
@@ -78,6 +79,9 @@ public:
     static SDL_Renderer* getRenderer();
     
     bool paused();
+
+    
+    
 private:
 
     unsigned long cnt = 0;
@@ -85,11 +89,8 @@ private:
     bool m_paused = false;
     SDL_Window* m_win = nullptr;
     SDL_Renderer *m_renderer = nullptr;
+    SceneManager* sceneMgr = nullptr;
 
-    static float shakeIntensity;
-    static float shakeDuration;
-    static uint32_t shakeStartTime;
-    static Vector2D shakeOffset;
 
     void togglePause();
     void dumpStats();

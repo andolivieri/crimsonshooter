@@ -13,6 +13,7 @@
 #include "base/timercomponent.h"
 #include "base/transformcomponent.h"
 #include "effects/bloodpatch.h"
+#include "effects/camerashakecomponent.h"
 #include "effects/firecomponent.h"
 #include "effects/shockwavecomponent.h"
 #include "effects/soundcomponent.h"

@@ -13,6 +13,9 @@
 #include "helpers/collision.h"
 #include "scenes/scenes.h"
 #include "game.h"
+#include "scenemanager.h"
+#include "scenes/menu.h"
+#include <scenes/gamescene.h>
 
 SDL_Rect Game::camera = {0,0,640,480};
 
@@ -22,10 +25,6 @@ std::set<SDL_Keycode> Game::pressedKeys;
 std::set<Uint8> Game::pressedMouseButtons;
 std::vector<ColliderComponent*> Game::colliders;
 
-float Game::shakeIntensity = 0.0f;
-float Game::shakeDuration = 0.0f;
-uint32_t Game::shakeStartTime = 0;
-Vector2D Game::shakeOffset = {0.0f, 0.0f};
 
 std::vector<TileData> TileRenderer::tiles;
 
@@ -41,6 +40,38 @@ Game::Game()
 Game::~Game()
 {
 
+}
+
+void Game::mainLoop()
+{
+
+    const int FPS = 60;
+    const int frameDelay = 1000 / FPS;
+
+    uint32_t frameStart;
+    int frameTime;
+
+    
+    sceneMgr->pushScene(std::make_unique<GameScene>());
+
+    while(running()){
+        frameStart = SDL_GetTicks();
+
+        handleEvents();
+        if(!paused()){
+            sceneMgr->updateScenes();
+            sceneMgr->renderScenes();
+        }
+
+        frameTime = SDL_GetTicks() - frameStart;
+
+        if(frameDelay > frameTime)
+            SDL_Delay(frameDelay - frameTime);
+
+    }
+
+    sceneMgr->cleanupScenes();
+    clean();
 }
 
 void Game::init(const char *title, int xpos, int ypos, int widht, int heigth, bool fullscreen)
@@ -106,7 +137,7 @@ void Game::init(const char *title, int xpos, int ypos, int widht, int heigth, bo
         m_running = false;
     }
 
-    stuff(manager);
+    sceneMgr = new SceneManager;
 
 }
 
@@ -143,6 +174,7 @@ void Game::handleEvents()
     }
 
 }
+
 void Game::togglePause()
 {
     m_paused = !m_paused;
@@ -155,76 +187,9 @@ void Game::dumpStats()
 
 bool Game::paused()
 {
+    // TODO andoli: move to gamescene
     return m_paused;
 }
-
-void Game::update()
-{
-    
-    manager.update();
-    manager.refresh();
-
-    Vector2D pos = manager.get("player")->getComponent<TransformComponent>().pos;
-    camera.x = pos.x - winWidth / 2;
-    camera.y = pos.y - winHeigth / 2;
-
-    // Apply boundary constraints first
-    camera.x = camera.x < 0 ? 0 : camera.x;
-    camera.y = camera.y < 0 ? 0 : camera.y;
-    camera.x = camera.x + camera.w > GameMap::mapWidth ? GameMap::mapWidth - camera.w : camera.x;
-    camera.y = camera.y + camera.h > GameMap::mapHeight ? GameMap::mapHeight - camera.h : camera.y;
-
-    applyCameraShake();
-
-
-}
-
-void inline Game::applyCameraShake()
-{
-    uint32_t currentTime = SDL_GetTicks();
-    if (shakeDuration > 0 && currentTime - shakeStartTime < shakeDuration)
-    {
-        float progress = (currentTime - shakeStartTime) / shakeDuration;
-        float currentIntensity = shakeIntensity * (1.0f - progress);
-
-        float shakeX = (rand() % 200 - 100) / 100.0f * currentIntensity;
-        float shakeY = (rand() % 200 - 100) / 100.0f * currentIntensity;
-
-        // Apply shake but keep within bounds
-        int newX = camera.x + (int)shakeX;
-        int newY = camera.y + (int)shakeY;
-
-        // shake doesn't go outside map boundaries
-        if (newX >= 0 && newX + camera.w <= GameMap::mapWidth)
-        {
-            camera.x = newX;
-        }
-        if (newY >= 0 && newY + camera.h <= GameMap::mapHeight)
-        {
-            camera.y = newY;
-        }
-    }
-}
-void Game::render()
-{
-    SDL_RenderClear(m_renderer);
-
-    // Render static tiles first (background)
-    TileRenderer::renderTiles(m_renderer, camera);
-
-    for(int g = 0; g != groupLast; g++)
-    {
-        auto& entities = manager.getGroup(g);
-        for(auto i{0}; i < entities.size(); i++)
-        {
-            entities[i]->draw();
-        }
-    }
-
-    SDL_RenderPresent(m_renderer);
-
-}
-
 
 void Game::clean()
 {
@@ -255,12 +220,6 @@ Vector2D Game::worldToCamera(Vector2D v)
     return {v.x - camera.x, v.y - camera.y};
 }
 
-void Game::shakeCamera(float intensity, float duration)
-{
-    shakeIntensity = intensity;
-    shakeDuration = duration;
-    shakeStartTime = SDL_GetTicks();
-}
 
 SDL_Renderer* Game::getRenderer()
 {

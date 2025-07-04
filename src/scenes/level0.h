@@ -5,7 +5,6 @@
 #include "engine/gamemap.h"
 #include "ecs/ecs.h"
 #include "ecs/components.h"
-#include "overlay.h"
 
 ScoreData score;
 
@@ -92,10 +91,6 @@ void stuff(EntityManager& manager)
     // score
     auto& theOverlay(manager.addEntity());
     theOverlay.addComponent<OverlayComponent>(score, thePlayer);
-
-
-
-    overlay(manager);
 
 
 }
