@@ -26,7 +26,7 @@ void GameScene::init()
     // Load the map
     m_gameMap = new GameMap();
 
-    GameMap::LoadMap("assets/themap.json");
+    GameMap::LoadMap("assets/themap.json", m_entityManager);
 
     auto &thePlayer(m_entityManager.addEntity("player"));
     thePlayer.addComponent<SoundComponent>();
@@ -100,17 +100,13 @@ void GameScene::init()
     auto &theOverlay(m_entityManager.addEntity());
     theOverlay.addComponent<OverlayComponent>(m_score, thePlayer);
 
-    m_entityManager.refresh();
 }
 
 void GameScene::update()
 {
-
     // follow player camera
     followPlayer();
-    
-
-    Scene::update(); // Call base class update
+    Scene::update();
 }
 
 void GameScene::followPlayer()
@@ -130,28 +126,7 @@ void GameScene::followPlayer()
 
 void GameScene::render()
 {
-
-    // Remove this tilerenderer shit, back to TileComponent
-    if (m_paused && m_executionMode == SceneExecutionMode::RUN_TOP_ONLY)
-        return;
-
-    SDL_RenderClear(Game::getRenderer());
-
-    // Render static tiles first (background)
-    TileRenderer::renderTiles(Game::getRenderer(), Game::camera);
-
-    // TODO andoli: groups should be defined per scene
-    // but its too much refactor now as many components use them
-    for (int g = 0; g != groupLast; g++)
-    {
-        auto &entities = m_entityManager.getGroup(g);
-        for (auto i{0}; i < entities.size(); i++)
-        {
-            entities[i]->draw();
-        }
-    }
-
-    SDL_RenderPresent(Game::getRenderer());
+    Scene::render();
 }
 
 void GameScene::cleanup()

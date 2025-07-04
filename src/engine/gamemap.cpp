@@ -6,6 +6,7 @@
 #include <stdint.h>
 #include <iostream>
 #include <helpers/json.hpp>
+#include "ecs/components.h"
 using json = nlohmann::json;
 
 // Bits on the far end of the 32-bit global tile ID are used for tile flags
@@ -28,7 +29,7 @@ GameMap::~GameMap()
 }
 
 
-void GameMap::LoadMap(const std::string &path)
+void GameMap::LoadMap(const std::string &path, EntityManager& em)
 {
     std::ifstream i(path);
     json j;
@@ -108,7 +109,12 @@ void GameMap::LoadMap(const std::string &path)
                     dst.w = tilewidth;
                     dst.h = tileheight;
 
-                    Game::addTile(tilesetTexture, src, dst, (SDL_RendererFlip)flip);
+                    //Game::addTile(tilesetTexture, src, dst, (SDL_RendererFlip)flip);
+                     // Create tile entity with TileComponent
+                    auto& tile = em.addEntity();
+                    tile.addComponent<TransformComponent>(dst.x, dst.y, dst.w, dst.h);
+                    tile.addComponent<TileComponent>(tilesetTexture, src, (SDL_RendererFlip)flip);
+                    tile.addGroup(groupMap);
                 }
             }
         }

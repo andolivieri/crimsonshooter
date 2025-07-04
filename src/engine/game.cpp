@@ -11,7 +11,6 @@
 #include "ecs/ecs.h"
 #include "ecs/components.h"
 #include "helpers/collision.h"
-#include "scenes/scenes.h"
 #include "game.h"
 #include "scenemanager.h"
 #include "scenes/menu.h"
@@ -26,7 +25,6 @@ std::set<Uint8> Game::pressedMouseButtons;
 std::vector<ColliderComponent*> Game::colliders;
 
 
-std::vector<TileData> TileRenderer::tiles;
 
 EntityManager manager;
 static SDL_Renderer* staticRenderer = nullptr;
@@ -202,7 +200,11 @@ void Game::clean()
 
 void Game::addTile(SDL_Texture* sdlTexture, const SDL_Rect& src, const SDL_Rect& dst, SDL_RendererFlip flip)
 {
-    TileRenderer::addTile(sdlTexture, src, dst, flip);
+    // Create tile entity with TileComponent
+    auto& tile = manager.addEntity();
+    tile.addComponent<TransformComponent>(dst.x, dst.y, dst.w, dst.h);
+    tile.addComponent<TileComponent>(sdlTexture, src, flip);
+    tile.addGroup(groupMap);
 }
 
 bool Game::running()
@@ -227,28 +229,5 @@ SDL_Renderer* Game::getRenderer()
 }
 
 
-void TileRenderer::addTile(SDL_Texture* texture, const SDL_Rect& src, const SDL_Rect& dst, SDL_RendererFlip flip)
-{
-    tiles.emplace_back(texture, src, dst, flip);
-}
-
-void TileRenderer::renderTiles(SDL_Renderer* renderer, const SDL_Rect& camera)
-{
-    for (const auto& tile : tiles) {
-        SDL_Rect cameraDst = tile.dstRect;
-        cameraDst.x -= camera.x;
-        cameraDst.y -= camera.y;
-        
-        if (cameraDst.x + cameraDst.w > 0 && cameraDst.x < camera.w &&
-            cameraDst.y + cameraDst.h > 0 && cameraDst.y < camera.h) {
-            SDL_RenderCopyEx(renderer, tile.texture, &tile.srcRect, &cameraDst, 0, nullptr, tile.flip);
-        }
-    }
-}
-
-void TileRenderer::clearTiles()
-{
-    tiles.clear();
-}
 
 

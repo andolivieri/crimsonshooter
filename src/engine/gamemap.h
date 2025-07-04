@@ -8,6 +8,7 @@
 
 #include <string>
 #include <vector>
+#include "ecs/ecs.h"
 
 struct MapLayer {
     std::string name;
@@ -36,7 +37,7 @@ public:
     static int mapHeight;
     static std::vector<MapLayer> layers;
 
-    static void LoadMap(const std::string& path);
+    static void LoadMap(const std::string& path, EntityManager& em);
 
 private:
 
