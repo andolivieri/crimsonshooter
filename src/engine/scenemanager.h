@@ -23,6 +23,12 @@ enum class FadeState {
     VISIBLE
 };
 
+struct SceneTransitionParams {
+    bool skipFade = false;
+    float fadeInDuration = 0.5f;
+    float fadeOutDuration = 0.5f;
+};
+
 enum class SceneCommand {
     PUSH_SCENE,
     POP_SCENE,
@@ -32,7 +38,7 @@ enum class SceneCommand {
 struct DeferredSceneCommand {
     SceneCommand command;
     std::unique_ptr<Scene> scene;  // Only used for PUSH_SCENE
-    bool skipFade = false;
+    SceneTransitionParams params;
 };
 
 class SceneManager; // Forward declaration
@@ -97,9 +103,8 @@ public:
     SceneManager() = default;
     ~SceneManager() = default;
     
-    // Scene stack operations
-    void pushScene(std::unique_ptr<Scene> scene, bool skipFade = false);
-    void popScene(bool skipFade = false);
+    void pushScene(std::unique_ptr<Scene> scene, const SceneTransitionParams& params = {});
+    void popScene(const SceneTransitionParams& params = {});
     void popAllScenes();
     
     // Scene management
@@ -130,8 +135,8 @@ private:
     void updatePauseStates();
     void executeOnAllScenes(std::function<void(Scene*)> func);
     
-    void pushSceneImmediate(std::unique_ptr<Scene> scene, bool skipFade = false);
-    void popSceneImmediate(bool skipFade = false);
+    void pushSceneImmediate(std::unique_ptr<Scene> scene, const SceneTransitionParams& params = {});
+    void popSceneImmediate(const SceneTransitionParams& params = {});
     void popAllScenesImmediate();
 };
 

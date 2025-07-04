@@ -76,12 +76,11 @@ void SplashScene::createTimer()
 {
     auto& timerEntity = m_entityManager.addEntity("splash_timer");
     
-    // Timer for 2000ms (2 seconds)
-    timerEntity.addComponent<TimerComponent>(2000, false)
+    timerEntity.addComponent<TimerComponent>(3500, false)
         .onTrigger([this](Entity& _) {
-            // Direct scene transition - deferred execution system handles timing safety
-            m_sceneManager.popScene();
-            m_sceneManager.pushScene(std::make_unique<MenuScene>(m_sceneManager));
+            m_sceneManager.popScene({false, 2.0, 2.0});
+            m_sceneManager.pushScene(std::make_unique<MenuScene>(m_sceneManager), 
+                                   {false, 1.0, 3.0});
         });
     
     m_timerEntity = &timerEntity;

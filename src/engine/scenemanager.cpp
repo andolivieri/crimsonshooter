@@ -150,7 +150,7 @@ void Scene::renderFadeOverlay()
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
 }
 
-void SceneManager::pushScene(std::unique_ptr<Scene> scene, bool skipFade)
+void SceneManager::pushScene(std::unique_ptr<Scene> scene, const SceneTransitionParams& params)
 {
     if (!scene) return;
     
@@ -158,32 +158,32 @@ void SceneManager::pushScene(std::unique_ptr<Scene> scene, bool skipFade)
         DeferredSceneCommand cmd;
         cmd.command = SceneCommand::PUSH_SCENE;
         cmd.scene = std::move(scene);
-        cmd.skipFade = skipFade;
+        cmd.params = params;
         m_commandQueue.push(std::move(cmd));
     } else {
-        pushSceneImmediate(std::move(scene), skipFade);
+        pushSceneImmediate(std::move(scene), params);
     }
 }
 
-void SceneManager::pushSceneImmediate(std::unique_ptr<Scene> scene, bool skipFade)
+void SceneManager::pushSceneImmediate(std::unique_ptr<Scene> scene, const SceneTransitionParams& params)
 {
     if (!scene) return;
     
     std::cout << "Pushing scene: " << scene->getName() << std::endl;
     
     // fade out current scene
-    if (!m_sceneStack.empty() && !skipFade) {
+    if (!m_sceneStack.empty() && !params.skipFade) {
         Scene* currentScene = m_sceneStack.top().get();
         if (currentScene->isFadeEnabled()) {
-            currentScene->startFadeOut();
+            currentScene->startFadeOut(params.fadeOutDuration);
         }
     }
     
     scene->onPush();
     
     // fade in on new one
-    if (!skipFade) {
-        scene->startFadeIn();
+    if (!params.skipFade) {
+        scene->startFadeIn(params.fadeInDuration);
     } else {
         scene->setFadeEnabled(false);
     }
@@ -192,21 +192,21 @@ void SceneManager::pushSceneImmediate(std::unique_ptr<Scene> scene, bool skipFad
     updatePauseStates();
 }
 
-void SceneManager::popScene(bool skipFade)
+void SceneManager::popScene(const SceneTransitionParams& params)
 {
     if (m_sceneStack.empty()) return;
     
     if (m_processingScenes) {
         DeferredSceneCommand cmd;
         cmd.command = SceneCommand::POP_SCENE;
-        cmd.skipFade = skipFade;
+        cmd.params = params;
         m_commandQueue.push(std::move(cmd));
     } else {
-        popSceneImmediate(skipFade);
+        popSceneImmediate(params);
     }
 }
 
-void SceneManager::popSceneImmediate(bool skipFade)
+void SceneManager::popSceneImmediate(const SceneTransitionParams& params)
 {
     if (m_sceneStack.empty()) return;
     
@@ -214,8 +214,8 @@ void SceneManager::popSceneImmediate(bool skipFade)
     std::cout << "Popping scene: " << topScene->getName() << std::endl;
     
     // fade out on current scene
-    if (!skipFade && topScene->isFadeEnabled()) {
-        topScene->startFadeOut();
+    if (!params.skipFade && topScene->isFadeEnabled()) {
+        topScene->startFadeOut(params.fadeOutDuration);
     }
     
     topScene->onPop();
@@ -223,10 +223,10 @@ void SceneManager::popSceneImmediate(bool skipFade)
     m_sceneStack.pop();
     
     // fade in the next one
-    if (!m_sceneStack.empty() && !skipFade) {
+    if (!m_sceneStack.empty() && !params.skipFade) {
         Scene* newCurrentScene = m_sceneStack.top().get();
         if (newCurrentScene->isFadeEnabled()) {
-            newCurrentScene->startFadeIn();
+            newCurrentScene->startFadeIn(params.fadeInDuration);
         }
     }
     
@@ -247,7 +247,7 @@ void SceneManager::popAllScenes()
 void SceneManager::popAllScenesImmediate()
 {
     while (!m_sceneStack.empty()) {
-        popSceneImmediate();
+        popSceneImmediate({true});
     }
 }
 
@@ -296,10 +296,10 @@ void SceneManager::processDeferredCommands()
         
         switch (cmd.command) {
             case SceneCommand::PUSH_SCENE:
-                pushSceneImmediate(std::move(cmd.scene), cmd.skipFade);
+                pushSceneImmediate(std::move(cmd.scene), cmd.params);
                 break;
             case SceneCommand::POP_SCENE:
-                popSceneImmediate(cmd.skipFade);
+                popSceneImmediate(cmd.params);
                 break;
             case SceneCommand::POP_ALL_SCENES:
                 popAllScenesImmediate();
@@ -384,20 +384,17 @@ void SceneManager::executeOnAllScenes(std::function<void(Scene*)> func)
     std::stack<std::unique_ptr<Scene>> tempStack;
     std::vector<Scene*> sceneOrder;
     
-    // Move all scenes to temp stack and collect pointers in reverse order
     while (!m_sceneStack.empty()) {
         sceneOrder.push_back(m_sceneStack.top().get());
         tempStack.push(std::move(m_sceneStack.top()));
         m_sceneStack.pop();
     }
     
-    // Restore the original stack
     while (!tempStack.empty()) {
         m_sceneStack.push(std::move(tempStack.top()));
         tempStack.pop();
     }
     
-    // Execute function on scenes in the correct order (top to bottom)
     for (Scene* scene : sceneOrder) {
         func(scene);
     }

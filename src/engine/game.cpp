@@ -40,7 +40,7 @@ void Game::mainLoop()
     static uint32_t lastFrameTime = SDL_GetTicks();
 
     
-    sceneMgr->pushScene(std::make_unique<SplashScene>(*sceneMgr));
+    sceneMgr->pushScene(std::make_unique<SplashScene>(*sceneMgr), {false, 2.0});
 
     while(running()){
         frameStart = SDL_GetTicks();
