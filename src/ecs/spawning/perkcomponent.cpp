@@ -4,6 +4,7 @@
 #include "ecs/weapons/weaponbaycomponent.h"
 #include "ecs/gameplay/damagemodel.h"
 #include "ecs/effects/firecomponent.h"
+#include "ecs/effects/bombruncomponent.h"
 #include <algorithm>
 #include <iostream>
 
@@ -61,6 +62,11 @@ void PerkComponent::applyPerk(Entity& player)
                         }
                     }
                 }
+            } else if (perkName == "bomber") {
+                // Create a bomb run entity that will spawn the bomber after a delay
+                auto& bombRunEntity = player.m_manager.addEntity("bomb_run_controller");
+                bombRunEntity.addComponent<BombRunComponent>(1.0f); // 1 second delay
+                std::cout << "Applied bomber perk: bomber incoming!" << std::endl;
             }
             break;
     }
