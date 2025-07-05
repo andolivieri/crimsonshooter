@@ -43,7 +43,7 @@ private:
         //"pistol", 
         // "chainsaw"
         "uzi", "shotgun"};
-    std::vector<std::string> otherPerks = {"fire", "grenade", "health"};
+    std::vector<std::string> otherPerks = {"fire", "grenade", "health", "bomber"};
     
     std::string drawPerk();
     void createPerkEntity(const std::string& perkName, PerkType perkType, const Vector2D& position);
