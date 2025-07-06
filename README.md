@@ -1,9 +1,18 @@
-# Env
+# Build instructions
 
-* VisualStudio >= 2017
 * cmake
 
-# Build
+## Windows
+
+* VisualStudio >= 2017
+
+## Linux
+
+```
+sudo apt install -y libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev 
+```
+
+## Build
 
 ```
 cd build
