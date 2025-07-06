@@ -4,6 +4,8 @@
 #include "ecs/components.h"
 #include "ecs/weapons/weaponcomponent.h"
 #include <iostream>
+#include <cmath>
+#include <climits>
 
 
 Entity &WeaponFactory::createWeaponEntity(const std::string &weapon, bool mirrored)

@@ -134,6 +134,11 @@ else()
         ${SDL2_MIXER_INCLUDE_DIRS}
         ${SDL2_TTF_INCLUDE_DIRS}
     )
+
+    find_library(MATH_LIBRARY m)
+    if(MATH_LIBRARY)
+        target_link_libraries(${PROJECT_NAME} ${MATH_LIBRARY})
+    endif()
     
     target_compile_options(${PROJECT_NAME} PRIVATE
         ${SDL2_CFLAGS_OTHER}

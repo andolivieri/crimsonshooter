@@ -4,6 +4,7 @@
 #include "ecs/base/spritecomponent.h"
 #include "ecs/base/relationshipcomponent.h"
 #include "engine/game.h"
+#include <cmath>
 
 
 void createBloodSpit(Entity &target)

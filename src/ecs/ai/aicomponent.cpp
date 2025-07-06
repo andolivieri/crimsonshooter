@@ -1,6 +1,7 @@
 #include "aicomponent.h"
 #include "engine/game.h"
 #include "helpers/utils.h"
+#include <cmath>
 
 void AIComponent::update()
 {
@@ -89,8 +90,8 @@ void AIComponent::updateFireBehavior()
     // Change direction every 2 seconds when on fire
     if (currentTime - lastFireDirectionChange > 2000) {
         float angle = (rand() % 360) * M_PI / 180.0f;
-        fireDirection.x = cos(angle);
-        fireDirection.y = sin(angle);
+        fireDirection.x = std::cos(angle);
+        fireDirection.y = std::sin(angle);
         lastFireDirectionChange = currentTime;
     }
     

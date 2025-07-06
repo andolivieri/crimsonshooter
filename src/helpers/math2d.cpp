@@ -1,5 +1,6 @@
 #include "helpers/math2d.h"
 #include <math.h>
+#include <cmath>
 
 double Math2D::angleBetweenPoints(const SDL_Point &p1, const SDL_Point &p2)
 {
@@ -23,7 +24,7 @@ double Math2D::angleBetweenPoints(const Vector2D &p1, const Vector2D &p2)
 
 double Math2D::distanceBetweenPoints(const Vector2D &a, const Vector2D &b)
 {
-   return  std::sqrtf(std::pow(b.x - a.x, 2) + std::pow(b.y - a.y, 2));
+   return  std::sqrt(std::pow(b.x - a.x, 2) + std::pow(b.y - a.y, 2));
 }
 
 
