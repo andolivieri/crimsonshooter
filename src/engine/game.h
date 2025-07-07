@@ -29,10 +29,17 @@ enum groupLabels
 };
 
 
+struct GameLaunchOpts {
+    bool windowed = false; // -w --windowed
+    bool skipSplash = false; // -s --skip-splash
+    
+    GameLaunchOpts() = default;
+};
+
 class Game
 {
 public:
-    Game() = default;
+    Game(GameLaunchOpts);
     ~Game() = default;
 
     void mainLoop();
@@ -68,6 +75,7 @@ public:
     
 private:
 
+    GameLaunchOpts m_args;
     unsigned long cnt = 0;
     bool m_running = false;
     bool m_paused = false;

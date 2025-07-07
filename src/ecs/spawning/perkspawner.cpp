@@ -20,7 +20,7 @@ void PerkSpawnerComponent::update()
 
 
     if(!startPerkSpawned){
-        createPerkEntity("bomber", PerkType::OTHER, {200,200});
+        createPerkEntity("bomber", PerkType::OTHER, {Game::winWidth/2,Game::winHeigth/2 - 150});
         startPerkSpawned = true;
     }
 

@@ -29,6 +29,13 @@ float Game::deltaTime = 0.0f;
 
 static SDL_Renderer* staticRenderer = nullptr;
 
+Game::Game(GameLaunchOpts a):
+    m_args(a)
+{
+
+}
+
+
 void Game::mainLoop()
 {
 
@@ -39,8 +46,11 @@ void Game::mainLoop()
     int frameTime;
     static uint32_t lastFrameTime = SDL_GetTicks();
 
-    
-    sceneMgr->pushScene(std::make_unique<SplashScene>(*sceneMgr), {false, 3.0});
+    if(m_args.skipSplash){
+        sceneMgr->pushScene(std::make_unique<GameScene>(*sceneMgr), {true, 0.0});
+    }else{
+        sceneMgr->pushScene(std::make_unique<SplashScene>(*sceneMgr), {false, 3.0});
+    }
 
     while(running()){
         frameStart = SDL_GetTicks();
