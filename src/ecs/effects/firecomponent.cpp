@@ -16,7 +16,7 @@ void FireComponent::init()
     sprite = &entity->getComponent<SpriteComponent>();
     relationship = &entity->getComponent<RelationshipComponent>();
     startTime = SDL_GetTicks();
-    lastDamageTime = startTime;
+    lastDamageTime = 0;
 
     createFireVisual();
 }
@@ -32,7 +32,7 @@ void FireComponent::update()
         return;
     }
 
-    if (currentTime - lastDamageTime >= ONE_SECOND)
+    if (currentTime - lastDamageTime >= ONE_SECOND || lastDamageTime == 0)
     {
         damageModel->health -= damagePerSecond;
         lastDamageTime = currentTime;

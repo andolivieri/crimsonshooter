@@ -6,8 +6,9 @@
 
 std::pair<Vector2D, Vector2D> getRandomScreenEdgePoints();
 
-BombRunComponent::BombRunComponent(float delaySeconds)
-    : m_delayDuration(delaySeconds)
+BombRunComponent::BombRunComponent( Vector2D target, float delaySeconds) : 
+    m_delayDuration(delaySeconds), 
+    m_target(target)
 {
 }
 
@@ -22,7 +23,7 @@ void BombRunComponent::init()
                     e.destroy();
                 });
     entity->m_manager.addEntity()
-        .addComponent<TimerComponent>(m_delayDuration * ONE_SECOND + 5 * ONE_SECOND, false)
+        .addComponent<TimerComponent>(m_delayDuration * ONE_SECOND + 2 * ONE_SECOND, false)
         .onTrigger([&](Entity &e)
                    { 
                     dropBomb(); 
@@ -33,7 +34,7 @@ void BombRunComponent::init()
 
 void BombRunComponent::spawnBomber()
 {
-    float speed = 5.f;
+    float speed = 15.f;
     Vector2D spriteSize(256, 138);
     int spriteScale = 3;
     auto [startPos, endPos] = getRandomScreenEdgePoints();
@@ -72,8 +73,15 @@ void BombRunComponent::dropBomb()
         auto enemies = entity->m_manager.getGroup(groupEnemies);
         for (auto enemy : enemies) {
             if (!enemy->hasComponent<FireComponent>() && enemy->hasComponent<DamageModelComponent>()) {
+
                 if(!enemy->getComponent<DamageModelComponent>().isDead()){
-                    enemy->addComponent<FireComponent>(10.0f * ONE_SECOND, 5);
+                    const auto distance = Math2D::distanceBetweenPoints(
+                        m_target, 
+                        enemy->getComponent<TransformComponent>().pos
+                    );
+                    const auto dps = 15000 / distance;
+                    std::cout << "DPS: " << dps << " DIST: " << distance << std::endl;
+                    enemy->addComponent<FireComponent>(10 * ONE_SECOND, dps);
                 }
             }
         }
@@ -97,7 +105,6 @@ void BombRunComponent::dropBomb()
         if(alpha >= 1)
             flashEntity.destroy();
     });
-    //flashEntity.addComponent<DecayComponent>(2000.f, 2000);
     flashEntity.addGroup(groupOverlayBg);
 
 }
@@ -109,13 +116,13 @@ std::pair<Vector2D, Vector2D> getRandomScreenEdgePoints() {
 
     const float SCREEN_WIDTH = Game::winWidth;
     const float SCREEN_HEIGHT = Game::winHeigth;
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> edgeDist(0, 7);
-    std::uniform_real_distribution<float> xleftDist(0, SCREEN_WIDTH / 2);
-    std::uniform_real_distribution<float> xRightDist(SCREEN_WIDTH / 2, SCREEN_WIDTH);
-    std::uniform_real_distribution<float> yTopDist(0, SCREEN_HEIGHT / 2);
-    std::uniform_real_distribution<float> yBottomDist(SCREEN_HEIGHT / 2, SCREEN_HEIGHT);
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    static std::uniform_int_distribution<> edgeDist(0, 7);
+    static std::uniform_real_distribution<float> xleftDist(0, SCREEN_WIDTH / 2);
+    static std::uniform_real_distribution<float> xRightDist(SCREEN_WIDTH / 2, SCREEN_WIDTH);
+    static std::uniform_real_distribution<float> yTopDist(0, SCREEN_HEIGHT / 2);
+    static std::uniform_real_distribution<float> yBottomDist(SCREEN_HEIGHT / 2, SCREEN_HEIGHT);
 
     auto getEdgePoint = [&](int edge) -> Vector2D {
         switch (edge) {

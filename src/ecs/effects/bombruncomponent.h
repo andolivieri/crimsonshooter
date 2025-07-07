@@ -10,13 +10,14 @@
 class BombRunComponent : public Component
 {
 public:
-    BombRunComponent(float delaySeconds = 1.0f);
+    BombRunComponent(Vector2D target, float delaySeconds = 1.0f);
     
     void init() override;
     
 private:
     float m_delayTimer = 0.0f;
     float m_delayDuration = 1.0f;
+    Vector2D m_target;
     bool m_bomberSpawned = false;
     bool m_bombDropped = false;
     
