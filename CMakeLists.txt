@@ -60,11 +60,11 @@ endif()
 # Link SDL2 libraries
 if(WIN32)
     target_link_libraries(${PROJECT_NAME}
-        ${CMAKE_SOURCE_DIR}/libs/SDL2/lib/x86/SDL2.lib
-        ${CMAKE_SOURCE_DIR}/libs/SDL2/lib/x86/SDL2main.lib
-        ${CMAKE_SOURCE_DIR}/libs/SDL2_image/lib/x86/SDL2_image.lib
-        ${CMAKE_SOURCE_DIR}/libs/SDL2_mixer/lib/x86/SDL2_mixer.lib
-        ${CMAKE_SOURCE_DIR}/libs/SDL2_ttf/lib/x86/SDL2_ttf.lib
+        ${CMAKE_SOURCE_DIR}/libs/SDL2/lib/x64/SDL2.lib
+        ${CMAKE_SOURCE_DIR}/libs/SDL2/lib/x64/SDL2main.lib
+        ${CMAKE_SOURCE_DIR}/libs/SDL2_image/lib/x64/SDL2_image.lib
+        ${CMAKE_SOURCE_DIR}/libs/SDL2_mixer/lib/x64/SDL2_mixer.lib
+        ${CMAKE_SOURCE_DIR}/libs/SDL2_ttf/lib/x64/SDL2_ttf.lib
         shell32
     )
     
@@ -76,34 +76,34 @@ if(WIN32)
     # Copy DLLs alongside executable
     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            ${CMAKE_SOURCE_DIR}/libs/SDL2/lib/x86/SDL2.dll
+            ${CMAKE_SOURCE_DIR}/libs/SDL2/lib/x64/SDL2.dll
             $<TARGET_FILE_DIR:${PROJECT_NAME}>/SDL2.dll
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            ${CMAKE_SOURCE_DIR}/libs/SDL2_image/lib/x86/libpng16-16.dll
+            ${CMAKE_SOURCE_DIR}/libs/SDL2_image/lib/x64/libpng16-16.dll
             $<TARGET_FILE_DIR:${PROJECT_NAME}>/libpng16-16.dll
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            ${CMAKE_SOURCE_DIR}/libs/SDL2_image/lib/x86/SDL2_image.dll
+            ${CMAKE_SOURCE_DIR}/libs/SDL2_image/lib/x64/SDL2_image.dll
             $<TARGET_FILE_DIR:${PROJECT_NAME}>/SDL2_image.dll
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            ${CMAKE_SOURCE_DIR}/libs/SDL2_image/lib/x86/zlib1.dll
+            ${CMAKE_SOURCE_DIR}/libs/SDL2_image/lib/x64/zlib1.dll
             $<TARGET_FILE_DIR:${PROJECT_NAME}>/zlib1.dll
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            ${CMAKE_SOURCE_DIR}/libs/SDL2_mixer/lib/x86/SDL2_mixer.dll
+            ${CMAKE_SOURCE_DIR}/libs/SDL2_mixer/lib/x64/SDL2_mixer.dll
             $<TARGET_FILE_DIR:${PROJECT_NAME}>/SDL2_mixer.dll
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            ${CMAKE_SOURCE_DIR}/libs/SDL2_mixer/lib/x86/libogg-0.dll
+            ${CMAKE_SOURCE_DIR}/libs/SDL2_mixer/lib/x64/libogg-0.dll
             $<TARGET_FILE_DIR:${PROJECT_NAME}>/libogg-0.dll
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            ${CMAKE_SOURCE_DIR}/libs/SDL2_mixer/lib/x86/libvorbis-0.dll
+            ${CMAKE_SOURCE_DIR}/libs/SDL2_mixer/lib/x64/libvorbis-0.dll
             $<TARGET_FILE_DIR:${PROJECT_NAME}>/libvorbis-0.dll
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            ${CMAKE_SOURCE_DIR}/libs/SDL2_mixer/lib/x86/libvorbisfile-3.dll
+            ${CMAKE_SOURCE_DIR}/libs/SDL2_mixer/lib/x64/libvorbisfile-3.dll
             $<TARGET_FILE_DIR:${PROJECT_NAME}>/libvorbisfile-3.dll
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            ${CMAKE_SOURCE_DIR}/libs/SDL2_ttf/lib/x86/libfreetype-6.dll
+            ${CMAKE_SOURCE_DIR}/libs/SDL2_ttf/lib/x64/libfreetype-6.dll
             $<TARGET_FILE_DIR:${PROJECT_NAME}>/libfreetype-6.dll
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            ${CMAKE_SOURCE_DIR}/libs/SDL2_ttf/lib/x86/SDL2_ttf.dll
+            ${CMAKE_SOURCE_DIR}/libs/SDL2_ttf/lib/x64/SDL2_ttf.dll
             $<TARGET_FILE_DIR:${PROJECT_NAME}>/SDL2_ttf.dll
     )
     
