@@ -29,10 +29,17 @@ enum groupLabels
 };
 
 
+struct GameLaunchOpts {
+    bool windowed = false; // -w --windowed
+    bool skipSplash = false; // -s --skip-splash
+    
+    GameLaunchOpts() = default;
+};
+
 class Game
 {
 public:
-    Game() = default;
+    Game(GameLaunchOpts);
     ~Game() = default;
 
     void mainLoop();
@@ -42,6 +49,7 @@ public:
     void update();
     void render();
     void clean();
+    void renderFPS();
 
     bool running();
 
@@ -58,6 +66,7 @@ public:
     static std::set<Uint8> pressedMouseButtons;
     static std::vector<ColliderComponent*> colliders;
     static float deltaTime;
+    static SceneManager* sceneManager;
     
     
     static SDL_Renderer* getRenderer();
@@ -68,12 +77,17 @@ public:
     
 private:
 
+    GameLaunchOpts m_args;
     unsigned long cnt = 0;
     bool m_running = false;
     bool m_paused = false;
     SDL_Window* m_win = nullptr;
     SDL_Renderer *m_renderer = nullptr;
     SceneManager* sceneMgr = nullptr;
+    
+    static float fps;
+    static int frameCount;
+    static uint32_t lastFPSTime;
 
 
     void togglePause();

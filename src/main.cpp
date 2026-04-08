@@ -1,18 +1,13 @@
 #include "engine/game.h"
 #include "helpers/utils.h"
 
-struct GameLaunchOpts {
-    bool windowed = false; // -w --windowed
-    
-    GameLaunchOpts() = default;
-};
 static GameLaunchOpts parseArgs(int argc, char* argv[]);
 
 int main(int argc, char* argv[])
 {
     GameLaunchOpts args = parseArgs(argc, argv);
     
-    Game g;
+    Game g(args);
 
     g.init("Crimson Shooter",
             SDL_WINDOWPOS_CENTERED,
@@ -36,6 +31,8 @@ static GameLaunchOpts parseArgs(int argc, char* argv[])
         
         if (arg == "-w" || arg == "--windowed") {
             args.windowed = true;
+        } else if( arg == "-s" || arg == "--skip-splash" ){
+            args.skipSplash = true;
         } else {
             std::cout << "Unknown argument: " << arg << std::endl;
         }
