@@ -51,6 +51,7 @@ void PerkComponent::applyPerk(Entity& player)
                               << weaponBay.grenadeCount << ")" << std::endl;
                 }
             } else if (perkName == "fire") {
+                /*
                 Vector2D ringCenter = player.getComponent<TransformComponent>().center();
                 auto &ring = player.m_manager.addEntity();
                 ring.addComponent<TransformComponent>(0,0, 128, 128).centerOn(ringCenter);
@@ -69,6 +70,7 @@ void PerkComponent::applyPerk(Entity& player)
                 });
 
                 ring.addGroup(groupFlames);
+                */
 
 
 
