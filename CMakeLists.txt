@@ -1,5 +1,14 @@
 cmake_minimum_required(VERSION 3.16)
+if(WIN32 AND "${CMAKE_GENERATOR_PLATFORM}" STREQUAL "")
+    set(CMAKE_GENERATOR_PLATFORM "x64" CACHE STRING "Platform (x64 matches bundled SDL)" FORCE)
+endif()
+
 project(crimsonshooter)
+
+if(WIN32 AND MSVC AND CMAKE_SIZEOF_VOID_P EQUAL 4)
+    message(FATAL_ERROR
+        "Can only build x64 on Windows. Delete build dir")
+endif()
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
