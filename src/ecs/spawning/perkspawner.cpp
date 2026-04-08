@@ -20,7 +20,7 @@ void PerkSpawnerComponent::update()
 
 
     if(!startPerkSpawned){
-        createPerkEntity("fire", PerkType::OTHER, {100,100});
+        createPerkEntity("fire", PerkType::OTHER, {Game::winWidth/2,Game::winHeigth/2 - 150});
         startPerkSpawned = true;
     }
 
@@ -95,6 +95,8 @@ void PerkSpawnerComponent::createPerkEntity(const std::string& perkName, PerkTyp
             iconSprite = "assets/grenade.png";
         } else if (perkName == "fire") {
             iconSprite = "assets/fire.png";
+        } else if (perkName == "nuke") {
+            iconSprite = "assets/nuke.png";
         }
         
         if (!iconSprite.empty()) {

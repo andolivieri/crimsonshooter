@@ -31,7 +31,6 @@ private:
     RelationshipComponent* relationship = nullptr;
     
     void createFireVisual();
-    void applyFireDamage();
 };
 
 #endif // FIRECOMPONENT_H

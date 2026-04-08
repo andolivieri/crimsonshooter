@@ -4,6 +4,7 @@
 #include "ecs/weapons/weaponbaycomponent.h"
 #include "ecs/gameplay/damagemodel.h"
 #include "ecs/effects/firecomponent.h"
+#include "ecs/effects/bombruncomponent.h"
 #include <algorithm>
 #include <iostream>
 
@@ -50,6 +51,28 @@ void PerkComponent::applyPerk(Entity& player)
                               << weaponBay.grenadeCount << ")" << std::endl;
                 }
             } else if (perkName == "fire") {
+                /*
+                Vector2D ringCenter = player.getComponent<TransformComponent>().center();
+                auto &ring = player.m_manager.addEntity();
+                ring.addComponent<TransformComponent>(0,0, 128, 128).centerOn(ringCenter);
+                ring.addComponent<SpriteComponent>("assets/ring_of_fire.png")
+                    .setSrcRect({0,0,128,128})
+                    .addAnimation("burn", {0,0,3,50})
+                    .play("burn");
+                ring.addComponent<DecayComponent>(3 * ONE_SECOND);
+                
+
+                ring.addComponent<DumbComponent>().onUpdate([ringCenter, &ring](){
+                    auto& bgTransform = ring.getComponent<TransformComponent>();
+                    bgTransform.width    *= 1.03;
+                    bgTransform.height *= 1.03;
+                    bgTransform.centerOn(ringCenter);
+                });
+
+                ring.addGroup(groupFlames);
+                */
+
+
 
                 auto enemies = player.m_manager.getGroup(groupEnemies);
                 int enemiesSet = 0;
@@ -61,6 +84,11 @@ void PerkComponent::applyPerk(Entity& player)
                         }
                     }
                 }
+            } else if (perkName == "nuke") {
+                // Create a bomb run entity that will spawn the bomber after a delay
+                auto& bombRunEntity = player.m_manager.addEntity("bomb_run_controller");
+                bombRunEntity.addComponent<BombRunComponent>(transform->pos,  1.0f); // 1 second delay
+                std::cout << "Applied bomber perk: bomber incoming!" << std::endl;
             }
             break;
     }
