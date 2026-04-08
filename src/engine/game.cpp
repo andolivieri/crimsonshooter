@@ -8,6 +8,7 @@
 #include "SDL_mixer.h"
 #include "engine/texturemanager.h"
 #include "engine/gamemap.h"
+#include "engine/assetmanager.h"
 #include "ecs/ecs.h"
 #include "ecs/components.h"
 #include "helpers/collision.h"
@@ -25,6 +26,10 @@ std::set<SDL_Keycode> Game::pressedKeys;
 std::set<Uint8> Game::pressedMouseButtons;
 std::vector<ColliderComponent*> Game::colliders;
 float Game::deltaTime = 0.0f;
+float Game::fps = 0.0f;
+int Game::frameCount = 0;
+uint32_t Game::lastFPSTime = 0;
+SceneManager* Game::sceneManager = nullptr;
 
 
 static SDL_Renderer* staticRenderer = nullptr;
@@ -45,6 +50,8 @@ void Game::mainLoop()
     uint32_t frameStart;
     int frameTime;
     static uint32_t lastFrameTime = SDL_GetTicks();
+    
+    lastFPSTime = SDL_GetTicks();
 
     if(m_args.skipSplash){
         sceneMgr->pushScene(std::make_unique<GameScene>(*sceneMgr), {true, 0.0});
@@ -56,6 +63,13 @@ void Game::mainLoop()
         frameStart = SDL_GetTicks();
         deltaTime = (frameStart - lastFrameTime) / 1000.0f;
         lastFrameTime = frameStart;
+        
+        frameCount++;
+        if (frameStart - lastFPSTime >= 1000) {
+            fps = frameCount * 1000.0f / (frameStart - lastFPSTime);
+            frameCount = 0;
+            lastFPSTime = frameStart;
+        }
 
         handleEvents();
         if(!paused()){
@@ -63,6 +77,7 @@ void Game::mainLoop()
             sceneMgr->renderScenes();
             sceneMgr->processDeferredCommands();
         }
+        renderFPS();
 
         frameTime = SDL_GetTicks() - frameStart;
 
@@ -221,6 +236,48 @@ Vector2D Game::worldToCamera(Vector2D v)
 SDL_Renderer* Game::getRenderer()
 {
     return staticRenderer;
+}
+
+void Game::renderFPS()
+{
+    TTF_Font* font = AssetManager::getFont("assets/8bit16.ttf");
+    if (!font) return;
+    
+    SDL_Color green = {0, 255, 0, 255};
+    
+    // Render FPS
+    std::string fpsText = "FPS: " + std::to_string(static_cast<int>(fps));
+    SDL_Surface* fpsSurface = TTF_RenderText_Solid(font, fpsText.c_str(), green);
+    if (fpsSurface) {
+        SDL_Texture* fpsTexture = SDL_CreateTextureFromSurface(staticRenderer, fpsSurface);
+        if (fpsTexture) {
+            SDL_Rect fpsRect = {10, 10, fpsSurface->w, fpsSurface->h};
+            SDL_RenderCopy(staticRenderer, fpsTexture, nullptr, &fpsRect);
+            SDL_DestroyTexture(fpsTexture);
+        }
+        SDL_FreeSurface(fpsSurface);
+    }
+    
+    // Render Entity Count
+    int entityCount = 0;
+    if (sceneMgr) {
+        Scene* currentScene = sceneMgr->getCurrentScene();
+        if (currentScene) {
+            entityCount = currentScene->getEntityManager().getEntityCount();
+        }
+    }
+    
+    std::string entityText = "Entities: " + std::to_string(entityCount);
+    SDL_Surface* entitySurface = TTF_RenderText_Solid(font, entityText.c_str(), green);
+    if (entitySurface) {
+        SDL_Texture* entityTexture = SDL_CreateTextureFromSurface(staticRenderer, entitySurface);
+        if (entityTexture) {
+            SDL_Rect entityRect = {10, 30, entitySurface->w, entitySurface->h};
+            SDL_RenderCopy(staticRenderer, entityTexture, nullptr, &entityRect);
+            SDL_DestroyTexture(entityTexture);
+        }
+        SDL_FreeSurface(entitySurface);
+    }
 }
 
 

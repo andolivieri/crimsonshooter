@@ -49,6 +49,7 @@ public:
     void update();
     void render();
     void clean();
+    void renderFPS();
 
     bool running();
 
@@ -65,6 +66,7 @@ public:
     static std::set<Uint8> pressedMouseButtons;
     static std::vector<ColliderComponent*> colliders;
     static float deltaTime;
+    static SceneManager* sceneManager;
     
     
     static SDL_Renderer* getRenderer();
@@ -82,6 +84,10 @@ private:
     SDL_Window* m_win = nullptr;
     SDL_Renderer *m_renderer = nullptr;
     SceneManager* sceneMgr = nullptr;
+    
+    static float fps;
+    static int frameCount;
+    static uint32_t lastFPSTime;
 
 
     void togglePause();
