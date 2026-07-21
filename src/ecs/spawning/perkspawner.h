@@ -41,7 +41,7 @@ private:
     
     std::vector<std::string> weaponPerks = {
         //"pistol", 
-        // "chainsaw"
+        "chainsaw"
         "uzi", "shotgun"};
     std::vector<std::string> otherPerks = {"fire", "grenade", "health", "nuke"};
     
