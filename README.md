@@ -9,7 +9,10 @@
 ## Linux
 
 ```
+# debian/ubuntu
 sudo apt install -y libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev 
+# fedora/rhel
+sudo dnf install -y gcc-c++ @development-tools cmake SDL2-devel SDL2_image-devel SDL2_mixer-devel SDL2_ttf-devel
 ```
 
 ## Build

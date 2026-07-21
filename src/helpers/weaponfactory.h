@@ -1,6 +1,7 @@
 #ifndef WEAPONFACTORY_H
 #define WEAPONFACTORY_H
 
+#include <cstdint>
 #include "ecs/ecs.h"
 #include "helpers/vector2d.h"
 

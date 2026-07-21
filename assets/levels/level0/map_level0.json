@@ -223,7 +223,7 @@
         {
          "columns":16,
          "firstgid":1,
-         "image":"..\/maps\/desert_32x32.png",
+         "image":"..\/..\/..\/maps\/desert_32x32.png",
          "imageheight":512,
          "imagewidth":512,
          "margin":0,

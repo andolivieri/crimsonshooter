@@ -9,6 +9,71 @@
 #include "ecs/components.h"
 using json = nlohmann::json;
 
+namespace
+{
+    void parsePropertyValue(const json& value, MapProperty& mp)
+    {
+        if (mp.type == "int")
+        {
+            mp.ival = value.get<int>();
+            mp.sval = std::to_string(mp.ival);
+        }
+        else if (mp.type == "bool")
+        {
+            mp.bval = value.get<bool>();
+            mp.sval = mp.bval ? "true" : "false";
+        }
+        else if (mp.type == "float")
+        {
+            mp.fval = value.get<float>();
+            mp.sval = std::to_string(mp.fval);
+        }
+        else
+        {
+            mp.sval = value.get<std::string>();
+        }
+    }
+
+    // Parse a Tiled "objectgroup" layer into GameMap::objects. Each object
+    // carries its name, type, rect, and custom properties (string/int/bool/float).
+    void parseObjectLayer(const json& layer, std::vector<MapObject>& out)
+    {
+        if (!layer.contains("objects"))
+        {
+            return;
+        }
+
+        for (const auto& obj : layer["objects"])
+        {
+            MapObject mo;
+            mo.id = obj.value("id", 0);
+            mo.name = obj.value("name", std::string{});
+            mo.type = obj.value("type", obj.value("class", std::string{}));
+            mo.rect.x = static_cast<int>(obj.value("x", 0.0));
+            mo.rect.y = static_cast<int>(obj.value("y", 0.0));
+            mo.rect.w = static_cast<int>(obj.value("width", 0.0));
+            mo.rect.h = static_cast<int>(obj.value("height", 0.0));
+
+            if (obj.contains("properties"))
+            {
+                for (const auto& p : obj["properties"])
+                {
+                    MapProperty mp;
+                    mp.name = p.value("name", std::string{});
+                    mp.type = p.value("type", std::string{"string"});
+
+                    parsePropertyValue(p["value"], mp);
+                    mo.properties.push_back(mp);
+                }
+            }
+
+            std::cout << "Parsed object: '" << mo.name << "' type='" << mo.type
+                      << "' (" << mo.rect.x << "," << mo.rect.y << ")" << std::endl;
+            out.push_back(mo);
+        }
+    }
+}
+
 // Bits on the far end of the 32-bit global tile ID are used for tile flags
 const unsigned FLIPPED_HORIZONTALLY_FLAG = 0x80000000;
 const unsigned FLIPPED_VERTICALLY_FLAG   = 0x40000000;
@@ -17,6 +82,49 @@ const unsigned FLIPPED_DIAGONALLY_FLAG   = 0x20000000;
 int GameMap::mapWidth = 0;
 int GameMap::mapHeight = 0;
 std::vector<MapLayer> GameMap::layers;
+std::vector<MapObject> GameMap::objects;
+
+const MapProperty* MapObject::prop(const std::string& n) const
+{
+    for (const auto& p : properties)
+    {
+        if (p.name == n)
+        {
+            return &p;
+        }
+    }
+    return nullptr;
+}
+
+std::string MapObject::getString(const std::string& n, const std::string& def) const
+{
+    const MapProperty* p = prop(n);
+    return p ? p->sval : def;
+}
+
+int MapObject::getInt(const std::string& n, int def) const
+{
+    const MapProperty* p = prop(n);
+    return p ? p->ival : def;
+}
+
+bool MapObject::getBool(const std::string& n, bool def) const
+{
+    const MapProperty* p = prop(n);
+    return p ? p->bval : def;
+}
+
+const MapObject* GameMap::getObject(const std::string& name)
+{
+    for (const auto& o : objects)
+    {
+        if (o.name == name)
+        {
+            return &o;
+        }
+    }
+    return nullptr;
+}
 
 GameMap::GameMap()
 {
@@ -31,6 +139,11 @@ GameMap::~GameMap()
 
 void GameMap::LoadMap(const std::string &path, EntityManager& em)
 {
+    // Statics persist across LoadMap calls; reset so reloading a different
+    // level doesn't accumulate the previous map's layers/objects.
+    layers.clear();
+    objects.clear();
+
     std::ifstream i(path);
     json j;
     i >> j;
@@ -58,14 +171,19 @@ void GameMap::LoadMap(const std::string &path, EntityManager& em)
     if (j.contains("layers")) {
         for (const auto& layer : j["layers"]) {
 
-            if (layer["type"] != "tilelayer") {
-                continue;
-            }
-            
             if (layer.contains("visible") && !layer["visible"]) {
                 continue;
             }
-            
+
+            if (layer["type"] == "objectgroup") {
+                parseObjectLayer(layer, objects);
+                continue;
+            }
+
+            if (layer["type"] != "tilelayer") {
+                continue;
+            }
+
             std::string layerName = layer.contains("name") ? layer["name"] : "Unnamed";
             std::cout << "Processing layer: " << layerName << std::endl;
             

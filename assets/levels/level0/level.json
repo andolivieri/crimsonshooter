@@ -1,0 +1,10 @@
+{
+    "name": "LEVEL 0",
+    "order": 0,
+    "map": "assets/levels/level0/map_level0.json",
+    "waves": [
+        { "kind": "standard", "count": 10,   "maxOnScreen": 5  },
+        { "kind": "standard", "count": 20,   "maxOnScreen": 10 },
+        { "kind": "standard", "count": 30,   "maxOnScreen": 15 }
+    ]
+}

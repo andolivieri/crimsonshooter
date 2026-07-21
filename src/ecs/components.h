@@ -29,6 +29,7 @@
 #include "spawning/foespawnercomponent.h"
 #include "spawning/perkcomponent.h"
 #include "spawning/perkspawner.h"
+#include "spawning/triggerzonecomponent.h"
 #include "ui/overlaycomponent.h"
 #include "ui/textcomponent.h"
 #include "ui/menucomponent.h"

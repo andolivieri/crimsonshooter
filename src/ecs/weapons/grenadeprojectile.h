@@ -4,6 +4,7 @@
 #include "ecs/ecs.h"
 #include "ecs/base/transformcomponent.h"
 #include "helpers/vector2d.h"
+#include <cstdint>
 
 class GrenadeProjectileComponent : public Component
 {

@@ -3,11 +3,12 @@
 
 #include "engine/scenemanager.h"
 #include "engine/gamemap.h"
+#include "engine/actionregistry.h"
 #include "ecs/components.h"
 
 class GameScene : public Scene {
 public:
-    GameScene(SceneManager& sceneManager);
+    GameScene(SceneManager& sceneManager, std::string levelId = "level0");
     ~GameScene() override;
 
     void init() override;
@@ -24,7 +25,12 @@ public:
 private:
     GameMap* m_gameMap = nullptr;
     ScoreData m_score;
+    std::string m_levelId;
+    ActionRegistry m_actions;
 
+    void registerActions(FoeSpawnerComponent& spawner);
+    void spawnTriggerZones();
+    void onLevelComplete();
     void followPlayer();
 };
 

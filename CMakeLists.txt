@@ -32,6 +32,19 @@ file(GLOB_RECURSE HEADERS "src/*.h")
 # Create executable
 add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
 
+# Keep dist/assets in sync with assets/.
+# NOTE: this is deliberately a custom target rather than a POST_BUILD command.
+# POST_BUILD only runs when the executable actually relinks, so editing only an
+# asset (e.g. re-exporting a Tiled map) would leave dist/assets stale and the
+# game would silently keep loading the previous version.
+add_custom_target(copy_assets ALL
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/assets
+        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets
+    COMMENT "Syncing assets -> dist/assets"
+)
+add_dependencies(${PROJECT_NAME} copy_assets)
+
 # clang-tidy integration
 option(ENABLE_CLANG_TIDY "Enable clang-tidy analysis" OFF)
 
@@ -115,13 +128,6 @@ if(WIN32)
             ${CMAKE_SOURCE_DIR}/libs/SDL2_ttf/lib/x64/SDL2_ttf.dll
             $<TARGET_FILE_DIR:${PROJECT_NAME}>/SDL2_ttf.dll
     )
-    
-    # Copy assets directory
-    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-            ${CMAKE_SOURCE_DIR}/assets
-            $<TARGET_FILE_DIR:${PROJECT_NAME}>/assets
-    )
 else()
     # For Linux/Mac, use pkg-config to find SDL2
     find_package(PkgConfig REQUIRED)
@@ -154,12 +160,5 @@ else()
         ${SDL2_IMAGE_CFLAGS_OTHER}
         ${SDL2_MIXER_CFLAGS_OTHER}
         ${SDL2_TTF_CFLAGS_OTHER}
-    )
-    
-    # Copy assets directory
-    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-            ${CMAKE_SOURCE_DIR}/assets
-            $<TARGET_FILE_DIR:${PROJECT_NAME}>/assets
     )
 endif()

@@ -2,6 +2,7 @@
 #include "engine/game.h"
 #include "engine/gamemap.h"
 #include "helpers/collision.h"
+#include "helpers/foeregistry.h"
 
 void FoeSpawnerComponent::update()
 {
@@ -72,22 +73,25 @@ void FoeSpawnerComponent::spawnFoe(const std::string foekind)
         break;
     }
 
+    const FoeKindData& kind = FoeRegistry::get(foekind);
+
     theFoe.getComponent<TransformComponent>().pos = spawnPt;
-    theFoe.addComponent<SpriteComponent>("assets/foe.png")
-            .setSrcRect({0,0,32,32})
-            .addAnimation("moving", {0, 0, 4, 200 })
-            .addAnimation("dying", {4, 0, 4, 150 })
-            .addAnimation("idle", {8, 0, 2, 500 })
-            .addAnimation("critical", {10, 0, 3, 50 });
-    theFoe.addComponent<DamageModelComponent>(30);
+    theFoe.addComponent<SpriteComponent>(kind.sprite)
+            .setSrcRect(kind.srcRect)
+            .addAnimation("moving", {kind.moving.col, kind.moving.row, kind.moving.frames, kind.moving.speed})
+            .addAnimation("dying", {kind.dying.col, kind.dying.row, kind.dying.frames, kind.dying.speed})
+            .addAnimation("idle", {kind.idle.col, kind.idle.row, kind.idle.frames, kind.idle.speed})
+            .addAnimation("critical", {kind.critical.col, kind.critical.row, kind.critical.frames, kind.critical.speed});
+    theFoe.addComponent<DamageModelComponent>(kind.health);
     theFoe.addComponent<ScoreCollector>(scoreData);
+    const int contactDamage = kind.contactDamage;
     theFoe.addComponent<ColliderComponent>(foekind + std::to_string(enemyCount++), 4, 4, .8f)
-            .onCollision([&](Entity& target){
+            .onCollision([&theFoe, contactDamage](Entity& target){
 
         Entity* player = theFoe.m_manager.get("player");
 
         if(&target == player){
-            player->getComponent<DamageModelComponent>().health -= 10;
+            player->getComponent<DamageModelComponent>().health -= contactDamage;
         }
 
     });
@@ -107,7 +111,7 @@ void FoeSpawnerComponent::spawnFoe(const std::string foekind)
 
 
     theFoe.addComponent<AIComponent>();
-    float speed = .5f + (rand() / (float)RAND_MAX );
+    float speed = kind.speedMin + (rand() / (float)RAND_MAX) * (kind.speedMax - kind.speedMin);
     theFoe.getComponent<AIComponent>().speed = speed;
 
 

@@ -1,0 +1,6 @@
+{
+    "levels": [
+        { "id": "level0", "manifest": "assets/levels/level0/level.json" },
+        { "id": "level1", "manifest": "assets/levels/level1/level.json" }
+    ]
+}

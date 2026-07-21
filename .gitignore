@@ -3,3 +3,5 @@ dist/**
 .vscode
 .claude
 *.log
+CMakeFiles*
+*.ignore

@@ -148,6 +148,8 @@ void Game::init(const char *title, int xpos, int ypos, int widht, int heigth, bo
 
         m_running = true;
 
+        SDL_StopTextInput();
+
     }else{
         fprintf(stderr, "Failed at SDL init: %s\n", SDL_GetError());
         m_running = false;
