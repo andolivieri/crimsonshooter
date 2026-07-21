@@ -4,7 +4,6 @@ on:
   push:
     branches: [main]
 
-# Allow the workflow to create/update releases and push the "latest" tag.
 permissions:
   contents: write
 
@@ -29,21 +28,63 @@ jobs:
         run: cmake --build build --config Release -j"$(nproc)"
 
       - name: Package build/dist
-        id: package
         run: |
           arch="$(uname -m)"
-          os="linux"
-          name="crimsonshooter-${os}-${arch}"
-          echo "artifact=${name}.zip" >> "$GITHUB_OUTPUT"
+          name="crimsonshooter-linux-${arch}"
           cd build/dist
           zip -r "$GITHUB_WORKSPACE/${name}.zip" .
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-build
+          path: crimsonshooter-linux-*.zip
+          if-no-files-found: error
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure
+        run: cmake -S . -B build
+
+      - name: Build
+        run: cmake --build build --config Release
+
+      - name: Package build/dist
+        shell: pwsh
+        run: |
+          $name = "crimsonshooter-windows-x64"
+          # The exe + DLLs land in dist/Release, but assets are copied to dist/assets.
+          # Flatten them together so the archive is self-contained and runnable.
+          Copy-Item -Recurse build/dist/assets build/dist/Release/assets
+          Compress-Archive -Path build/dist/Release/* -DestinationPath "$name.zip"
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-build
+          path: crimsonshooter-windows-*.zip
+          if-no-files-found: error
+
+  release:
+    needs: [build-linux, build-windows]
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist-artifacts
 
       - name: Publish "latest" release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release delete latest --yes --cleanup-tag || true
+          gh release delete latest --repo "$GITHUB_REPOSITORY" --yes --cleanup-tag || true
           gh release create latest \
+            --repo "$GITHUB_REPOSITORY" \
             --title "latest" \
             --notes "best crimsonshooter build ever :+1:" \
-            "${{ steps.package.outputs.artifact }}"
+            dist-artifacts/*/*.zip
