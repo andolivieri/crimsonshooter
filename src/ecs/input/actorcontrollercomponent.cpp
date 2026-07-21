@@ -29,15 +29,22 @@ void ActorControllerComponent::update()
     }
 
 
-    SDL_Point mousePt;
-    SDL_GetMouseState(&mousePt.x,&mousePt.y);
+    if(input->hasJoyAim)
+    {
+        transform->rotation = input->joyAimAngle;
+    }
+    else
+    {
+        SDL_Point mousePt;
+        SDL_GetMouseState(&mousePt.x,&mousePt.y);
 
-    SDL_Point playerPt;
-    playerPt.x = static_cast<int>(transform->center().x  - Game::camera.x);
-    playerPt.y = static_cast<int>(transform->center().y - Game::camera.y);
+        SDL_Point playerPt;
+        playerPt.x = static_cast<int>(transform->center().x  - Game::camera.x);
+        playerPt.y = static_cast<int>(transform->center().y - Game::camera.y);
 
-    double angle = Math2D::angleBetweenPoints(playerPt, mousePt);
-    transform->rotation = angle;
+        double angle = Math2D::angleBetweenPoints(playerPt, mousePt);
+        transform->rotation = angle;
+    }
 
 
     float speedMultiplier = 1;

@@ -64,6 +64,7 @@ public:
     static bool KEYS[322];
     static std::set<SDL_Keycode> pressedKeys;
     static std::set<Uint8> pressedMouseButtons;
+    static SDL_GameController* gameController;
     static std::vector<ColliderComponent*> colliders;
     static float deltaTime;
     static SceneManager* sceneManager;

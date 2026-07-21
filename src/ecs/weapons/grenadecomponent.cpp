@@ -152,24 +152,13 @@ Vector2D GrenadeComponent::calculateLandingPoint(float chargeLevel)
     if (!transform) return Vector2D(0, 0);
     
     float throwDistance = 10.0f + (chargeLevel * 300.0f);
-    
-    SDL_Point mousePt;
-    SDL_GetMouseState(&mousePt.x, &mousePt.y);
-    
-    // screen 2 world
+
     Vector2D playerPos = transform->center();
-    Vector2D targetPos = Game::cameraToWorld(Vector2D(mousePt.x, mousePt.y));
-    
-    // direction vector
+    double aimRad = Math2D::deg2rad(transform->rotation);
     Vector2D direction;
-    direction.x = targetPos.x - playerPos.x;
-    direction.y = targetPos.y - playerPos.y;
-    
-    float length = direction.magnitude();
-    if (length > 0) {
-        direction.x /= length;
-        direction.y /= length;
-    }
+    direction.x = static_cast<float>(std::cos(aimRad));
+    direction.y = static_cast<float>(std::sin(aimRad));
+
     Vector2D landingPoint;
     landingPoint.x = playerPos.x + (direction.x * throwDistance);
     landingPoint.y = playerPos.y + (direction.y * throwDistance);

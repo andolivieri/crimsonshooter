@@ -24,6 +24,7 @@ int Game::winWidth = 0;
 int Game::winHeigth = 0;
 std::set<SDL_Keycode> Game::pressedKeys;
 std::set<Uint8> Game::pressedMouseButtons;
+SDL_GameController* Game::gameController = nullptr;
 std::vector<ColliderComponent*> Game::colliders;
 float Game::deltaTime = 0.0f;
 float Game::fps = 0.0f;
@@ -104,12 +105,9 @@ void Game::init(const char *title, int xpos, int ypos, int widht, int heigth, bo
     auto sdlFlags =     SDL_INIT_TIMER | \
                         SDL_INIT_AUDIO | \
                         SDL_INIT_VIDEO | \
-                        SDL_INIT_EVENTS;
-                    /*
-                    SDL_INIT_JOYSTICK | \
-                    SDL_INIT_GAMECONTROLLER |
-                    SDL_INIT_NOPARACHUTE | \
-                    */
+                        SDL_INIT_EVENTS | \
+                        SDL_INIT_JOYSTICK | \
+                        SDL_INIT_GAMECONTROLLER;
 
     if(SDL_Init(sdlFlags) == 0)
     {
@@ -149,6 +147,20 @@ void Game::init(const char *title, int xpos, int ypos, int widht, int heigth, bo
         m_running = true;
 
         SDL_StopTextInput();
+
+        for(int i = 0; i < SDL_NumJoysticks(); ++i)
+        {
+            if(SDL_IsGameController(i))
+            {
+                gameController = SDL_GameControllerOpen(i);
+                if(gameController)
+                {
+                    std::cout << "Game controller opened: "
+                              << SDL_GameControllerName(gameController) << std::endl;
+                    break;
+                }
+            }
+        }
 
     }else{
         fprintf(stderr, "Failed at SDL init: %s\n", SDL_GetError());

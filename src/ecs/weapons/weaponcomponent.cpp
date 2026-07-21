@@ -146,11 +146,6 @@ void WeaponStateShooting::shoot()
 void WeaponComponent::createProjectiles()
 {
 
-    SDL_Point mousePt;
-    SDL_GetMouseState(&mousePt.x,&mousePt.y);
-    Vector2D mousePtWorld = Game::cameraToWorld({mousePt.x, mousePt.y});
-
-
     Vector2D bulletStart = transform->center();
     bulletStart.x += weapondata.muzzlePos.x;
     bulletStart.y += weapondata.muzzlePos.y;
@@ -158,6 +153,13 @@ void WeaponComponent::createProjectiles()
                 transform->center(),
                 transform->rotation,
                 bulletStart);
+
+    // both works for mouse and joystick
+    double aimRad = Math2D::deg2rad(transform->rotation);
+    Vector2D aimTarget{
+        bulletStart.x + static_cast<float>(std::cos(aimRad)) * 1000.0f,
+        bulletStart.y + static_cast<float>(std::sin(aimRad)) * 1000.0f
+    };
 
     for(int i=0; i<weapondata.projectileGauges; i++)
     {
@@ -171,7 +173,7 @@ void WeaponComponent::createProjectiles()
         Vector2D randpoint = Math2D::rotate_point(
                     bulletStart,
                     static_cast<float>(angle),
-                    mousePtWorld
+                    aimTarget
                     );
         e.addComponent<ProjectileComponent>(
                     bulletStart,

@@ -51,13 +51,18 @@ public:
 
     std::deque<InputEvent> frameEvents;
 
+    bool hasJoyAim = false;
+    double joyAimAngle = 0;
+
 private:
 
 
     void handleInput();
+    void handleJoystick();
 
     std::set<SDL_Keycode> lastKeys;
     std::set<Uint8> lastMouse;
+    std::set<int> lastJoyButtons;
 
     bool keyReleased(SDL_Keycode );
     bool keyPressedNow(SDL_Keycode k);
