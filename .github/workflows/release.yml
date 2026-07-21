@@ -1,0 +1,49 @@
+name: Build & Release (latest)
+
+on:
+  push:
+    branches: [main]
+
+# Allow the workflow to create/update releases and push the "latest" tag.
+permissions:
+  contents: write
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install SDL2 dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            cmake g++ \
+            libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev
+
+      - name: Configure
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build --config Release -j"$(nproc)"
+
+      - name: Package build/dist
+        id: package
+        run: |
+          arch="$(uname -m)"
+          os="linux"
+          name="crimsonshooter-${os}-${arch}"
+          echo "artifact=${name}.zip" >> "$GITHUB_OUTPUT"
+          cd build/dist
+          zip -r "$GITHUB_WORKSPACE/${name}.zip" .
+
+      - name: Publish "latest" release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete latest --yes --cleanup-tag || true
+          gh release create latest \
+            --title "latest" \
+            --notes "best crimsonshooter build ever :+1:" \
+            "${{ steps.package.outputs.artifact }}"
