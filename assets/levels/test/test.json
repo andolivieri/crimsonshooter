@@ -3,13 +3,6 @@
     "order": -1,
     "map": "assets/levels/test/map_test.json",
     "waves": [
-        { "kind": "runner",   "count": 50, "maxOnScreen": 50 },
-        { "kind": "standard", "count": 30, "maxOnScreen": 15 },
-        { "kind": "brute",    "count": 15, "maxOnScreen": 8  },
-        { "kind": "runner",   "count": 50, "maxOnScreen": 25 },
-        { "kind": "brute",   "count": 50, "maxOnScreen": 30 },
-        { "kind": "runner",   "count": 100, "maxOnScreen": 35 },
-        { "kind": "brute",   "count": 100, "maxOnScreen": 30 },
-        { "kind": "runner",   "count": 100, "maxOnScreen": 50 }
+        { "kind": "brute",   "count": 100, "maxOnScreen": 100 }
     ]
 }

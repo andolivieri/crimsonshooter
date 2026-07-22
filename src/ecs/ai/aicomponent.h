@@ -43,6 +43,8 @@ public:
     Vector2D randtarget;
     Vector2D fireDirection;
     uint32_t lastFireDirectionChange = 0;
+    uint32_t fireDirectionInterval = 2000;
+    bool onFireLastFrame = false;
 
 };
 

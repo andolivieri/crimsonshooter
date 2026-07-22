@@ -39,6 +39,7 @@ void AIComponent::update()
         updateFireBehavior();
         return;
     }
+    onFireLastFrame = false;
 
     Vector2D target = player->getComponent<TransformComponent>().pos;
 
@@ -86,16 +87,19 @@ bool AIComponent::isOnFire()
 void AIComponent::updateFireBehavior()
 {
     uint32_t currentTime = SDL_GetTicks();
-    
-    // Change direction every 2 seconds when on fire
-    if (currentTime - lastFireDirectionChange > 2000) {
+
+    bool justCaughtFire = !onFireLastFrame;
+    onFireLastFrame = true;
+
+    if (justCaughtFire || currentTime - lastFireDirectionChange > fireDirectionInterval) {
         float angle = (rand() % 360) * M_PI / 180.0f;
         fireDirection.x = std::cos(angle);
         fireDirection.y = std::sin(angle);
         lastFireDirectionChange = currentTime;
+        fireDirectionInterval = 500 + rand() % 1001; 
     }
     
-    // Move faster when on fire (2x speed)
+    // Move faster when on fire (2.5x speed)
     float fireSpeed = 2.5;
     transform->velocity.x = fireDirection.x * fireSpeed;
     transform->velocity.y = fireDirection.y * fireSpeed;
