@@ -33,6 +33,14 @@ static GameLaunchOpts parseArgs(int argc, char* argv[])
             args.windowed = true;
         } else if( arg == "-s" || arg == "--skip-splash" ){
             args.skipSplash = true;
+        } else if( arg == "-d" || arg == "--debug-colliders" ){
+            args.debugColliders = true;
+        } else if( arg == "-l" || arg == "--level" ){
+            if (i + 1 < argc) {
+                args.levelId = argv[++i];
+            } else {
+                std::cout << "Missing value for " << arg << " (expected a level id, e.g. --level level1)" << std::endl;
+            }
         } else {
             std::cout << "Unknown argument: " << arg << std::endl;
         }

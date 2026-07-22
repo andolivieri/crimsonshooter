@@ -1,0 +1,11 @@
+{
+    "name": "LEVEL 3",
+    "order": 3,
+    "map": "assets/levels/level3/map_level3.json",
+    "waves": [
+        { "kind": "runner",   "count": 20, "maxOnScreen": 12 },
+        { "kind": "standard", "count": 30, "maxOnScreen": 15 },
+        { "kind": "brute",    "count": 15, "maxOnScreen": 8  },
+        { "kind": "runner",   "count": 40, "maxOnScreen": 20 }
+    ]
+}

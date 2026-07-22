@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include <set>
+#include <string>
 #include <vector>
 #include "SDL.h"
 #include "ecs/components.h"
@@ -32,7 +33,9 @@ enum groupLabels
 struct GameLaunchOpts {
     bool windowed = false; // -w --windowed
     bool skipSplash = false; // -s --skip-splash
-    
+    bool debugColliders = false; // -d --debug-colliders
+    std::string levelId; // --level <id>
+
     GameLaunchOpts() = default;
 };
 
@@ -67,6 +70,7 @@ public:
     static SDL_GameController* gameController;
     static std::vector<ColliderComponent*> colliders;
     static float deltaTime;
+    static bool debugColliders;
     static SceneManager* sceneManager;
     
     

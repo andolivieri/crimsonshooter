@@ -36,10 +36,14 @@ void ProjectileComponent::init()
     if(!entity->hasComponent<TransformComponent>())
         entity->addComponent<TransformComponent>();
     if(!entity->hasComponent<ColliderComponent>()){
-        entity->addComponent<ColliderComponent>().onCollision([&](Entity& enemy)
+        entity->addComponent<ColliderComponent>().onCollision([&](Entity& target)
         {
-            if(enemy.hasComponent<DamageModelComponent>() && enemy.tag != "player") {
-                DamageModelComponent& enemyDamage = enemy.getComponent<DamageModelComponent>();
+            if(target.getComponent<ColliderComponent>().isSolid){
+                entity->destroy();
+                return;
+            }
+            if(target.hasComponent<DamageModelComponent>() && target.tag != "player") {
+                DamageModelComponent& enemyDamage = target.getComponent<DamageModelComponent>();
                 ProjectileComponent& pc = entity->getComponent<ProjectileComponent>();
 
                 enemyDamage.health -= pc.damage;
@@ -47,8 +51,8 @@ void ProjectileComponent::init()
                 pc.hit = true;
                 
                 // Create blood splat on projectile hit
-                if(enemy.hasComponent<TransformComponent>()) {
-                    auto& enemyTransform = enemy.getComponent<TransformComponent>();
+                if(target.hasComponent<TransformComponent>()) {
+                    auto& enemyTransform = target.getComponent<TransformComponent>();
                     auto& splat = entity->m_manager.addEntity();
                     int startSize = 4 + rand() % 8;
                     int endSize = startSize + 4 + rand() % 16;
@@ -57,7 +61,7 @@ void ProjectileComponent::init()
                             .setMaxSize(endSize, endSize);
                     splat.addComponent<DecayComponent>(ONE_MINUTE, ONE_MINUTE - 5*ONE_SECOND);
 
-                    createBloodSpit(enemy);
+                    createBloodSpit(target);
                 }
             }
 

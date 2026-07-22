@@ -27,6 +27,7 @@ std::set<Uint8> Game::pressedMouseButtons;
 SDL_GameController* Game::gameController = nullptr;
 std::vector<ColliderComponent*> Game::colliders;
 float Game::deltaTime = 0.0f;
+bool Game::debugColliders = false;
 float Game::fps = 0.0f;
 int Game::frameCount = 0;
 uint32_t Game::lastFPSTime = 0;
@@ -38,7 +39,7 @@ static SDL_Renderer* staticRenderer = nullptr;
 Game::Game(GameLaunchOpts a):
     m_args(a)
 {
-
+    Game::debugColliders = a.debugColliders;
 }
 
 
@@ -54,7 +55,9 @@ void Game::mainLoop()
     
     lastFPSTime = SDL_GetTicks();
 
-    if(m_args.skipSplash){
+    if(!m_args.levelId.empty()){
+        sceneMgr->pushScene(std::make_unique<GameScene>(*sceneMgr, m_args.levelId), {true, 0.0});
+    }else if(m_args.skipSplash){
         sceneMgr->pushScene(std::make_unique<GameScene>(*sceneMgr), {true, 0.0});
     }else{
         sceneMgr->pushScene(std::make_unique<SplashScene>(*sceneMgr), {false, 3.0});

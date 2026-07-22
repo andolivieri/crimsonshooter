@@ -34,6 +34,22 @@ namespace
         }
     }
 
+    bool boolProperty(const json& node, const std::string& name, bool def = false)
+    {
+        if (!node.contains("properties"))
+        {
+            return def;
+        }
+        for (const auto& p : node["properties"])
+        {
+            if (p.value("name", std::string{}) == name)
+            {
+                return p.value("value", def);
+            }
+        }
+        return def;
+    }
+
     // Parse a Tiled "objectgroup" layer into GameMap::objects. Each object
     // carries its name, type, rect, and custom properties (string/int/bool/float).
     void parseObjectLayer(const json& layer, std::vector<MapObject>& out)
@@ -183,8 +199,11 @@ void GameMap::LoadMap(const std::string &path, EntityManager& em)
             }
 
             std::string layerName = layer.contains("name") ? layer["name"] : "Unnamed";
-            std::cout << "Processing layer: " << layerName << std::endl;
-            
+
+            bool solidLayer = boolProperty(layer, "collides") || layerName == "COLLIDERS";
+            std::cout << "Processing layer: " << layerName
+                      << (solidLayer ? " (solid)" : "") << std::endl;
+
             int layerWidth = layer["width"];
             int layerHeight = layer["height"];
             
@@ -231,6 +250,11 @@ void GameMap::LoadMap(const std::string &path, EntityManager& em)
                     tile.addComponent<TransformComponent>(dst.x, dst.y, dst.w, dst.h);
                     tile.addComponent<TileComponent>(tilesetTexture, src, (SDL_RendererFlip)flip);
                     tile.addGroup(groupMap);
+
+                    if (solidLayer)
+                    {
+                        tile.addComponent<ColliderComponent>("wall").setSolid();
+                    }
                 }
             }
         }
