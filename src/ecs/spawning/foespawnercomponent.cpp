@@ -86,7 +86,7 @@ void FoeSpawnerComponent::spawnFoe(const std::string foekind)
     theFoe.addComponent<ScoreCollector>(scoreData);
     const int contactDamage = kind.contactDamage;
     theFoe.addComponent<ColliderComponent>(foekind + std::to_string(enemyCount++), 4, 4, .8f)
-            .setBlockedBySolids()
+            .setBlockedBySolids("!PERIMETER")
             .onCollision([&theFoe, contactDamage](Entity& target){
 
         Entity* player = theFoe.m_manager.get("player");

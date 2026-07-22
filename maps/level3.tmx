@@ -50,7 +50,7 @@
 15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15
 </data>
  </layer>
- <layer id="1" name="BORDER" width="60" height="40">
+ <layer id="1" name="PERIMETER" width="60" height="40">
   <properties>
    <property name="collides" type="bool" value="true"/>
   </properties>

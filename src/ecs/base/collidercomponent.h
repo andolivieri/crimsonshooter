@@ -3,6 +3,7 @@
 
 #include <string>
 #include <functional>
+#include <vector>
 #include <SDL.h>
 #include "ecs/ecs.h"
 #include "transformcomponent.h"
@@ -17,11 +18,7 @@ public:
     std::string tag;
     TransformComponent* transform;
 
-    // A solid collider is a static obstacle (e.g. a wall tile): it is visible to
-    // other colliders' scans but never moves and never reacts on its own.
     bool isSolid = false;
-    // A mover flagged blockedBySolids gets per-axis movement resolution against
-    // every isSolid collider (player, foes) so it can't walk through walls.
     bool blockedBySolids = false;
 
     ColliderComponent() {}
@@ -29,8 +26,11 @@ public:
     ColliderComponent(const std::string& t, int paddingX, int paddingY, float scale);
 
     ColliderComponent& onCollision(std::function<void(Entity& target)> p);
+
     ColliderComponent& setSolid(bool b = true) { isSolid = b; return *this; }
-    ColliderComponent& setBlockedBySolids(bool b = true) { blockedBySolids = b; return *this; }
+    ColliderComponent& setBlockedBySolids(std::vector<std::string> filters = {});
+    ColliderComponent& setBlockedBySolids(const std::string& filter);
+    bool isBlockedBy(const std::string& solidTag) const;
 
     void init() override;
     void update() override;
@@ -40,6 +40,10 @@ public:
 private:
 
     void resolveAgainstSolids();
+
+    // Solid tags that filter blocking. Empty => blocked by all solids.
+    // A "TAG" entry whitelists; a "!TAG" entry blacklists (blacklist wins).
+    std::vector<std::string> blockFilters;
 
     std::function<void(Entity& target)> onCollisionCb;
 

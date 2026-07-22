@@ -10,6 +10,42 @@ ColliderComponent::ColliderComponent(const std::string &t, int paddingX, int pad
     this->scale = scale;
 }
 
+ColliderComponent& ColliderComponent::setBlockedBySolids(std::vector<std::string> filters)
+{
+    blockedBySolids = true;
+    blockFilters = std::move(filters);
+    return *this;
+}
+
+ColliderComponent& ColliderComponent::setBlockedBySolids(const std::string& filter)
+{
+    return setBlockedBySolids(std::vector<std::string>{filter});
+}
+
+bool ColliderComponent::isBlockedBy(const std::string& solidTag) const
+{
+    if(blockFilters.empty()){
+        return true;
+    }
+
+    bool hasWhitelist = false;
+    bool whitelisted = false;
+    for(const std::string& f : blockFilters){
+        if(!f.empty() && f[0] == '!'){
+            if(f.compare(1, std::string::npos, solidTag) == 0){
+                return false; // blacklisted tag always wins
+            }
+        } else {
+            hasWhitelist = true;
+            if(f == solidTag){
+                whitelisted = true;
+            }
+        }
+    }
+
+    return !hasWhitelist || whitelisted;
+}
+
 void ColliderComponent::init()
 {
     if(!entity->hasComponent<TransformComponent>())
@@ -79,7 +115,7 @@ void ColliderComponent::resolveAgainstSolids()
                 continue;
             }
             ColliderComponent& other = c->getComponent<ColliderComponent>();
-            if(other.isSolid && Collision::AABB(r, other.collider)){
+            if(other.isSolid && isBlockedBy(other.tag) && Collision::AABB(r, other.collider)){
                 return true;
             }
         }

@@ -6,6 +6,10 @@
         { "kind": "runner",   "count": 20, "maxOnScreen": 12 },
         { "kind": "standard", "count": 30, "maxOnScreen": 15 },
         { "kind": "brute",    "count": 15, "maxOnScreen": 8  },
-        { "kind": "runner",   "count": 40, "maxOnScreen": 20 }
+        { "kind": "runner",   "count": 50, "maxOnScreen": 25 },
+        { "kind": "brute",   "count": 50, "maxOnScreen": 30 },
+        { "kind": "runner",   "count": 100, "maxOnScreen": 35 },
+        { "kind": "brute",   "count": 100, "maxOnScreen": 30 },
+        { "kind": "runner",   "count": 100, "maxOnScreen": 50 }
     ]
 }

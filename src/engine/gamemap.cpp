@@ -253,7 +253,7 @@ void GameMap::LoadMap(const std::string &path, EntityManager& em)
 
                     if (solidLayer)
                     {
-                        tile.addComponent<ColliderComponent>("wall").setSolid();
+                        tile.addComponent<ColliderComponent>(layerName).setSolid();
                     }
                 }
             }
