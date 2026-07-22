@@ -18,6 +18,8 @@
 #include "scenes/splash.h"
 #include <scenes/gamescene.h>
 
+#define MAX_FPS 60
+
 SDL_Rect Game::camera = {0,0,640,480};
 
 int Game::winWidth = 0;
@@ -46,7 +48,7 @@ Game::Game(GameLaunchOpts a):
 void Game::mainLoop()
 {
 
-    const int FPS = 60;
+    const int FPS = MAX_FPS;
     const int frameDelay = 1000 / FPS;
 
     uint32_t frameStart;
@@ -81,7 +83,9 @@ void Game::mainLoop()
             sceneMgr->renderScenes();
             sceneMgr->processDeferredCommands();
         }
-        renderFPS();
+        if(m_args.showFPS)
+            renderFPS();
+        SDL_RenderPresent(staticRenderer);
 
         frameTime = SDL_GetTicks() - frameStart;
 

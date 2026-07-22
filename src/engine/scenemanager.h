@@ -7,6 +7,7 @@
 #include <functional>
 #include <vector>
 #include <queue>
+#include <SDL.h>
 #include "ecs/ecs.h"
 
 class Scene;
@@ -78,6 +79,7 @@ public:
     FadeState getFadeState() const { return m_fadeState; }
     bool isFadeComplete() const;
     float getFadeAlpha() const { return m_fadeAlpha; }
+    void setClearColor(SDL_Color color) { m_clearColor = color; }
 
 protected:
     EntityManager m_entityManager;
@@ -86,6 +88,9 @@ protected:
     SceneExecutionMode m_executionMode;
     bool m_paused = false;
     bool m_initialized = false;
+
+    // Default background
+    SDL_Color m_clearColor = {59, 55, 61, 255};
     
     // Fade transition properties
     bool m_fadeEnabled = true;

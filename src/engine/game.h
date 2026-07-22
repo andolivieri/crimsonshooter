@@ -34,6 +34,7 @@ struct GameLaunchOpts {
     bool windowed = false; // -w --windowed
     bool skipSplash = false; // -s --skip-splash
     bool debugColliders = false; // -d --debug-colliders
+    bool showFPS = false; // --fps
     std::string levelId; // --level <id>
 
     GameLaunchOpts() = default;

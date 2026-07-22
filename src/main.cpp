@@ -35,6 +35,8 @@ static GameLaunchOpts parseArgs(int argc, char* argv[])
             args.skipSplash = true;
         } else if( arg == "-d" || arg == "--debug-colliders" ){
             args.debugColliders = true;
+        } else if( arg == "--fps" ){
+            args.showFPS = true;
         } else if( arg == "-l" || arg == "--level" ){
             if (i + 1 < argc) {
                 args.levelId = argv[++i];

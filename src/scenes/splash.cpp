@@ -14,7 +14,7 @@ SplashScene::~SplashScene()
 
 void SplashScene::init()
 {
-    SDL_SetRenderDrawColor(Game::getRenderer(), 10, 10, 30, 255);
+    setClearColor({0, 0, 0, 255});
     createLogo();
     createText();
     createTimer();

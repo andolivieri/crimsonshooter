@@ -16,7 +16,7 @@ MenuScene::~MenuScene()
 
 void MenuScene::init()
 {
-    std::cout << "Initializing MenuScene" << std::endl;
+    setClearColor({0, 0, 0, 255});
     createUI();
 }
 

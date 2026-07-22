@@ -34,6 +34,8 @@ void Scene::render()
 {
     if (m_paused && m_executionMode == SceneExecutionMode::RUN_TOP_ONLY) return;
     
+    SDL_SetRenderDrawColor(Game::getRenderer(),
+                           m_clearColor.r, m_clearColor.g, m_clearColor.b, m_clearColor.a);
     SDL_RenderClear(Game::getRenderer());
     // TODO andoli: groups should be defined per scene
     // but its too much refactor now as many components use them
@@ -47,7 +49,6 @@ void Scene::render()
     }
     
     renderFadeOverlay();
-    SDL_RenderPresent(Game::getRenderer());
 }
 
 void Scene::cleanup()

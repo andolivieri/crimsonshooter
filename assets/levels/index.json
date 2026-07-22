@@ -2,6 +2,7 @@
     "levels": [
         { "id": "level0", "manifest": "assets/levels/level0/level0.json" },
         { "id": "level1", "manifest": "assets/levels/level1/level1.json" },
-        { "id": "level3", "manifest": "assets/levels/level3/level3.json" }
+        { "id": "level3", "manifest": "assets/levels/level3/level3.json" },
+        { "id": "test", "manifest": "assets/levels/test/test.json" }
     ]
 }
