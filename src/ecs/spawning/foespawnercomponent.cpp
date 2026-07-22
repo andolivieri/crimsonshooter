@@ -17,7 +17,7 @@ void FoeSpawnerComponent::update()
     auto& enemies = entity->m_manager.getGroup(groupEnemies);
     auto currentlyOnScreen = enemies.size();
 
-    while(currentWaveSpawnCount <= currentWave.total && currentlyOnScreen < currentWave.maxOnScreen)
+    while(currentWaveSpawnCount < currentWave.total && currentlyOnScreen < currentWave.maxOnScreen)
     {
         spawnFoe(currentWave.whatkind);
         currentlyOnScreen++;
@@ -34,7 +34,6 @@ void FoeSpawnerComponent::update()
 
 bool FoeSpawnerComponent::allEnemiesDefeated() const
 {
-    // TODO andoli booooooooooooooooo bug more kills than enemy spawned?
     return (scoreData.kills >= totalEnemies);
 }
 
