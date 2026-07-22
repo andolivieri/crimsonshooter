@@ -57,9 +57,6 @@ jobs:
         shell: pwsh
         run: |
           $name = "crimsonshooter-windows-x64"
-          # The exe + DLLs land in dist/Release, but assets are copied to dist/assets.
-          # Flatten them together so the archive is self-contained and runnable.
-          Copy-Item -Recurse build/dist/assets build/dist/Release/assets
           Compress-Archive -Path build/dist/Release/* -DestinationPath "$name.zip"
 
       - name: Upload build artifact
