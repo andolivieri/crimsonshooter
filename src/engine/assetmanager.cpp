@@ -1,5 +1,6 @@
 #include "engine/assetmanager.h"
 #include "engine/texturemanager.h"
+#include "engine/resources.h"
 #include <iostream>
 
 std::map<std::string, SDL_Texture*> AssetManager::textures;
@@ -21,7 +22,7 @@ Mix_Chunk *AssetManager::getSound(const std::string &path)
 {
     if(!sounds.count(path))
     {
-        Mix_Chunk* t = Mix_LoadWAV(path.c_str());
+        Mix_Chunk* t = Mix_LoadWAV_RW(Resources::rwops(path), 1);
         sounds[path] = t;
     }
 
@@ -32,7 +33,7 @@ TTF_Font *AssetManager::getFont(const std::string &path)
 {
     if(!fonts.count(path))
     {
-        TTF_Font* t = TTF_OpenFont(path.c_str(), 24);
+        TTF_Font* t = TTF_OpenFontRW(Resources::rwops(path), 1, 24);
         if(!t)
         {
             std::cout << "Error TTF_OpenFont: " << SDL_GetError();

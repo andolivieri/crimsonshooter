@@ -1,8 +1,8 @@
 #include "engine/gamemap.h"
 #include "engine/texturemanager.h"
+#include "engine/resources.h"
 
 #include "engine/game.h"
-#include <fstream>
 #include <stdint.h>
 #include <iostream>
 #include <helpers/json.hpp>
@@ -144,9 +144,7 @@ void GameMap::LoadMap(const std::string &path, EntityManager& em)
     layers.clear();
     objects.clear();
 
-    std::ifstream i(path);
-    json j;
-    i >> j;
+    json j = json::parse(Resources::readString(path));
 
     int w = j["width"];
     int h = j["height"];

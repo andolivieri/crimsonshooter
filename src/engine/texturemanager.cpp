@@ -1,4 +1,5 @@
 #include "engine/texturemanager.h"
+#include "engine/resources.h"
 #include "SDL_image.h"
 
 SDL_Renderer* TextureManager::renderer = 0;
@@ -6,7 +7,7 @@ SDL_Renderer* TextureManager::renderer = 0;
 
 SDL_Texture *TextureManager::loadTexture(const std::string& filename)
 {
-    SDL_Surface* tmp = IMG_Load(filename.c_str());
+    SDL_Surface* tmp = IMG_Load_RW(Resources::rwops(filename), 1);
     SDL_Texture* tex = SDL_CreateTextureFromSurface(TextureManager::renderer, tmp);
     SDL_FreeSurface(tmp);
     return tex;

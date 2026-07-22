@@ -32,18 +32,22 @@ file(GLOB_RECURSE HEADERS "src/*.h")
 # Create executable
 add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
 
-# Keep dist/assets in sync with assets/.
-# NOTE: this is deliberately a custom target rather than a POST_BUILD command.
-# POST_BUILD only runs when the executable actually relinks, so editing only an
-# asset (e.g. re-exporting a Tiled map) would leave dist/assets stale and the
-# game would silently keep loading the previous version.
-add_custom_target(copy_assets ALL
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${CMAKE_SOURCE_DIR}/assets
-        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets
-    COMMENT "Syncing assets -> dist/assets"
+# Embed everything under assets/ directly into the binary
+set(EMBED_SCRIPT ${CMAKE_SOURCE_DIR}/cmake/embed_assets.cmake)
+set(GENERATED_ASSETS ${CMAKE_BINARY_DIR}/generated/embedded_assets.cpp)
+file(GLOB_RECURSE ASSET_FILES CONFIGURE_DEPENDS ${CMAKE_SOURCE_DIR}/assets/*)
+add_custom_command(
+    OUTPUT ${GENERATED_ASSETS}
+    COMMAND ${CMAKE_COMMAND}
+        -DASSET_DIR=${CMAKE_SOURCE_DIR}/assets
+        -DPROJECT_ROOT=${CMAKE_SOURCE_DIR}
+        -DOUTPUT_CPP=${GENERATED_ASSETS}
+        -P ${EMBED_SCRIPT}
+    DEPENDS ${ASSET_FILES} ${EMBED_SCRIPT}
+    COMMENT "Embedding assets -> ${GENERATED_ASSETS}"
+    VERBATIM
 )
-add_dependencies(${PROJECT_NAME} copy_assets)
+target_sources(${PROJECT_NAME} PRIVATE ${GENERATED_ASSETS})
 
 # clang-tidy integration
 option(ENABLE_CLANG_TIDY "Enable clang-tidy analysis" OFF)

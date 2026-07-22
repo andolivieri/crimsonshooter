@@ -1,7 +1,8 @@
 #include "engine/levelmanager.h"
 
+#include "engine/resources.h"
+
 #include <algorithm>
-#include <fstream>
 #include <iostream>
 #include <helpers/json.hpp>
 
@@ -15,15 +16,13 @@ LevelData LevelManager::loadManifest(const std::string& id, const std::string& p
     LevelData level;
     level.id = id;
 
-    std::ifstream in(path);
-    if (!in)
+    if (!Resources::find(path))
     {
         std::cerr << "LevelManager: could not open manifest " << path << std::endl;
         return level;
     }
 
-    json j;
-    in >> j;
+    json j = json::parse(Resources::readString(path));
 
     level.name = j.value("name", id);
     level.order = j.value("order", 0);
@@ -52,15 +51,13 @@ void LevelManager::load(const std::string& indexPath)
     }
     s_loaded = true;
 
-    std::ifstream in(indexPath);
-    if (!in)
+    if (!Resources::find(indexPath))
     {
         std::cerr << "LevelManager: could not open index " << indexPath << std::endl;
         return;
     }
 
-    json j;
-    in >> j;
+    json j = json::parse(Resources::readString(indexPath));
 
     if (j.contains("levels"))
     {
