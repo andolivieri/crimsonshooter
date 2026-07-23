@@ -44,7 +44,7 @@ public:
     bool hit = false;
 
     // Rendered as an oriented streak in raw SDL (no sprite).
-    SDL_Color color = {67, 67, 67, 255};
+    SDL_Color color = {211, 173, 85, 255};
     int renderLength = 6;
     int renderThickness = 2;
 
