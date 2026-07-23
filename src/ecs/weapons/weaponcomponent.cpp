@@ -183,8 +183,9 @@ void WeaponComponent::createProjectiles()
                 .setRange(weapondata.range);
         //e.addComponent<ColliderComponent>().onCollision([&])
 
-        e.addComponent<SpriteComponent>(weapondata.projectileSprite)
-                .setSrcRect({2,2,2,2});
+        if(weapondata.projectileSprite.length())
+            e.addComponent<SpriteComponent>(weapondata.projectileSprite)
+                    .setSrcRect({2,2,2,2});
 
         if(weapondata.tracerEnabled && (tracerCounter++ % weapondata.tracerEvery == 0))
             e.addComponent<TrailComponent>(

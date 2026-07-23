@@ -109,6 +109,7 @@ Entity &WeaponFactory::createShotgun(Entity &e)
     wp.projectileGauges = 12;
     wp.projectileSpreadAngle = 25;
     wp.projectileDamage = 30;
+    wp.projectileSize = 8;
 
 
     e.addComponent<TransformComponent>();
@@ -147,6 +148,10 @@ Entity &WeaponFactory::createUzi(Entity &e)
     wp.projectileSpreadAngle = 7;
     wp.projectileSpeed = 100;
 
+    wp.tracerEnabled = true;
+    wp.tracerEvery = 1;
+    wp.tracerLength = 6;
+
     e.addComponent<TransformComponent>();
     e.getComponent<TransformComponent>().width = 64;
     e.getComponent<TransformComponent>().height = 64;
@@ -178,7 +183,6 @@ Entity &WeaponFactory::createHandgun(Entity &e)
     wp.tracerEnabled = true;
     wp.tracerEvery = 1;
     wp.tracerLength = 6;
-    wp.tracerColor = {124, 126, 123, 255};
 
 
     wp.soundShoot = "assets/sounds/handgun_shoot.ogg";

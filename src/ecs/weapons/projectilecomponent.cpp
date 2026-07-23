@@ -6,9 +6,17 @@
 #include "helpers/math2d.h"
 #include "helpers/utils.h"
 #include "helpers/bloodspit.h"
+#include "engine/texturemanager.h"
+#include <algorithm>
 #include <cmath>
 
 
+
+ProjectileComponent& ProjectileComponent::setColor(SDL_Color c)
+{
+    color = c;
+    return *this;
+}
 
 ProjectileComponent& ProjectileComponent::setDamage(int value)
 {
@@ -108,4 +116,38 @@ void ProjectileComponent::update()
         entity->setActive(false);
     }
 
+}
+
+void ProjectileComponent::draw()
+{
+    // when a sprite is attached, let it do the drawing (legacy path)
+    if(entity->hasComponent<SpriteComponent>())
+        return;
+
+    Vector2D c = transform->center();
+    float cx = c.x - Game::camera.x;
+    float cy = c.y - Game::camera.y;
+
+    // orient the streak along the direction of travel
+    float dx = transform->velocity.x;
+    float dy = transform->velocity.y;
+    float len = std::sqrt(dx * dx + dy * dy);
+    if(len < 0.0001f) { dx = 1; dy = 0; len = 1; }
+    dx /= len; dy /= len;
+
+    // perpendicular unit vector to give the streak some width
+    float nx = -dy, ny = dx;
+
+    const float halfLen = renderLength * 0.5f;
+    const int halfThick = std::max(1, renderThickness / 2);
+
+    SDL_SetRenderDrawColor(TextureManager::renderer, color.r, color.g, color.b, color.a);
+    for(int k = -halfThick; k <= halfThick; k++)
+    {
+        SDL_RenderDrawLine(TextureManager::renderer,
+            static_cast<int>(cx - dx * halfLen + nx * k),
+            static_cast<int>(cy - dy * halfLen + ny * k),
+            static_cast<int>(cx + dx * halfLen + nx * k),
+            static_cast<int>(cy + dy * halfLen + ny * k));
+    }
 }

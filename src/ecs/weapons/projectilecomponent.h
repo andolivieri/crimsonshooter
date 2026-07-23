@@ -29,6 +29,9 @@ public:
 
     void init() override;
     void update() override;
+    void draw() override;
+
+    ProjectileComponent& setColor(SDL_Color c);
 
     Vector2D src;
     Vector2D target;
@@ -39,6 +42,11 @@ public:
     int width = 4;
     int height = 4;
     bool hit = false;
+
+    // Rendered as an oriented streak in raw SDL (no sprite).
+    SDL_Color color = {67, 67, 67, 255};
+    int renderLength = 6;
+    int renderThickness = 2;
 
 };
 

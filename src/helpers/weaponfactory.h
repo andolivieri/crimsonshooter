@@ -33,7 +33,7 @@ public:
     std::string soundEndfire;
 
 
-    std::string projectileSprite = "assets/projectile.png";
+    std::string projectileSprite = "";
     int projectileSize = 4;
     int projectileDamage = 20;
     int projectileGauges = 1;
@@ -46,7 +46,7 @@ public:
     int tracerTickness = 1;
     int tracerLength = 14;
 
-    SDL_Color tracerColor = {80, 255, 80, 255};
+    SDL_Color tracerColor = {124, 126, 123, 255};
 
     Vector2D attachMargin;
 
