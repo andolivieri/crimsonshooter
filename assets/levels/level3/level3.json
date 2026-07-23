@@ -1,7 +1,7 @@
 {
     "name": "LEVEL 3",
     "order": 3,
-    "startingPerks": ["mg"],
+    "startingPerks": ["strafe"],
     "map": "assets/levels/level3/map_level3.json",
     "waves": [
         { "kind": "runner",   "count": 300, "maxOnScreen": 60 },

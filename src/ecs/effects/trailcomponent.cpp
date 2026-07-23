@@ -4,8 +4,8 @@
 #include <algorithm>
 #include <cmath>
 
-TrailComponent::TrailComponent(SDL_Color c, int maxPts, int thick)
-    : color(c), maxPoints(maxPts), thickness(thick)
+TrailComponent::TrailComponent(Config c)
+    : color(c.color), maxPoints(c.maxPoints), thickness(c.thickness)
 {
 }
 

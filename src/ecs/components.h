@@ -20,6 +20,8 @@
 #include "effects/firecomponent.h"
 #include "effects/shockwavecomponent.h"
 #include "effects/soundcomponent.h"
+#include "effects/sparkcomponent.h"
+#include "effects/straferuncomponent.h"
 #include "effects/trailcomponent.h"
 #include "gameplay/damagemodel.h"
 #include "gameplay/scorecollector.h"

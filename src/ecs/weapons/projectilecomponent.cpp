@@ -30,6 +30,23 @@ ProjectileComponent &ProjectileComponent::setRange(int value)
     return *this;
 }
 
+ProjectileComponent &ProjectileComponent::setSpeed(float value)
+{
+    m_speed = value;
+    if(transform) {
+        double radAngle = Math2D::deg2rad(Math2D::angleBetweenPoints(src, target));
+        transform->velocity.x = m_speed * static_cast<float>(std::cos(radAngle));
+        transform->velocity.y = m_speed * static_cast<float>(std::sin(radAngle));
+    }
+    return *this;
+}
+
+ProjectileComponent &ProjectileComponent::onRangeEnd(std::function<void(const Vector2D&)> cb)
+{
+    m_onRangeEnd = std::move(cb);
+    return *this;
+}
+
 ProjectileComponent &ProjectileComponent::setSize(int w, int h)
 {
     transform->width = w;
@@ -113,6 +130,7 @@ void ProjectileComponent::update()
 
     auto distance = Math2D::distanceBetweenPoints(transform->pos, src);
     if(distance > range){
+        if(m_onRangeEnd) m_onRangeEnd(transform->center());
         entity->setActive(false);
     }
 

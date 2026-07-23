@@ -187,12 +187,13 @@ void WeaponComponent::createProjectiles()
             e.addComponent<SpriteComponent>(weapondata.projectileSprite)
                     .setSrcRect({2,2,2,2});
 
-        if(weapondata.tracerEnabled && (tracerCounter++ % weapondata.tracerEvery == 0))
-            e.addComponent<TrailComponent>(
-                weapondata.tracerColor, 
-                weapondata.tracerLength,
-                weapondata.tracerTickness
-            );
+        if(weapondata.tracerEnabled && (tracerCounter++ % weapondata.tracerEvery == 0)){
+            TrailComponent::Config c;
+            c.color = weapondata.tracerColor;
+            c.maxPoints = weapondata.tracerLength;
+            c.thickness = weapondata.tracerTickness;
+            e.addComponent<TrailComponent>(c);
+        }
     }
 
 }

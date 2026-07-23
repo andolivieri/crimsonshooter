@@ -7,12 +7,16 @@
 #include "ecs/base/spritecomponent.h"
 #include "ecs/base/collidercomponent.h"
 #include "helpers/math2d.h"
+#include <functional>
 
 class ProjectileComponent : public Component
 {
 private:
     TransformComponent* transform;
     ColliderComponent* collider;
+
+    // invoked when the bullet stops because it reached its range end
+    std::function<void(const Vector2D&)> m_onRangeEnd;
 
     void spawnTrace();
 public:
@@ -25,7 +29,9 @@ public:
 
     ProjectileComponent& setDamage(int value);
     ProjectileComponent& setRange(int value);
+    ProjectileComponent& setSpeed(float value);
     ProjectileComponent& setSize(int w, int h);
+    ProjectileComponent& onRangeEnd(std::function<void(const Vector2D&)> cb);
 
     void init() override;
     void update() override;

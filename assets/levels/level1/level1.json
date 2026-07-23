@@ -1,7 +1,7 @@
 {
     "name": "LEVEL 1",
     "order": 1,
-    "startingPerks": ["uzi"],
+    "startingPerks": ["nuke"],
     "map": "assets/levels/level1/map_level1.json",
     "waves": [
         { "kind": "runner",   "count": 20, "maxOnScreen": 12 },

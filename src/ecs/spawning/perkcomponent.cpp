@@ -5,6 +5,7 @@
 #include "ecs/gameplay/damagemodel.h"
 #include "ecs/effects/firecomponent.h"
 #include "ecs/effects/bombruncomponent.h"
+#include "ecs/effects/straferuncomponent.h"
 #include <algorithm>
 #include <iostream>
 
@@ -89,6 +90,14 @@ void PerkComponent::applyPerk(Entity& player)
                 auto& bombRunEntity = player.m_manager.addEntity("bomb_run_controller");
                 bombRunEntity.addComponent<BombRunComponent>(transform->pos,  1.0f); // 1 second delay
                 std::cout << "Applied bomber perk: bomber incoming!" << std::endl;
+            } else if (perkName == "strafe") {
+                // A10 strafe run: brrrrt, advancing rain of bullets, then the shadow passes over.
+                auto& strafeEntity = player.m_manager.addEntity("strafe_run_controller");
+                StrafeRunComponent::Config cfg;
+                cfg.fireDuration = 2.0;
+                strafeEntity.addComponent<StrafeRunComponent>
+                    (player.getComponent<TransformComponent>().center(), cfg);
+                std::cout << "Applied strafe perk: A10 inbound, brrrrt!" << std::endl;
             }
             break;
     }

@@ -11,7 +11,13 @@
 class TrailComponent : public Component
 {
 public:
-    TrailComponent(SDL_Color color = {80, 255, 80, 255}, int maxPoints = 14, int thickness = 3);
+    struct Config {
+        SDL_Color color = {80, 255, 80, 255};
+        int maxPoints = 14;
+        int thickness = 3;
+    };
+
+    TrailComponent(Config c);
 
     TrailComponent& setColor(SDL_Color c);
     TrailComponent& setMaxPoints(int n);
