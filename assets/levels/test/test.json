@@ -3,6 +3,6 @@
     "order": -1,
     "map": "assets/levels/test/map_test.json",
     "waves": [
-        { "kind": "standard",   "count": 100, "maxOnScreen": 100 }
+        { "kind": "runner",   "count": 50, "maxOnScreen": 100 }
     ]
 }
