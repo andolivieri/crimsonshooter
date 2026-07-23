@@ -4,7 +4,7 @@
     "startingPerks": ["mg"],
     "map": "assets/levels/level3/map_level3.json",
     "waves": [
-        { "kind": "runner",   "count": 20, "maxOnScreen": 12 },
+        { "kind": "runner",   "count": 300, "maxOnScreen": 60 },
         { "kind": "standard", "count": 30, "maxOnScreen": 15 },
         { "kind": "brute",    "count": 15, "maxOnScreen": 8  },
         { "kind": "runner",   "count": 50, "maxOnScreen": 25 },

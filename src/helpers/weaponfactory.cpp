@@ -202,12 +202,12 @@ Entity &WeaponFactory::createMachineGun(Entity &e)
     wp.muzzlePos.y = -6;
     wp.rate = 1700;
     wp.magazine = 250;
-    wp.reloadTimeMsec = 4000;
+    wp.reloadTimeMsec = 5300;
 
 
     wp.soundShoot = "assets/sounds/mg_shoot.ogg";
     wp.soundEndfire = "assets/sounds/mg_endshoot.ogg";
-    wp.soundReload = "assets/sounds/uzi_reload.ogg";
+    wp.soundReload = "assets/sounds/mg_reload.ogg";
     wp.projectileGauges = 1;
     wp.projectileSize = 4;
     wp.projectileSpreadAngle = 3;
