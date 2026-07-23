@@ -12,3 +12,12 @@ Bugs:
 
 Chores:
 * clang-tidy
+
+Perks ideas:
+* auto turret
+* temp buddy
+* revolt (some foes attack the others)
+
+Level system:
+* several aspects to level up (strenght, speed, stamina, weapon abilities like magazine capacity, reload times, ability to carry more weapon weight etc)
+* abilities 
