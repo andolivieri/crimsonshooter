@@ -28,6 +28,15 @@ LevelData LevelManager::loadManifest(const std::string& id, const std::string& p
     level.order = j.value("order", 0);
     level.mapPath = j.value("map", std::string{});
 
+    // list of perk names to draw the starting perk from
+    if (j.contains("startingPerks"))
+    {
+        for (const auto& perk : j["startingPerks"])
+        {
+            level.startingPerks.push_back(perk.get<std::string>());
+        }
+    }
+
     if (j.contains("waves"))
     {
         for (const auto& w : j["waves"])

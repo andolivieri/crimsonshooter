@@ -64,6 +64,7 @@ private:
     Entity& createUzi(Entity& e);
     Entity& createHandgun(Entity &e);
     Entity& createChainsaw(Entity &e);
+    Entity& createMachineGun(Entity &e);
 };
 
 #endif // WEAPONFACTORY_H

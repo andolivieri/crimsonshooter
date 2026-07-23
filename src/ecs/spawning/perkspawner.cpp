@@ -20,7 +20,8 @@ void PerkSpawnerComponent::update()
 
 
     if(!startPerkSpawned){
-        createPerkEntity("fire", PerkType::OTHER, {Game::winWidth/2,Game::winHeigth/2 - 150});
+        const std::string startPerk = drawStartingPerk();
+        createPerkEntity(startPerk, perkTypeFor(startPerk), {Game::winWidth/2,Game::winHeigth/2 - 150});
         startPerkSpawned = true;
     }
 
@@ -42,6 +43,23 @@ std::string PerkSpawnerComponent::drawPerk()
     
     
     return otherPerks[rand() % otherPerks.size()];
+}
+
+std::string PerkSpawnerComponent::drawStartingPerk()
+{
+    // Draw from the level-provided pool; fall back to weapons if none given.
+    const auto& pool = startingPerkPool.empty() ? weaponPerks : startingPerkPool;
+    return pool[rand() % pool.size()];
+}
+
+PerkType PerkSpawnerComponent::perkTypeFor(const std::string& perkName) const
+{
+    for (const auto& weapon : weaponPerks) {
+        if (weapon == perkName) {
+            return PerkType::WEAPON;
+        }
+    }
+    return PerkType::OTHER;
 }
 
 void PerkSpawnerComponent::createPerkEntity(const std::string& perkName, PerkType perkType, const Vector2D& position)
@@ -117,14 +135,8 @@ void PerkSpawnerComponent::spawnPerk()
     std::string selectedPerk = drawPerk();
     Vector2D spawnPt = scoreData.lastKillPosition;
     
-    PerkType perkType = PerkType::OTHER;
-    for (const auto& weapon : weaponPerks) {
-        if (weapon == selectedPerk) {
-            perkType = PerkType::WEAPON;
-            break;
-        }
-    }
-    
+    PerkType perkType = perkTypeFor(selectedPerk);
+
     std::cout << "Spawning perk: " << selectedPerk << " (type: " 
               << (perkType == PerkType::WEAPON ? "WEAPON" : "OTHER") << ")" << std::endl;
     

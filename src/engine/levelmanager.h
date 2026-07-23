@@ -12,6 +12,7 @@ struct LevelData
     int order = 0;
     std::string mapPath;
     std::vector<FoeWave> waves;
+    std::vector<std::string> startingPerks;
 };
 
 class LevelManager

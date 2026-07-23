@@ -18,8 +18,8 @@ public:
 
     int perkEveryKills = 10;
 
-    PerkSpawnerComponent(ScoreData& sd):
-        scoreData(sd)
+    PerkSpawnerComponent(ScoreData& sd, std::vector<std::string> startingPerkPool = {}):
+        scoreData(sd), startingPerkPool(std::move(startingPerkPool))
     {
 
     }
@@ -40,12 +40,17 @@ private:
     std::vector<std::string> perkHistory;
     
     std::vector<std::string> weaponPerks = {
-        //"pistol", 
+        //"pistol",
         //"chainsaw"
-        "uzi", "shotgun"};
+        "uzi", "shotgun", "mg"};
     std::vector<std::string> otherPerks = {"fire", "grenade", "health", "nuke"};
-    
+
+    // starting perks pool, emtpu = "any weapon".
+    std::vector<std::string> startingPerkPool;
+
     std::string drawPerk();
+    std::string drawStartingPerk();
+    PerkType perkTypeFor(const std::string& perkName) const;
     void createPerkEntity(const std::string& perkName, PerkType perkType, const Vector2D& position);
 };
 #endif // PERKSPAWNER_H

@@ -15,6 +15,8 @@ Entity &WeaponFactory::createWeaponEntity(const std::string &weapon, bool mirror
         createShotgun(theweapon);
     else if(weapon == "uzi")
         createUzi(theweapon);
+    else if(weapon == "mg")
+        createMachineGun(theweapon);
     else if(weapon == "chainsaw")
         createChainsaw(theweapon);
     else
@@ -182,6 +184,42 @@ Entity &WeaponFactory::createHandgun(Entity &e)
             .addAnimation("idle", {0, 0, 1, 100 })
             .addAnimation("shoot", {0, 0, 4, 20})
             .addAnimation("reload", {0, 0, 1, 100});
+    e.addComponent<SoundComponent>();
+    e.addComponent<InputComponent>();
+    e.addComponent<WeaponComponent>(wp);
+    e.addGroup(groupWeapons);
+    return e;
+}
+
+Entity &WeaponFactory::createMachineGun(Entity &e)
+{
+
+    WeaponData wp;
+    wp.sprite = "assets/uzi.png";
+    wp.automatic = true;
+    wp.range = 1500;
+    wp.muzzlePos.x = 25;
+    wp.muzzlePos.y = -6;
+    wp.rate = 1600;
+    wp.magazine = 250;
+    wp.reloadTimeMsec = 4000;
+
+
+    wp.soundShoot = "assets/sounds/uzi_shoot.ogg";
+    wp.soundEndfire = "assets/sounds/uzi_endshoot.ogg";
+    wp.soundReload = "assets/sounds/uzi_reload.ogg";
+    wp.projectileGauges = 1;
+    wp.projectileSize = 4;
+    wp.projectileSpreadAngle = 7;
+    wp.projectileSpeed = 100;
+
+    e.addComponent<TransformComponent>();
+    e.getComponent<TransformComponent>().width = 64;
+    e.getComponent<TransformComponent>().height = 64;
+    e.addComponent<SpriteComponent>("assets/uzi.png")
+            .addAnimation("idle", {0, 0, 1, 100 })
+            .addAnimation("shoot", {0, 0, 4, 20})
+            .addAnimation("reload", {4, 0, 11, 100});
     e.addComponent<SoundComponent>();
     e.addComponent<InputComponent>();
     e.addComponent<WeaponComponent>(wp);
