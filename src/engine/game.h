@@ -34,6 +34,7 @@ struct GameLaunchOpts {
     bool windowed = false; // -w --windowed
     bool skipSplash = false; // -s --skip-splash
     bool debugColliders = false; // -d --debug-colliders
+    bool debugPaths = false; // --debug-paths
     bool showFPS = false; // --fps
     std::string levelId; // --level <id>
 
@@ -72,6 +73,7 @@ public:
     static std::vector<ColliderComponent*> colliders;
     static float deltaTime;
     static bool debugColliders;
+    static bool debugPaths;
     static SceneManager* sceneManager;
     
     

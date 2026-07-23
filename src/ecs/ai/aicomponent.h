@@ -10,6 +10,7 @@
 #include "ecs/base/decaycomponent.h"
 #include "ecs/effects/bloodpatch.h"
 #include "ecs/effects/firecomponent.h"
+#include "ecs/ai/pathfindingcomponent.h"
 #include "helpers/math2d.h"
 
 class AIComponent : public Component
@@ -19,6 +20,7 @@ private:
     SpriteComponent* sprite;
     DamageModelComponent* damage;
     RelationshipComponent* family;
+    PathfindingComponent* pathfinder;
 
 public:
     AIComponent() = default;
@@ -32,6 +34,7 @@ public:
         sprite = &entity->getComponent<SpriteComponent>();
         damage = &entity->getComponent<DamageModelComponent>();
         family = &entity->getComponent<RelationshipComponent>();
+        pathfinder = &entity->getComponent<PathfindingComponent>();
     }
 
     void update() override;

@@ -30,6 +30,7 @@ SDL_GameController* Game::gameController = nullptr;
 std::vector<ColliderComponent*> Game::colliders;
 float Game::deltaTime = 0.0f;
 bool Game::debugColliders = false;
+bool Game::debugPaths = false;
 float Game::fps = 0.0f;
 int Game::frameCount = 0;
 uint32_t Game::lastFPSTime = 0;
@@ -42,6 +43,7 @@ Game::Game(GameLaunchOpts a):
     m_args(a)
 {
     Game::debugColliders = a.debugColliders;
+    Game::debugPaths = a.debugPaths;
 }
 
 

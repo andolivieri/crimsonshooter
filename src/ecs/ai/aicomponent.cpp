@@ -43,24 +43,27 @@ void AIComponent::update()
 
     Vector2D target = player->getComponent<TransformComponent>().pos;
 
-    if(transform->pos.x > target.x)
-        transform->velocity.x = -speed;
-    else if (transform->pos.x < target.x)
-        transform->velocity.x = speed;
-    else
-        transform->velocity.x = 0;
+    // Ask the pathfinder for a route around obstacles; steer toward the next
+    // waypoint. If no path is available (off-map, unreachable, or already in the
+    // player's tile) fall back to straight-line chase so the enemy never freezes.
+    Vector2D playerCenter = player->getComponent<TransformComponent>().center();
+    pathfinder->setGoal(playerCenter);
 
-    if(transform->pos.y > target.y)
-        transform->velocity.y = -speed;
-    else if (transform->pos.y < target.y)
-        transform->velocity.y = speed;
-    else
-        transform->velocity.y = 0;
+    Vector2D myCenter = transform->center();
+    Vector2D steerTarget = pathfinder->hasPath() ? pathfinder->nextWaypoint()
+                                                 : playerCenter;
 
-    if(transform->velocity.x || transform->velocity.y )
-    {
+    float dx = steerTarget.x - myCenter.x;
+    float dy = steerTarget.y - myCenter.y;
+    float dist = std::sqrt(dx * dx + dy * dy);
+
+    if (dist > 0.0001f) {
+        transform->velocity.x = (dx / dist) * speed;
+        transform->velocity.y = (dy / dist) * speed;
         sprite->play("moving");
-    }else{
+    } else {
+        transform->velocity.x = 0;
+        transform->velocity.y = 0;
         sprite->play("idle");
     }
 

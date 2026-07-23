@@ -4,6 +4,7 @@
 
 #include "ai/aicomponent.h"
 #include "ai/dumbcomponent.h"
+#include "ai/pathfindingcomponent.h"
 #include "base/collidercomponent.h"
 #include "base/decaycomponent.h"
 #include "base/fsmcomponent.h"

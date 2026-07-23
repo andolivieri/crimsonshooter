@@ -110,6 +110,7 @@ void FoeSpawnerComponent::spawnFoe(const std::string foekind)
     theFoe.getComponent<RelationshipComponent>().addChildren(&shadow, "shadow");
 
 
+    theFoe.addComponent<PathfindingComponent>();
     theFoe.addComponent<AIComponent>();
     float speed = kind.speedMin + (rand() / (float)RAND_MAX) * (kind.speedMax - kind.speedMin);
     theFoe.getComponent<AIComponent>().speed = speed;

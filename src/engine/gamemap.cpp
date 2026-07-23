@@ -1,6 +1,7 @@
 #include "engine/gamemap.h"
 #include "engine/texturemanager.h"
 #include "engine/resources.h"
+#include "engine/navgrid.h"
 
 #include "engine/game.h"
 #include <stdint.h>
@@ -170,6 +171,8 @@ void GameMap::LoadMap(const std::string &path, EntityManager& em)
     mapWidth = w * tilewidth;
     mapHeight = h * tileheight;
 
+    NavGrid::reset(w, h, tilewidth, tileheight);
+
     // Load tileset information from JSON
     int firstgid = 1;
     int tilesetRows = 16;
@@ -254,6 +257,7 @@ void GameMap::LoadMap(const std::string &path, EntityManager& em)
                     if (solidLayer)
                     {
                         tile.addComponent<ColliderComponent>(layerName).setSolid();
+                        NavGrid::setBlocked(x, y);
                     }
                 }
             }
