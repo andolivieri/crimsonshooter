@@ -61,6 +61,7 @@ void BombRunComponent::spawnBomber()
     transform.rotation = angle + 90;
 
     bomberEntity.addComponent<DecayComponent>(10 * ONE_SECOND, 10 * ONE_SECOND);
+    bomberEntity.addComponent<SoundComponent>().play("assets/sounds/jet_flyby.ogg");
     bomberEntity.addGroup(groupProjectiles);
 
     m_bomberEntity = &bomberEntity;
@@ -90,6 +91,7 @@ void BombRunComponent::dropBomb()
 
     auto &flashEntity = entity->m_manager.addEntity();
     const auto startTimeMsec = SDL_GetTicks();
+    flashEntity.addComponent<SoundComponent>().play("assets/sounds/nuke.ogg",0);
 
     flashEntity.addComponent<DumbComponent>().onDraw([startTimeMsec, &flashEntity](){
         auto timediff = SDL_GetTicks() - startTimeMsec;
