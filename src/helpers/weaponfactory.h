@@ -2,6 +2,7 @@
 #define WEAPONFACTORY_H
 
 #include <cstdint>
+#include <SDL.h>
 #include "ecs/ecs.h"
 #include "helpers/vector2d.h"
 
@@ -38,6 +39,14 @@ public:
     int projectileGauges = 1;
     int projectileSpreadAngle = 0;
     int projectileSpeed = 1;
+
+    // Tracer trail: attach a TrailComponent to every N-th projectile
+    bool tracerEnabled = false;
+    int tracerEvery = 3;
+    int tracerTickness = 1;
+    int tracerLength = 14;
+
+    SDL_Color tracerColor = {80, 255, 80, 255};
 
     Vector2D attachMargin;
 

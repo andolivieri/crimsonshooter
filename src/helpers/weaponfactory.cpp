@@ -99,6 +99,11 @@ Entity &WeaponFactory::createShotgun(Entity &e)
     wp.rate = 180;
     wp.magazine = 2;
     wp.reloadTimeMsec = 1200;
+    
+    wp.tracerEnabled = true;
+    wp.tracerEvery = 1;
+    wp.tracerLength = 6;
+    wp.tracerColor = {124, 126, 123, 255};
 
     wp.soundShoot = "assets/sounds/shotgun_shoot.ogg";
     wp.projectileGauges = 12;
@@ -169,6 +174,12 @@ Entity &WeaponFactory::createHandgun(Entity &e)
     wp.magazine = 17;
     wp.reloadTimeMsec = 2000;
 
+    
+    wp.tracerEnabled = true;
+    wp.tracerEvery = 1;
+    wp.tracerLength = 6;
+    wp.tracerColor = {124, 126, 123, 255};
+
 
     wp.soundShoot = "assets/sounds/handgun_shoot.ogg";
     wp.soundReload = "assets/sounds/handgun_reload.ogg";
@@ -212,6 +223,11 @@ Entity &WeaponFactory::createMachineGun(Entity &e)
     wp.projectileSize = 4;
     wp.projectileSpreadAngle = 3;
     wp.projectileSpeed = 180;
+
+    // green tracer, 1 bullet every 3
+    wp.tracerEnabled = true;
+    wp.tracerEvery = 3;
+    wp.tracerColor = {80, 255, 80, 255};
 
     e.addComponent<TransformComponent>();
     e.getComponent<TransformComponent>().width = 64;

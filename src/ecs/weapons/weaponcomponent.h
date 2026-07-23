@@ -29,6 +29,7 @@ public:
 private:
 
     WeaponData weapondata;
+    int tracerCounter = 0;
     InputComponent* input;
     TransformComponent* transform;
     FSM_StateBase* state = nullptr;

@@ -185,6 +185,13 @@ void WeaponComponent::createProjectiles()
 
         e.addComponent<SpriteComponent>(weapondata.projectileSprite)
                 .setSrcRect({2,2,2,2});
+
+        if(weapondata.tracerEnabled && (tracerCounter++ % weapondata.tracerEvery == 0))
+            e.addComponent<TrailComponent>(
+                weapondata.tracerColor, 
+                weapondata.tracerLength,
+                weapondata.tracerTickness
+            );
     }
 
 }
