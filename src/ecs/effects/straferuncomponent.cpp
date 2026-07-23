@@ -146,6 +146,7 @@ void StrafeRunComponent::spawnBulletVolley(float frontProgress)
     EntityManager* mgr = &entity->m_manager;
     SparkComponent::Config sparkCfg;
     sparkCfg.sparkDuration = m_cfg.sparkDuration;
+    sparkCfg.color = {157, 116, 86, 255};
 
     for (const auto& lane : m_lanes) {
         float ex = lane.exit.x - lane.entry.x;
