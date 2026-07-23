@@ -1,7 +1,10 @@
 #include "collidercomponent.h"
 #include "engine/game.h"
 #include "engine/texturemanager.h"
+#include "engine/navgrid.h"
 #include "helpers/collision.h"
+#include <algorithm>
+#include <cmath>
 
 ColliderComponent::ColliderComponent(const std::string &t, int paddingX, int paddingY, float scale): tag(t)
 {
@@ -89,8 +92,100 @@ void ColliderComponent::update()
 
 }
 
+Vector2D ColliderComponent::circleCenter() const
+{
+    const float w = transform->width * scale;
+    const float h = transform->height * scale;
+    return Vector2D{ transform->pos.x + paddingX + w * 0.5f,
+                     transform->pos.y + paddingY + h * 0.5f };
+}
+
+float ColliderComponent::circleRadius() const
+{
+    const float w = transform->width * scale;
+    const float h = transform->height * scale;
+    return (w < h ? w : h) * 0.5f;
+}
+
+bool ColliderComponent::pushIsInternal(int cc, int cr, const SDL_Rect& tile,
+                                       const Vector2D& c) const
+{
+    const float left = static_cast<float>(tile.x);
+    const float right = static_cast<float>(tile.x + tile.w);
+    const float top = static_cast<float>(tile.y);
+    const float bottom = static_cast<float>(tile.y + tile.h);
+
+    // Which rect features the circle center is clamped against tells us the
+    // contact: a face (one axis) or a corner (both). A face/corner is only a
+    // real, exposed contact when the neighbouring cell in that direction is
+    // open; if it's blocked, this is a shared tile seam and must be ignored.
+    const int nx = c.x < left ? -1 : (c.x > right ? 1 : 0);
+    const int ny = c.y < top ? -1 : (c.y > bottom ? 1 : 0);
+
+    if (nx != 0 && ny != 0) {
+        return NavGrid::isBlocked(cc + nx, cr) || NavGrid::isBlocked(cc, cr + ny);
+    }
+    if (nx != 0) {
+        return NavGrid::isBlocked(cc + nx, cr);
+    }
+    if (ny != 0) {
+        return NavGrid::isBlocked(cc, cr + ny);
+    }
+    return false; // center inside the tile: always resolve
+}
+
+void ColliderComponent::resolveCircleAgainstSolids()
+{
+    if (!NavGrid::ready()) {
+        return;
+    }
+
+    const float radius = circleRadius();
+
+    // A couple of passes let multi-tile contacts (e.g. inside corners) settle.
+    for (int pass = 0; pass < 2; ++pass) {
+        Vector2D c = circleCenter();
+
+        int c0, r0, c1, r1;
+        NavGrid::worldToCell(Vector2D{ c.x - radius, c.y - radius }, c0, r0);
+        NavGrid::worldToCell(Vector2D{ c.x + radius, c.y + radius }, c1, r1);
+
+        bool moved = false;
+        for (int cr = r0; cr <= r1; ++cr) {
+            for (int cc = c0; cc <= c1; ++cc) {
+                for (ColliderComponent* solid : NavGrid::solidsAt(cc, cr)) {
+                    if (solid == this || !solid->isSolid || !isBlockedBy(solid->tag)) {
+                        continue;
+                    }
+                    Vector2D push;
+                    if (!Collision::circleVsRect(c, radius, solid->collider, push)) {
+                        continue;
+                    }
+                    if (pushIsInternal(cc, cr, solid->collider, c)) {
+                        continue;
+                    }
+                    transform->pos.x += push.x;
+                    transform->pos.y += push.y;
+                    c.x += push.x;
+                    c.y += push.y;
+                    moved = true;
+                }
+            }
+        }
+
+        if (!moved) {
+            break;
+        }
+    }
+}
+
 void ColliderComponent::resolveAgainstSolids()
 {
+    if (isCircle) {
+        resolveCircleAgainstSolids();
+        return;
+    }
+
     // rolls back TransformComponent on per-axis base
     const float velX = transform->velocity.x;
     const float velY = transform->velocity.y;
@@ -142,12 +237,33 @@ void ColliderComponent::draw()
         return;
     }
 
-    SDL_Rect r = collider;
-    r.x -= Game::camera.x;
-    r.y -= Game::camera.y;
     SDL_SetRenderDrawColor(TextureManager::renderer,
                            isSolid ? 0 : 255, isSolid ? 255 : 0, 0, 255);
-    SDL_RenderDrawRect(TextureManager::renderer, &r);
+
+    if(isCircle){
+        const Vector2D c = circleCenter();
+        const int cx = static_cast<int>(c.x) - Game::camera.x;
+        const int cy = static_cast<int>(c.y) - Game::camera.y;
+        const int rad = static_cast<int>(circleRadius());
+        constexpr float TWO_PI = 6.2831853f;
+        constexpr int segments = 24;
+        for(int i = 0; i < segments; ++i){
+            const float a0 = TWO_PI * i / segments;
+            const float a1 = TWO_PI * (i + 1) / segments;
+            SDL_RenderDrawLine(TextureManager::renderer,
+                cx + static_cast<int>(std::cos(a0) * rad),
+                cy + static_cast<int>(std::sin(a0) * rad),
+                cx + static_cast<int>(std::cos(a1) * rad),
+                cy + static_cast<int>(std::sin(a1) * rad));
+        }
+    }else{
+
+        SDL_Rect r = collider;
+        r.x -= Game::camera.x;
+        r.y -= Game::camera.y;
+        SDL_RenderDrawRect(TextureManager::renderer, &r);
+    }
+
 }
 
 ColliderComponent& ColliderComponent::onCollision(std::function<void(Entity& target)> p)

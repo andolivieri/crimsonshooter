@@ -256,8 +256,9 @@ void GameMap::LoadMap(const std::string &path, EntityManager& em)
 
                     if (solidLayer)
                     {
-                        tile.addComponent<ColliderComponent>(layerName).setSolid();
+                        ColliderComponent& col = tile.addComponent<ColliderComponent>(layerName).setSolid();
                         NavGrid::setBlocked(x, y);
+                        NavGrid::registerSolid(x, y, &col);
                     }
                 }
             }

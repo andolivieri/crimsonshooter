@@ -5,6 +5,7 @@ int NavGrid::s_rows = 0;
 int NavGrid::s_tileW = 0;
 int NavGrid::s_tileH = 0;
 std::vector<uint8_t> NavGrid::s_blocked;
+std::vector<std::vector<ColliderComponent*>> NavGrid::s_solids;
 
 void NavGrid::reset(int cols, int rows, int tileW, int tileH)
 {
@@ -13,6 +14,24 @@ void NavGrid::reset(int cols, int rows, int tileW, int tileH)
     s_tileW = tileW;
     s_tileH = tileH;
     s_blocked.assign(static_cast<size_t>(cols) * rows, 0);
+    s_solids.assign(static_cast<size_t>(cols) * rows, {});
+}
+
+void NavGrid::registerSolid(int c, int r, ColliderComponent* col)
+{
+    if (!inBounds(c, r) || col == nullptr) {
+        return;
+    }
+    s_solids[static_cast<size_t>(r) * s_cols + c].push_back(col);
+}
+
+const std::vector<ColliderComponent*>& NavGrid::solidsAt(int c, int r)
+{
+    static const std::vector<ColliderComponent*> empty;
+    if (!inBounds(c, r)) {
+        return empty;
+    }
+    return s_solids[static_cast<size_t>(r) * s_cols + c];
 }
 
 void NavGrid::setBlocked(int c, int r)

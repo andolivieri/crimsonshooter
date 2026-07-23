@@ -20,6 +20,7 @@ public:
 
     bool isSolid = false;
     bool blockedBySolids = false;
+    bool isCircle = false;
 
     ColliderComponent() {}
     ColliderComponent(const std::string& t): tag(t){}
@@ -28,6 +29,7 @@ public:
     ColliderComponent& onCollision(std::function<void(Entity& target)> p);
 
     ColliderComponent& setSolid(bool b = true) { isSolid = b; return *this; }
+    ColliderComponent& setCircle(bool b = true) { isCircle = b; return *this; }
     ColliderComponent& setBlockedBySolids(std::vector<std::string> filters = {});
     ColliderComponent& setBlockedBySolids(const std::string& filter);
     bool isBlockedBy(const std::string& solidTag) const;
@@ -40,6 +42,14 @@ public:
 private:
 
     void resolveAgainstSolids();
+    void resolveCircleAgainstSolids();
+
+    Vector2D circleCenter() const;
+    float circleRadius() const;
+    // True when a push against tile (cc,cr) comes from an internal edge/corner
+    // shared with a neighbouring solid tile (a "ghost" contact to be ignored).
+    bool pushIsInternal(int cc, int cr, const SDL_Rect& tile,
+                        const Vector2D& c) const;
 
     // Solid tags that filter blocking. Empty => blocked by all solids.
     // A "TAG" entry whitelists; a "!TAG" entry blacklists (blacklist wins).
