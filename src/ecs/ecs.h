@@ -34,7 +34,7 @@ template <typename T> inline ComponentID getComponentTypeID() noexcept
     return typeID;
 }
 
-constexpr std::size_t maxComponents = 32;
+constexpr std::size_t maxComponents = 64;
 constexpr std::size_t maxGroups = 32;
 // Serve per sapere se una entity ha un dato component
 using ComponentBitSet = std::bitset<maxComponents>;
