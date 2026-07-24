@@ -25,7 +25,9 @@ public:
         float sparkDuration = 300;       // spark particle duration
     };
 
-    StrafeRunComponent(Vector2D callerWorldPos, Config cfg = {});
+    StrafeRunComponent(Vector2D callerWorldPos, Config cfg);
+    StrafeRunComponent(Vector2D callerWorldPos)
+        : StrafeRunComponent(callerWorldPos, Config{}) {}
 
     void init() override;
     void update() override;

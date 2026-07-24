@@ -5,7 +5,8 @@
 #include <cmath>
 
 SparkComponent::SparkComponent(Vector2D worldPos, Config cfg)
-    : m_origin(worldPos), m_color(cfg.color), m_count(cfg.count)
+    : m_origin(worldPos), m_color(cfg.color), m_count(cfg.count),
+      m_lifeMsec(static_cast<uint32_t>(cfg.sparkDuration > 1.f ? cfg.sparkDuration : 1.f))
 {
 }
 

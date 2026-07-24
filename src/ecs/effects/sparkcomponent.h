@@ -16,7 +16,8 @@ public:
         float sparkDuration = 900;       // spark particle duration
     };
 
-    SparkComponent(Vector2D worldPos, Config = {});
+    SparkComponent(Vector2D worldPos, Config cfg);
+    SparkComponent(Vector2D worldPos) : SparkComponent(worldPos, Config{}) {}
 
     void init() override;
     void update() override;
@@ -33,7 +34,7 @@ private:
     int m_count;
     std::vector<Particle> m_particles;
     uint32_t m_startTicks = 0;
-    uint32_t m_lifeMsec = 2000;
+    uint32_t m_lifeMsec;    // from Config::sparkDuration
 };
 
 #endif // SPARKCOMPONENT_H
