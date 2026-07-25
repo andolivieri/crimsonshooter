@@ -47,6 +47,12 @@
          "id":4,
          "name":"BG",
          "opacity":1,
+         "properties":[
+                {
+                 "name":"static",
+                 "type":"bool",
+                 "value":true
+                }],
          "type":"tilelayer",
          "visible":true,
          "width":60,
@@ -100,9 +106,9 @@
          "opacity":1,
          "properties":[
                 {
-                 "name":"collides",
+                 "name":"static",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }],
          "type":"tilelayer",
          "visible":true,
@@ -155,6 +161,12 @@
          "id":6,
          "name":"ARENA",
          "opacity":1,
+         "properties":[
+                {
+                 "name":"static",
+                 "type":"bool",
+                 "value":true
+                }],
          "type":"tilelayer",
          "visible":true,
          "width":60,

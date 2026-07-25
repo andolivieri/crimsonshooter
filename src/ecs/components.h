@@ -11,6 +11,7 @@
 #include "base/predicatecomponent.h"
 #include "base/relationshipcomponent.h"
 #include "base/spritecomponent.h"
+#include "base/staticmapcomponent.h"
 #include "base/tilecomponent.h"
 #include "base/timercomponent.h"
 #include "base/transformcomponent.h"

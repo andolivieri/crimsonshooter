@@ -47,6 +47,12 @@
          "id":4,
          "name":"BG",
          "opacity":1,
+         "properties":[
+                {
+                 "name":"static",
+                 "type":"bool",
+                 "value":true
+                }],
          "type":"tilelayer",
          "visible":true,
          "width":60,
@@ -98,6 +104,12 @@
          "id":1,
          "name":"TERRAIN",
          "opacity":1,
+         "properties":[
+                {
+                 "name":"static",
+                 "type":"bool",
+                 "value":true
+                }],
          "type":"tilelayer",
          "visible":true,
          "width":60,
@@ -160,7 +172,7 @@
          "width":60,
          "x":0,
          "y":0
-        },
+        }, 
         {
          "draworder":"topdown",
          "id":7,
@@ -219,7 +231,7 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":9,
+ "nextlayerid":10,
  "nextobjectid":4,
  "orientation":"orthogonal",
  "renderorder":"right-down",

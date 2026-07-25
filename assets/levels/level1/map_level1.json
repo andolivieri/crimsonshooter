@@ -47,6 +47,12 @@
          "id":4,
          "name":"BG",
          "opacity":1,
+         "properties":[
+                {
+                 "name":"static",
+                 "type":"bool",
+                 "value":true
+                }],
          "type":"tilelayer",
          "visible":true,
          "width":60,
@@ -98,6 +104,12 @@
          "id":1,
          "name":"TERRAIN",
          "opacity":1,
+         "properties":[
+                {
+                 "name":"static",
+                 "type":"bool",
+                 "value":true
+                }],
          "type":"tilelayer",
          "visible":true,
          "width":60,

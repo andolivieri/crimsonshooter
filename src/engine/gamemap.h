@@ -62,6 +62,7 @@ public:
     static int mapHeight;
     static std::vector<MapLayer> layers;
     static std::vector<MapObject> objects;
+    static SDL_Texture* staticLayerTexture;
 
     static void LoadMap(const std::string& path, EntityManager& em);
     static const MapObject* getObject(const std::string& name);
