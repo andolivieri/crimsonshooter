@@ -105,7 +105,7 @@ void PerkComponent::applyPerk(Entity& player)
                 turret.addComponent<TransformComponent>(transform->pos.x, transform->pos.y, 64, 64);
                 TurretComponent::Config cfg;
                 cfg.weaponId = "mg";
-                cfg.duration = 3600.0f;
+                cfg.duration = 10.0f;
                 cfg.overrideMagazine = 1000000;
                 turret.addComponent<TurretComponent>(cfg);
                 std::cout << "Applied turret perk: turret deployed!" << std::endl;

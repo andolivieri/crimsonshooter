@@ -34,7 +34,5 @@ bool DamageModelComponent::diedNow()
 bool DamageModelComponent::wasCriticalHit()
 {
     const auto wasCritical =  justDied && lastDamageTaken >= startHealth * 2.5;
-    if(wasCritical)
-        std::cout << "CRITICAL HIT: " << lastDamageTaken << std::endl;
     return wasCritical;
 }

@@ -4,7 +4,7 @@
     "startingPerks": ["turret"],
     "map": "assets/levels/level3/map_level3.json",
     "waves": [
-        { "kind": "runner",   "count": 3000, "maxOnScreen": 150 },
+        { "kind": "runner",   "count": 3000, "maxOnScreen": 250 },
         { "kind": "runner",   "count": 300, "maxOnScreen": 60 },
         { "kind": "runner",   "count": 300, "maxOnScreen": 60 },
         { "kind": "standard", "count": 30, "maxOnScreen": 15 },
