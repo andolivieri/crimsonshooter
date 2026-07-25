@@ -4,6 +4,7 @@
 
 #include <string>
 #include <time.h>
+#include <functional>
 #include <SDL.h>
 #include "ecs/ecs.h"
 #include "ecs/base/transformcomponent.h"
@@ -32,12 +33,18 @@ public:
 
     WeaponBayComponent& setAttachPoint(const Vector2D&, int slot=0, bool mirrored=false);
     WeaponBayComponent& equip(const std::string &n, int slot=0);
+    WeaponBayComponent& equip(const std::string &n, int slot, const std::function<void(WeaponData&)>& tweak);
     WeaponBayComponent& autoequip(const std::string& n);
 
     void init() override;
     void update() override;
 
     void drop(int slot);
+
+    Entity* weaponEntity(int slot=0) const;
+    void triggerPull(int slot=0);
+    void triggerRelease(int slot=0);
+    void reload(int slot=0);
 
     int grenadeCount;
 
@@ -49,7 +56,6 @@ private:
     std::array<AttachedWeapon, 2> weapons;
 
     TransformComponent* transform;
-    InputComponent* input;
     RelationshipComponent* rel;
     SpriteComponent* sprite;
 

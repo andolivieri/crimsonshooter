@@ -82,6 +82,16 @@ void ActorControllerComponent::update()
         {
             tryingToSprint = true;
         }
+
+        if(evt.button == BTN_FIRE_1)
+            evt.evt == BTN_PRESS ? wbay->triggerPull(0) : wbay->triggerRelease(0);
+        if(evt.button == BTN_FIRE_2)
+            evt.evt == BTN_PRESS ? wbay->triggerPull(1) : wbay->triggerRelease(1);
+        if(evt.button == BTN_RELOAD && evt.evt == BTN_PRESS)
+        {
+            wbay->reload(0);
+            wbay->reload(1);
+        }
     }
     
     // stamina

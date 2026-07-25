@@ -21,7 +21,6 @@ void WeaponBayComponent::init()
 {
 
     transform = &entity->getComponent<TransformComponent>();
-    input = &entity->getComponent<InputComponent>();
 
 
     if(!entity->hasComponent<RelationshipComponent>())
@@ -33,14 +32,18 @@ void WeaponBayComponent::init()
 
 WeaponBayComponent & WeaponBayComponent::equip(const std::string& weaponId, int slot)
 {
+    return equip(weaponId, slot, {});
+}
+
+WeaponBayComponent & WeaponBayComponent::equip(const std::string& weaponId, int slot, const std::function<void(WeaponData&)>& tweak)
+{
 
     if(weaponId == "grenade"){
         grenadeCount++;
     }else{
         AttachedWeapon a;
         a.weaponId = weaponId;
-        a.entity = &WeaponFactory(entity->m_manager).createWeaponEntity(weaponId, mirror[slot]);
-        a.entity->getComponent<WeaponComponent>().bindFireButtonTo(slot == 0 ? BTN_FIRE_1 : BTN_FIRE_2);
+        a.entity = &WeaponFactory(entity->m_manager).createWeaponEntity(weaponId, mirror[slot], tweak);
         a.attachPoint = slots[slot];
         drop(slot);
         weapons[slot] = a;
@@ -48,6 +51,29 @@ WeaponBayComponent & WeaponBayComponent::equip(const std::string& weaponId, int 
 
     return *this;
 
+}
+
+Entity* WeaponBayComponent::weaponEntity(int slot) const
+{
+    return weapons[slot].entity;
+}
+
+void WeaponBayComponent::triggerPull(int slot)
+{
+    if(weapons[slot].entity)
+        weapons[slot].entity->getComponent<WeaponComponent>().triggerPull();
+}
+
+void WeaponBayComponent::triggerRelease(int slot)
+{
+    if(weapons[slot].entity)
+        weapons[slot].entity->getComponent<WeaponComponent>().triggerRelease();
+}
+
+void WeaponBayComponent::reload(int slot)
+{
+    if(weapons[slot].entity)
+        weapons[slot].entity->getComponent<WeaponComponent>().reload();
 }
 
 WeaponBayComponent &WeaponBayComponent::autoequip(const std::string &n)

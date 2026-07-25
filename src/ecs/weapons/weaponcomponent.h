@@ -21,16 +21,23 @@ public:
 
     void createProjectiles();
 
-    WeaponComponent& bindFireButtonTo(PlayerControl p);
     Vector2D getAttachMargin();
+    WeaponData& wpData();
+
+    void triggerPull();
+    void triggerRelease();
+    void reload();
 
     int currentMagazineShotCount = 0;
-    PlayerControl fireBtn = BTN_FIRE_1;
+    
+
+    // Control intents consumed by the FSM states.
+    bool triggerDown = false;
+    bool reloadRequested = false;
 private:
 
     WeaponData weapondata;
     int tracerCounter = 0;
-    InputComponent* input;
     TransformComponent* transform;
     FSM_StateBase* state = nullptr;
 

@@ -14,17 +14,15 @@ public:
     {
         sprite = &entity.getComponent<SpriteComponent>();
         sound = &entity.getComponent<SoundComponent>();
-        input = &entity.getComponent<InputComponent>();
         weapon = &entity.getComponent<WeaponComponent>();
     }
 
     Entity& entity;
 
-    InputComponent* input;
     SpriteComponent* sprite;
     SoundComponent* sound;
     WeaponComponent* weapon;
-    WeaponData weaponData;
+    const WeaponData& weaponData;
 protected:
     int currentMagazineShotCount = 0;
 
@@ -111,10 +109,24 @@ private:
 
 void WeaponComponent::init()
 {
-    input = &entity->getComponent<InputComponent>();
     transform = &entity->getComponent<TransformComponent>();
     state = new WeaponStateIdle(weapondata, *entity);
     state->onEnter();
+}
+
+void WeaponComponent::triggerPull()
+{
+    triggerDown = true;
+}
+
+void WeaponComponent::triggerRelease()
+{
+    triggerDown = false;
+}
+
+void WeaponComponent::reload()
+{
+    reloadRequested = true;
 }
 
 void WeaponComponent::update()
@@ -198,16 +210,15 @@ void WeaponComponent::createProjectiles()
 
 }
 
-WeaponComponent &WeaponComponent::bindFireButtonTo(PlayerControl p)
-{
-    fireBtn = p;
-    return *this;
-}
-
 Vector2D WeaponComponent::getAttachMargin()
 {
     return weapondata.attachMargin;
 }
+
+WeaponData& WeaponComponent::wpData() {
+    return weapondata;
+}
+
 
 
 /////////////////////////////////////////////////////////////////
@@ -221,12 +232,9 @@ FSM_StateBase *WeaponStateShooting::handleInput()
         return new WeaponStateReloading(weaponData, entity);
     }
 
-    // TRIGGER_RELEASE: => idle
-    for(auto e : input->frameEvents)
-    {
-        if(e.button == weapon->fireBtn && e.evt == BTN_RELEASE)
-            return new WeaponStateIdle(weaponData, entity);
-    }
+    // Trigger released => back to idle.
+    if(!weapon->triggerDown)
+        return new WeaponStateIdle(weaponData, entity);
 
     if(weaponData.chainsaw)
         return this;
@@ -257,16 +265,14 @@ FSM_StateBase *WeaponStateReloading::handleInput()
 /////////////////////////////////////////////////////////////////
 FSM_StateBase *WeaponStateIdle::handleInput()
 {
-    for(auto e : input->frameEvents)
+    // Manual reload request => reloading.
+    if(weapon->reloadRequested)
     {
-
-        if(e.button == BTN_RELOAD && e.evt == BTN_PRESS)
-        {
-            return new WeaponStateReloading(weaponData, entity);
-        }
-        // TRIGGER_PULL: => shooting
-        if(e.button == weapon->fireBtn && e.evt == BTN_PRESS)
-            return new WeaponStateShooting(weaponData, entity);
+        weapon->reloadRequested = false;
+        return new WeaponStateReloading(weaponData, entity);
     }
+    // Trigger pulled => shooting.
+    if(weapon->triggerDown)
+        return new WeaponStateShooting(weaponData, entity);
     return this;
 }

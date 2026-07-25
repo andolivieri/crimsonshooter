@@ -20,6 +20,7 @@ enum groupLabels
     groupFlames,
     groupPerks,
     groupPerksIcon,
+    groupTurrets,
     groupWeapons,
     groupPlayers,
     groupEnemies,

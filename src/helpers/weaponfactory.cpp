@@ -8,7 +8,8 @@
 #include <climits>
 
 
-Entity &WeaponFactory::createWeaponEntity(const std::string &weapon, bool mirrored)
+Entity &WeaponFactory::createWeaponEntity(const std::string &weapon, bool mirrored,
+                                          const std::function<void(WeaponData&)>& tweak)
 {
     auto& theweapon = manager.addEntity();
     if(weapon == "shotgun")
@@ -24,6 +25,11 @@ Entity &WeaponFactory::createWeaponEntity(const std::string &weapon, bool mirror
     theweapon.addGroup(groupWeapons);
     if(mirrored)
         theweapon.getComponent<SpriteComponent>().flip =SDL_FLIP_VERTICAL;
+    // apply tweak
+    if(tweak){
+        tweak(theweapon.getComponent<WeaponComponent>().wpData());
+    }
+    
     return theweapon;
 }
 
@@ -120,7 +126,6 @@ Entity &WeaponFactory::createShotgun(Entity &e)
             .addAnimation("shoot", {0, 0, 4, 100})
             .addAnimation("reload", {4, 0, 8, 150});
     e.addComponent<SoundComponent>();
-    e.addComponent<InputComponent>();
     e.addComponent<WeaponComponent>(wp);
     e.addGroup(groupWeapons);
     return e;
@@ -160,7 +165,6 @@ Entity &WeaponFactory::createUzi(Entity &e)
             .addAnimation("shoot", {0, 0, 4, 20})
             .addAnimation("reload", {4, 0, 11, 100});
     e.addComponent<SoundComponent>();
-    e.addComponent<InputComponent>();
     e.addComponent<WeaponComponent>(wp);
     e.addGroup(groupWeapons);
     return e;
@@ -200,7 +204,6 @@ Entity &WeaponFactory::createHandgun(Entity &e)
             .addAnimation("shoot", {0, 0, 4, 20})
             .addAnimation("reload", {0, 0, 1, 100});
     e.addComponent<SoundComponent>();
-    e.addComponent<InputComponent>();
     e.addComponent<WeaponComponent>(wp);
     e.addGroup(groupWeapons);
     return e;
@@ -241,7 +244,6 @@ Entity &WeaponFactory::createMachineGun(Entity &e)
             .addAnimation("shoot", {0, 0, 4, 20})
             .addAnimation("reload", {4, 0, 11, 100});
     e.addComponent<SoundComponent>();
-    e.addComponent<InputComponent>();
     e.addComponent<WeaponComponent>(wp);
     e.addGroup(groupWeapons);
     return e;

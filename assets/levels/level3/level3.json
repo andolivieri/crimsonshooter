@@ -1,16 +1,19 @@
 {
     "name": "LEVEL 3",
     "order": 3,
-    "startingPerks": ["strafe"],
+    "startingPerks": ["turret"],
     "map": "assets/levels/level3/map_level3.json",
     "waves": [
         { "kind": "runner",   "count": 300, "maxOnScreen": 60 },
         { "kind": "standard", "count": 30, "maxOnScreen": 15 },
-        { "kind": "brute",    "count": 15, "maxOnScreen": 8  },
+        { "kind": "brute",    "count": 70, "maxOnScreen": 8  },
         { "kind": "runner",   "count": 50, "maxOnScreen": 25 },
         { "kind": "brute",   "count": 50, "maxOnScreen": 30 },
         { "kind": "runner",   "count": 100, "maxOnScreen": 35 },
         { "kind": "brute",   "count": 100, "maxOnScreen": 30 },
-        { "kind": "runner",   "count": 100, "maxOnScreen": 50 }
+        { "kind": "runner",   "count": 500, "maxOnScreen": 70 },
+        { "kind": "brute",   "count": 100, "maxOnScreen": 80 },
+        { "kind": "runner",   "count": 800, "maxOnScreen": 80 },
+        { "kind": "runner",   "count": 150, "maxOnScreen": 80 }
     ]
 }

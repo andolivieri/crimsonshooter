@@ -2,6 +2,7 @@
 #define WEAPONFACTORY_H
 
 #include <cstdint>
+#include <functional>
 #include <SDL.h>
 #include "ecs/ecs.h"
 #include "helpers/vector2d.h"
@@ -64,7 +65,8 @@ public:
         : manager(em)
     {}
 
-    Entity& createWeaponEntity(const std::string& weapon, bool mirrored=false);
+    Entity& createWeaponEntity(const std::string& weapon, bool mirrored=false,
+                               const std::function<void(WeaponData&)>& tweak={});
 private:
 
     EntityManager& manager;

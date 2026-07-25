@@ -117,6 +117,8 @@ void PerkSpawnerComponent::createPerkEntity(const std::string& perkName, PerkTyp
             iconSprite = "assets/nuke.png";
         } else if (perkName == "strafe") {
             iconSprite = "assets/skull.png";
+        } else if (perkName == "turret") {
+            iconSprite = "assets/turret.png";
         }
         
         if (!iconSprite.empty()) {

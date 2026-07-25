@@ -23,6 +23,7 @@
 #include "effects/sparkcomponent.h"
 #include "effects/straferuncomponent.h"
 #include "effects/trailcomponent.h"
+#include "effects/turretcomponent.h"
 #include "gameplay/damagemodel.h"
 #include "gameplay/scorecollector.h"
 #include "gameplay/staminacomponent.h"

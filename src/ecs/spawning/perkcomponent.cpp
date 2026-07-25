@@ -6,6 +6,7 @@
 #include "ecs/effects/firecomponent.h"
 #include "ecs/effects/bombruncomponent.h"
 #include "ecs/effects/straferuncomponent.h"
+#include "ecs/effects/turretcomponent.h"
 #include <algorithm>
 #include <iostream>
 
@@ -98,6 +99,16 @@ void PerkComponent::applyPerk(Entity& player)
                 strafeEntity.addComponent<StrafeRunComponent>
                     (player.getComponent<TransformComponent>().center(), cfg);
                 std::cout << "Applied strafe perk: A10 inbound, brrrrt!" << std::endl;
+            } else if (perkName == "turret") {
+                // Deploy a temporary auto-firing turret at the pickup spot.
+                auto& turret = player.m_manager.addEntity("turret");
+                turret.addComponent<TransformComponent>(transform->pos.x, transform->pos.y, 64, 64);
+                TurretComponent::Config cfg;
+                cfg.weaponId = "mg";
+                cfg.duration = 3600.0f;
+                cfg.overrideMagazine = 1000000;
+                turret.addComponent<TurretComponent>(cfg);
+                std::cout << "Applied turret perk: turret deployed!" << std::endl;
             }
             break;
     }

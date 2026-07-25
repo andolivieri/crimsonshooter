@@ -43,7 +43,7 @@ private:
         //"pistol",
         //"chainsaw"
         "uzi", "shotgun", "mg"};
-    std::vector<std::string> otherPerks = {"fire", "grenade", "health", "nuke", "strafe"};
+    std::vector<std::string> otherPerks = {"fire", "grenade", "health", "nuke", "strafe", "turret"};
 
     // starting perks pool, emtpu = "any weapon".
     std::vector<std::string> startingPerkPool;
