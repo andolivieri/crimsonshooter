@@ -12,8 +12,7 @@
 #include <cmath>
 #include <cstdlib>
 
-// todo andoli: swap these placeholders for dedicated A10 art & audio
-static constexpr const char* SPR_A10   = "assets/bomber.png";
+static constexpr const char* SPR_A10   = "assets/a10.png";
 static constexpr const char* SFX_BRRRT = "assets/sounds/brrrrt.ogg";
 static constexpr const char* SFX_ROAR  = "assets/sounds/jet_flyby.ogg";
 
@@ -195,8 +194,8 @@ void StrafeRunComponent::spawnPlaneShadow()
     const Lane& center = m_lanes[m_lanes.size() / 2];
 
     const float speed = 16.f;
-    Vector2D spriteSize(256, 138);
-    const int spriteScale = 3;
+    Vector2D spriteSize(256, 256);
+    const int spriteScale = 1;
     float angle = static_cast<float>(Math2D::angleBetweenPoints(center.entry, center.exit));
 
     // start well outside the entry border so it flies fully across the field
@@ -212,7 +211,7 @@ void StrafeRunComponent::spawnPlaneShadow()
         .setSrcRect({0, 0, static_cast<int>(spriteSize.x), static_cast<int>(spriteSize.y)})
         .setAbsolute(false)
         .setColorMod(35, 35, 40) // darken into a shadow
-        .setAlpha(120);
+        .setAlpha(128);
     tr.velocity = Vector2D(m_dir.x * speed, m_dir.y * speed);
     tr.rotation = angle + 90;
     plane.addComponent<DecayComponent>(10 * ONE_SECOND, 8 * ONE_SECOND);
