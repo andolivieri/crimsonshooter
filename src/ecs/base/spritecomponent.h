@@ -1,11 +1,13 @@
 #ifndef SPRITECOMPONENT_H
 #define SPRITECOMPONENT_H
 #include <map>
+#include <functional>
 #include "SDL.h"
 #include "ecs/ecs.h"
 #include "transformcomponent.h"
 #include "engine/texturemanager.h"
 #include "animation.h"
+#include "helpers/stickerbaker.h"
 
 
 class SpriteComponent : public Component
@@ -23,6 +25,9 @@ public:
     void draw() override;
     void play(const std::string& anim, int repeat=-1);
     void stop();
+    bool animationFinished() const;
+    // TODO andoli: no this should be done stickerbaker somehow
+    StickerOp snapshot(int group) const;
 
     bool absolute = false;
     SDL_Rect srcRect, dstRect;
@@ -39,6 +44,7 @@ public:
     SpriteComponent& setTransform(TransformComponent* t);
     SpriteComponent& setAbsolute(bool b);
     SpriteComponent& showFrame(bool b);
+    SpriteComponent& setOnAnimationEnd(std::function<void()> cb);
 private:
 
     std::map<std::string, Animation> m_animation;
@@ -54,6 +60,9 @@ private:
     int alpha = 255;
     uint8_t colorR = 255, colorG = 255, colorB = 255;
     bool _showFrame = false;
+
+    std::function<void()> m_onAnimationEnd;
+    bool m_animEndFired = false;
 
 
 

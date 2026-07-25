@@ -8,7 +8,6 @@
 #include "ecs/base/relationshipcomponent.h"
 #include "ecs/base/collidercomponent.h"
 #include "ecs/base/decaycomponent.h"
-#include "ecs/effects/bloodpatch.h"
 #include "ecs/effects/firecomponent.h"
 #include "ecs/ai/pathfindingcomponent.h"
 #include "helpers/math2d.h"

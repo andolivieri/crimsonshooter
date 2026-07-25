@@ -2,7 +2,7 @@
 #include "ecs/ecs.h"
 #include "ecs/base/transformcomponent.h"
 #include "ecs/base/spritecomponent.h"
-#include "ecs/base/relationshipcomponent.h"
+#include "ecs/base/backgroundstickercomponent.h"
 #include "engine/game.h"
 #include <cmath>
 
@@ -20,8 +20,11 @@ void createBloodSpit(Entity &target)
     const auto bf = 10;
     bloodSpit.addComponent<SpriteComponent>("assets/blood.png")
         .addAnimation("splat", {0, 0, 3 + (rand() % (bf - 4)), 20})
+        .setOnAnimationEnd([&bloodSpit]{ 
+            bloodSpit.destroy(); 
+        })
         //.showFrame(true)
         .play("splat", 1);
     bloodSpit.addGroup(groupBloodPatches);
-    target.emplaceComponent<RelationshipComponent>().addChildren(&bloodSpit, "");
+    bloodSpit.addComponent<BackgroundStickerComponent>(groupBloodPatches);
 }

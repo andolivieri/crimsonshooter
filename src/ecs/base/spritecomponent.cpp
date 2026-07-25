@@ -45,6 +45,12 @@ void SpriteComponent::init()
 void SpriteComponent::update()
 {
     _update();
+
+    if(m_animated && !m_animEndFired && m_onAnimationEnd && animationFinished())
+    {
+        m_animEndFired = true;
+        m_onAnimationEnd();
+    }
 }
 
 void SpriteComponent::draw()
@@ -96,6 +102,7 @@ void SpriteComponent::play(const std::string &anim, int repeat)
     if(anim != m_currentAnimation){
         m_animLoopCounter = 0;
         m_animCurrentFrameIndex = 0;
+        m_animEndFired = false;
     }
     m_currentAnimation = anim;
     m_animationLoops = repeat;
@@ -104,6 +111,32 @@ void SpriteComponent::play(const std::string &anim, int repeat)
 void SpriteComponent::stop()
 {
     m_animated = false;
+}
+
+bool SpriteComponent::animationFinished() const
+{
+    if(!m_animated)
+        return true;
+    if(m_animationLoops <= 0)
+        return false; // loops never finish
+    return m_animLoopCounter >= m_animationLoops;
+}
+
+StickerOp SpriteComponent::snapshot(int group) const
+{
+    StickerOp op{};
+    op.texture = m_texture;
+    op.src = srcRect;
+    op.worldDst = dstRect;         // already world coords (see _update)
+    op.rotation = transform ? transform->rotation : 0.0;
+    op.flip = flip;
+    op.alpha = static_cast<uint8_t>(alpha);
+    op.r = colorR;
+    op.g = colorG;
+    op.b = colorB;
+    op.group = group;
+    op.seq = 0;                    // assigned by StickerBaker::enqueue
+    return op;
 }
 
 SpriteComponent &SpriteComponent::setSrcRect(const SDL_Rect &s)
@@ -121,6 +154,13 @@ SpriteComponent &SpriteComponent::setAbsolute(bool b)
 SpriteComponent &SpriteComponent::showFrame(bool b)
 {
     _showFrame = b;
+    return *this;
+}
+
+SpriteComponent &SpriteComponent::setOnAnimationEnd(std::function<void()> cb)
+{
+    m_onAnimationEnd = std::move(cb);
+    m_animEndFired = false;
     return *this;
 }
 

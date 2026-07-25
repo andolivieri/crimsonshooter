@@ -21,10 +21,14 @@ void AIComponent::update()
             entity->delGroup(groupEnemies);
             entity->addGroup(groupDeadEnemies);
             family->getChild("shadow")->setActive(false);
-            entity->addComponent<DecayComponent>(ONE_MINUTE, ONE_MINUTE - 5*ONE_SECOND);
+            entity->addComponent<BackgroundStickerComponent>(groupDeadEnemies);
             entity->removeComponent<ColliderComponent>();
 
+            sprite->setOnAnimationEnd([this]{ 
+                entity->destroy();
+             });
         }
+        
         return;
     }
 

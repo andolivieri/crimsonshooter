@@ -48,6 +48,11 @@ void EntityManager::refresh()
                 ),
                 std::end(v));
     }
+    for(auto& e : m_entities)
+    {
+        if(!e->active())
+            e->unmount();
+    }
 
     m_entities.erase(
                 std::remove_if(

@@ -141,9 +141,6 @@ void PerkSpawnerComponent::spawnPerk()
     
     PerkType perkType = perkTypeFor(selectedPerk);
 
-    std::cout << "Spawning perk: " << selectedPerk << " (type: " 
-              << (perkType == PerkType::WEAPON ? "WEAPON" : "OTHER") << ")" << std::endl;
-    
     createPerkEntity(selectedPerk, perkType, spawnPt);
     totalPerksSpawned++;
 }

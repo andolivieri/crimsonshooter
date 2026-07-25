@@ -4,6 +4,6 @@
     "startingPerks": ["mg"],
     "map": "assets/levels/test/map_test.json",
     "waves": [
-        { "kind": "runner",   "count": 50, "maxOnScreen": 100 }
+        { "kind": "runner",   "count": 500, "maxOnScreen": 100 }
     ]
 }

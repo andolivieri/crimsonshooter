@@ -50,6 +50,7 @@ public:
     virtual void init(){}
     virtual void update() {}
     virtual void draw() {}
+    virtual void unmount() {}
 
     bool removeFlag = false;
 
@@ -88,6 +89,13 @@ public:
         for(auto i{0}; i < compsize; i++)
         {
             m_comps[i]->draw();
+        }
+    }
+    void unmount(){
+        auto compsize = m_comps.size();
+        for(auto i{0}; i < compsize; i++)
+        {
+            m_comps[i]->unmount();
         }
     }
     bool active(){ return m_active; }

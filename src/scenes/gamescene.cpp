@@ -239,6 +239,7 @@ void GameScene::update()
     // follow player camera
     followPlayer();
     Scene::update();
+    StickerBaker::flush(Game::getRenderer(), GameMap::staticLayerTexture);
 }
 
 void GameScene::followPlayer()
