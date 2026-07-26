@@ -35,6 +35,7 @@ public:
 private:
     Config m_cfg;
     TransformComponent* m_transform = nullptr;
+    TransformComponent* m_bodyTransform = nullptr;
     WeaponBayComponent* m_bay = nullptr;
 };
 

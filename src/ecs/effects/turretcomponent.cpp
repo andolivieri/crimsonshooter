@@ -9,10 +9,17 @@ void TurretComponent::init()
 {
     m_transform = &entity->getComponent<TransformComponent>();
 
-    entity->emplaceComponent<SpriteComponent>(m_cfg.baseSprite).setSrcRect({0, 0, 64, 64});
     entity->emplaceComponent<RelationshipComponent>();
 
-    // Apply the optional per-turret weapon-param overrides on top of the preset.
+    auto& tripod = entity->m_manager.addEntity();
+    tripod.addComponent<TransformComponent>(m_transform->pos.x, m_transform->pos.y,
+                                           m_transform->width, m_transform->height);
+    m_bodyTransform = &tripod.getComponent<TransformComponent>();
+    tripod.emplaceComponent<SpriteComponent>(m_cfg.baseSprite).setSrcRect({0, 0, 64, 64});
+    tripod.addGroup(groupTurrets);
+    entity->getComponent<RelationshipComponent>().addChildren(&tripod, "turret_body");
+
+    // optional per-turret weapon-param overrides on top of the preset.
     Config cfg = m_cfg;
     auto tweak = [cfg](WeaponData& wp) {
         if(cfg.overrideRate > 0)     wp.rate = static_cast<uint32_t>(cfg.overrideRate);
@@ -24,11 +31,9 @@ void TurretComponent::init()
     m_bay = &entity->addComponent<WeaponBayComponent>();
     m_bay->setAttachPoint(m_cfg.attachPoint, 0).equip(m_cfg.weaponId, 0, tweak);
 
-    // The weapon is a separate entity; make it a child so it dies with the body.
     if(Entity* weapon = m_bay->weaponEntity(0))
         entity->getComponent<RelationshipComponent>().addChildren(weapon, "turret_weapon");
 
-    // Fixed lifetime: fade out over the last second, then self-destruct.
     const int lifeMs = static_cast<int>(m_cfg.duration * ONE_SECOND);
     entity->addComponent<DecayComponent>(lifeMs, lifeMs - ONE_SECOND);
 
@@ -37,6 +42,8 @@ void TurretComponent::init()
 
 void TurretComponent::update()
 {
+    m_bodyTransform->centerOn(m_transform->center());
+
     // Find the closest live enemy in range.
     Entity* closest = nullptr;
     double closestDist = m_cfg.engageRange;
