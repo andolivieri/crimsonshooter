@@ -19,6 +19,13 @@ void TurretComponent::init()
     tripod.addGroup(groupTurrets);
     entity->getComponent<RelationshipComponent>().addChildren(&tripod, "turret_body");
 
+    // added before the bay so the weapon follows the new heading in the same frame.
+    AimControllerComponent::Config aimCfg;
+    aimCfg.rotationSpeed  = m_cfg.rotationSpeed;
+    aimCfg.engageRange    = m_cfg.engageRange;
+    aimCfg.disengageRange = m_cfg.disengageRange;
+    m_aim = &entity->addComponent<AimControllerComponent>(aimCfg);
+
     // optional per-turret weapon-param overrides on top of the preset.
     Config cfg = m_cfg;
     auto tweak = [cfg](WeaponData& wp) {
@@ -44,35 +51,11 @@ void TurretComponent::update()
 {
     m_bodyTransform->centerOn(m_transform->center());
 
-    // Find the closest live enemy in range.
-    Entity* closest = nullptr;
-    double closestDist = m_cfg.engageRange;
-    const Vector2D myCenter = m_transform->center();
-
-    for(auto enemy : entity->m_manager.getGroup(groupEnemies))
-    {
-        if(!enemy->hasComponent<DamageModelComponent>())
-            continue;
-        if(enemy->getComponent<DamageModelComponent>().isDead())
-            continue;
-
-        const double dist = Math2D::distanceBetweenPoints(
-            myCenter, enemy->getComponent<TransformComponent>().center());
-        if(dist <= closestDist)
-        {
-            closestDist = dist;
-            closest = enemy;
-        }
-    }
-
-    if(closest)
-    {
-        m_transform->rotation = Math2D::angleBetweenPoints(
-            myCenter, closest->getComponent<TransformComponent>().center());
+    // AimControllerComponent owns target selection and the rotation limit; the
+    // turret just holds the trigger down while it has something to track, so it
+    // keeps hosing whatever it sweeps across on the way there.
+    if(m_aim->hasTarget())
         m_bay->triggerPull(0);
-    }
     else
-    {
         m_bay->triggerRelease(0);
-    }
 }

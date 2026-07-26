@@ -53,6 +53,13 @@ void EntityManager::refresh()
         if(!e->active())
             e->unmount();
     }
+    for(auto it = m_taggedEntities.begin(); it != m_taggedEntities.end();)
+    {
+        if(!it->second->active())
+            it = m_taggedEntities.erase(it);
+        else
+            it++;
+    }
 
     m_entities.erase(
                 std::remove_if(
@@ -82,8 +89,6 @@ void EntityManager::clear()
 
 Entity* EntityManager::get(const std::string tag)
 {
-    // dont'use BROKEN
-    //assert(false);
     if(m_taggedEntities.count(tag))
         return m_taggedEntities[tag];
     return nullptr;

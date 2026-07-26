@@ -3,6 +3,7 @@
 
 
 #include "ai/aicomponent.h"
+#include "ai/aimcontrollercomponent.h"
 #include "ai/dumbcomponent.h"
 #include "ai/pathfindingcomponent.h"
 #include "base/backgroundstickercomponent.h"

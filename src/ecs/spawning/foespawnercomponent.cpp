@@ -41,8 +41,9 @@ void FoeSpawnerComponent::spawnFoe(const std::string foekind)
 {
 
     static long enemyCount = 0;
+    const long foeId = enemyCount++;
 
-    auto& theFoe = entity->m_manager.addEntity();
+    auto& theFoe = entity->m_manager.addEntity("foe" + std::to_string(foeId));
     theFoe.addComponent<TransformComponent>(0.f,0.f, 64,64);
 
     Vector2D spawnPt;
@@ -84,7 +85,7 @@ void FoeSpawnerComponent::spawnFoe(const std::string foekind)
     theFoe.addComponent<DamageModelComponent>(kind.health);
     theFoe.addComponent<ScoreCollector>(scoreData);
     const int contactDamage = kind.contactDamage;
-    theFoe.addComponent<ColliderComponent>(foekind + std::to_string(enemyCount++), 4, 4, .8f)
+    theFoe.addComponent<ColliderComponent>(foekind + std::to_string(foeId), 4, 4, .8f)
             .setBlockedBySolids("!PERIMETER")
             .setCircle()
             .onCollision([&theFoe, contactDamage](Entity& target){

@@ -38,6 +38,27 @@ double Math2D::deg2rad(const double deg)
     return deg*M_PI / 180;
 }
 
+double Math2D::normalizeAngle(const double deg)
+{
+    double a = std::fmod(deg + 180.0, 360.0);
+    if(a < 0)
+        a += 360.0;
+    return a - 180.0;
+}
+
+double Math2D::angleDelta(const double from, const double to)
+{
+    return normalizeAngle(to - from);
+}
+
+double Math2D::stepAngle(const double from, const double to, const double maxStep)
+{
+    const double delta = angleDelta(from, to);
+    if(maxStep <= 0 || std::abs(delta) <= maxStep)
+        return normalizeAngle(to);
+    return normalizeAngle(from + (delta > 0 ? maxStep : -maxStep));
+}
+
 Vector2D Math2D::randomAround(int radius, const Vector2D &a)
 {
     Vector2D r = a;
