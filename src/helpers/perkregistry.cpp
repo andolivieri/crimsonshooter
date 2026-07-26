@@ -17,7 +17,7 @@ namespace
             m.push_back({"fire", PerkType::OTHER, PerkRarity::RARE, "assets/fire.png"});
             m.push_back({"strafe", PerkType::OTHER, PerkRarity::COMMON, "assets/skull.png"});
             m.push_back({"nuke", PerkType::OTHER, PerkRarity::EPIC, "assets/nuke.png"});
-            m.push_back({"turret", PerkType::OTHER, PerkRarity::RARE, "assets/turret.png"});
+            m.push_back({"turret", PerkType::OTHER, PerkRarity::COMMON, "assets/turret.png"});
 
             return m;
         }();
