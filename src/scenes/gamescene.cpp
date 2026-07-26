@@ -88,7 +88,9 @@ void GameScene::init()
 
     // perkspawner
     m_entityManager.addEntity().addComponent<PerkSpawnerComponent>(
-        m_score, level ? level->startingPerks : std::vector<std::string>{});
+        m_score,
+        level ? level->startingPerks : std::vector<std::string>{},
+        level ? level->perks : PerkPoolConfig{});
 
     // wincondition
     FoeSpawnerComponent *spawner = &foespawn;

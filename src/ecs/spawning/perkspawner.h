@@ -9,6 +9,7 @@
 #include "ecs/input/inputcomponent.h"
 #include "ecs/gameplay/scorecollector.h"
 #include "ecs/base/relationshipcomponent.h"
+#include "helpers/perkregistry.h"
 #include "perkcomponent.h"
 
 
@@ -18,8 +19,12 @@ public:
 
     int perkEveryKills = 10;
 
-    PerkSpawnerComponent(ScoreData& sd, std::vector<std::string> startingPerkPool = {}):
-        scoreData(sd), startingPerkPool(std::move(startingPerkPool))
+    PerkSpawnerComponent(ScoreData& sd,
+                         std::vector<std::string> startingPerkPool = {},
+                         PerkPoolConfig perkConfig = {}):
+        scoreData(sd),
+        startingPerkPool(std::move(startingPerkPool)),
+        perkConfig(std::move(perkConfig))
     {
 
     }
@@ -28,6 +33,8 @@ public:
     void update() override;
 
     void spawnPerk();
+
+    PerkRarityRates& rates() { return perkConfig.rates; }
 
 private:
     ScoreData& scoreData;
@@ -38,16 +45,19 @@ private:
     int totalPerksPickedUp = 0;
     int totalPerksSpawned = 0;
     std::vector<std::string> perkHistory;
-    
-    std::vector<std::string> weaponPerks = {
-        //"pistol",
-        //"chainsaw"
-        "uzi", "shotgun", "mg"};
-    std::vector<std::string> otherPerks = {"fire", "grenade", "health", "nuke", "strafe", "turret"};
+
+    // drawable perks, built in init() from PerkRegistry + the level's pool filter
+    std::vector<std::string> weaponPerks;
+    std::vector<std::string> otherPerks;
 
     // starting perks pool, emtpu = "any weapon".
     std::vector<std::string> startingPerkPool;
 
+    PerkPoolConfig perkConfig;
+
+    void buildPools();
+    PerkRarity rarityFor(const std::string& perkName) const;
+    std::string drawFromPool(const std::vector<std::string>& pool) const;
     std::string drawPerk();
     std::string drawStartingPerk();
     PerkType perkTypeFor(const std::string& perkName) const;

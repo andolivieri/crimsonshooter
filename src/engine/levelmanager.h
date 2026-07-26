@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include "ecs/spawning/foespawnercomponent.h" // FoeWave
+#include "helpers/perkregistry.h"             // PerkPoolConfig
 
 struct LevelData
 {
@@ -13,6 +14,7 @@ struct LevelData
     std::string mapPath;
     std::vector<FoeWave> waves;
     std::vector<std::string> startingPerks;
+    PerkPoolConfig perks;
 };
 
 class LevelManager

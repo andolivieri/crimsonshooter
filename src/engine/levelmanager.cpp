@@ -37,6 +37,61 @@ LevelData LevelManager::loadManifest(const std::string& id, const std::string& p
         }
     }
 
+    // optional per-level perk tuning, on top of the PerkRegistry defaults:
+    //   "perks": {
+    //       "rarity":  { "common": 10, "rare": 50, "epic": 100 },   // one in N
+    //       "buckets": { "epic": ["nuke", "turret"] },              // re-bucket perks
+    //       "pool":    ["uzi", "health", "nuke"]                    // restrict what drops
+    //   }
+    level.perks.rates = PerkRegistry::defaultRates();
+    if (j.contains("perks"))
+    {
+        const auto& p = j["perks"];
+
+        if (p.contains("rarity"))
+        {
+            for (auto it = p["rarity"].begin(); it != p["rarity"].end(); ++it)
+            {
+                PerkRarity rarity;
+                if (PerkRegistry::rarityFromString(it.key(), rarity))
+                {
+                    level.perks.rates.setOneIn(rarity, it.value().get<float>());
+                }
+                else
+                {
+                    std::cerr << "LevelManager: unknown perk rarity '" << it.key() << "' in " << path
+                              << std::endl;
+                }
+            }
+        }
+
+        if (p.contains("buckets"))
+        {
+            for (auto it = p["buckets"].begin(); it != p["buckets"].end(); ++it)
+            {
+                PerkRarity rarity;
+                if (!PerkRegistry::rarityFromString(it.key(), rarity))
+                {
+                    std::cerr << "LevelManager: unknown perk rarity '" << it.key() << "' in " << path
+                              << std::endl;
+                    continue;
+                }
+                for (const auto& perk : it.value())
+                {
+                    level.perks.rarityOverrides.emplace_back(perk.get<std::string>(), rarity);
+                }
+            }
+        }
+
+        if (p.contains("pool"))
+        {
+            for (const auto& perk : p["pool"])
+            {
+                level.perks.pool.push_back(perk.get<std::string>());
+            }
+        }
+    }
+
     if (j.contains("waves"))
     {
         for (const auto& w : j["waves"])

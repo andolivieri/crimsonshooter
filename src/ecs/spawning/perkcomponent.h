@@ -6,11 +6,7 @@
 #include "ecs/ecs.h"
 #include "ecs/input/inputcomponent.h"
 #include "ecs/base/collidercomponent.h"
-
-enum class PerkType {
-    WEAPON,
-    OTHER
-};
+#include "helpers/perkregistry.h" // PerkType
 
 class PerkComponent : public Component
 {
