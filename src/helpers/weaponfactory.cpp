@@ -114,7 +114,7 @@ Entity &WeaponFactory::createShotgun(Entity &e)
     wp.soundShoot = "assets/sounds/shotgun_shoot.ogg";
     wp.projectileGauges = 12;
     wp.projectileSpreadAngle = 25;
-    wp.projectileDamage = 30;
+    wp.projectileDamage = 15;
     wp.projectileSize = 8;
 
 
@@ -149,6 +149,7 @@ Entity &WeaponFactory::createUzi(Entity &e)
     wp.soundEndfire = "assets/sounds/uzi_endshoot.ogg";
     wp.soundReload = "assets/sounds/uzi_reload.ogg";
     wp.projectileGauges = 1;
+    wp.projectileDamage = 7;
     wp.projectileSize = 4;
     wp.projectileSpreadAngle = 7;
     wp.projectileSpeed = 100;
@@ -195,6 +196,7 @@ Entity &WeaponFactory::createHandgun(Entity &e)
     wp.projectileSize = 2;
     wp.projectileSpreadAngle = 2;
     wp.projectileSpeed = 100;
+    wp.projectileDamage = 5;
 
     e.addComponent<TransformComponent>();
     e.getComponent<TransformComponent>().width = 64;
@@ -230,6 +232,7 @@ Entity &WeaponFactory::createMachineGun(Entity &e)
     wp.projectileSize = 4;
     wp.projectileSpreadAngle = 3;
     wp.projectileSpeed = 180;
+    wp.projectileDamage = 15;
 
     // green tracer, 1 bullet every 3
     wp.tracerEnabled = true;

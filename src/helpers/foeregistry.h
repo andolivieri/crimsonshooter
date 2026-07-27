@@ -26,6 +26,8 @@ struct FoeKindData
     float speedMin = 0.5f;
     float speedMax = 1.5f;
     int contactDamage = 10;
+
+    SDL_Color colorModifier{255, 255, 255, 255};
 };
 
 

@@ -36,7 +36,7 @@ public:
 
     std::string projectileSprite = "";
     int projectileSize = 4;
-    int projectileDamage = 20;
+    int projectileDamage = 5;
     int projectileGauges = 1;
     int projectileSpreadAngle = 0;
     int projectileSpeed = 1;

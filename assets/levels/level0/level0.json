@@ -4,7 +4,9 @@
     "map": "assets/levels/level0/map_level0.json",
     "waves": [
         { "kind": "standard", "count": 10,   "maxOnScreen": 5  },
-        { "kind": "standard", "count": 20,   "maxOnScreen": 10 },
-        { "kind": "standard", "count": 50,   "maxOnScreen": 20 }
+        { "kind": "runner", "count": 20,   "maxOnScreen": 10 },
+        { "kind": "standard", "count": 50,   "maxOnScreen": 30 },
+        { "kind": "runner", "count": 100,   "maxOnScreen": 20 },
+        { "kind": "boss", "count": 1,   "maxOnScreen": 1 }
     ]
 }

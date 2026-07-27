@@ -107,7 +107,12 @@ void FoeSpawnerComponent::spawnFoe(const std::string foekind)
     shadow.addComponent<SpriteComponent>("assets/aura.png")
             .setSrcRect({0,0,32,32})
             .setTransform(&theFoe.getComponent<TransformComponent>())
-            .setAlpha(128);
+            .setAlpha(128)
+            .setColorMod(
+                kind.colorModifier.r, 
+                kind.colorModifier.g, 
+                kind.colorModifier.b
+            );
     shadow.addGroup(groupAuras);
     theFoe.getComponent<RelationshipComponent>().addChildren(&shadow, "shadow");
 
