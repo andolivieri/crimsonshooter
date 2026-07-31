@@ -81,7 +81,7 @@ void BombRunComponent::dropBomb()
                         enemy->getComponent<TransformComponent>().pos
                     );
                     const auto dps = 15000 / distance;
-                    std::cout << "DPS: " << dps << " DIST: " << distance << std::endl;
+                    //std::cout << "DPS: " << dps << " DIST: " << distance << std::endl;
                     enemy->addComponent<FireComponent>(10 * ONE_SECOND, dps);
                 }
             }

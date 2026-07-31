@@ -91,7 +91,6 @@ void GrenadeProjectileComponent::createExplosion()
 {
     if (!transform) return;
     
-    std::cout << "Grenade exploded at position: " << transform->pos.x << ", " << transform->pos.y << std::endl;
     
     // Create explosion visual effect
     auto& explosion = entity->m_manager.addEntity();

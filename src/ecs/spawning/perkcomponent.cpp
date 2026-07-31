@@ -48,9 +48,7 @@ void PerkComponent::applyPerk(Entity& player)
             } else if (perkName == "grenade") {
                 if (player.hasComponent<WeaponBayComponent>()) {
                     auto& weaponBay = player.getComponent<WeaponBayComponent>();
-                    weaponBay.grenadeCount += 3; // Add 3 grenades
-                    std::cout << "Applied grenade perk: +3 grenades (total: " 
-                              << weaponBay.grenadeCount << ")" << std::endl;
+                    weaponBay.grenadeCount += 1;
                 }
             } else if (perkName == "fire") {
                 /*
