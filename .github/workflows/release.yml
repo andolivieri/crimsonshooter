@@ -30,7 +30,7 @@ jobs:
       - name: Package build/dist
         run: |
           arch="$(uname -m)"
-          name="crimsonshooter-linux-${arch}"
+          name="cremisi-linux-${arch}"
           cd build/dist
           zip -r "$GITHUB_WORKSPACE/${name}.zip" .
 
@@ -38,7 +38,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: linux-build
-          path: crimsonshooter-linux-*.zip
+          path: cremisi-linux-*.zip
           if-no-files-found: error
 
   build-windows:
@@ -56,14 +56,14 @@ jobs:
       - name: Package build/dist
         shell: pwsh
         run: |
-          $name = "crimsonshooter-windows-x64"
+          $name = "cremisi-windows-x64"
           Compress-Archive -Path build/dist/Release/* -DestinationPath "$name.zip"
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: windows-build
-          path: crimsonshooter-windows-*.zip
+          path: cremisi-windows-*.zip
           if-no-files-found: error
 
   release:
@@ -82,6 +82,6 @@ jobs:
           gh release delete latest --repo "$GITHUB_REPOSITORY" --yes --cleanup-tag || true
           gh release create latest \
             --repo "$GITHUB_REPOSITORY" \
-            --title "latest" \
-            --notes "best crimsonshooter build ever :+1:" \
+            --title "Latest" \
+            --notes "best cremisi build ever :+1:" \
             dist-artifacts/*/*.zip

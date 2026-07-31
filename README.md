@@ -31,13 +31,13 @@ launch.json for vscode
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "crimsonshooter",
+            "name": "cremisi",
             "type": "cppvsdbg",
             "request": "launch",
             "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": false,
-            "program": "build/dist/Debug/crimsonshooter.exe"
+            "program": "build/dist/Debug/cremisi.exe"
         }
     ]
 }

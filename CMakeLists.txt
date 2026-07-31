@@ -3,7 +3,7 @@ if(WIN32 AND "${CMAKE_GENERATOR_PLATFORM}" STREQUAL "")
     set(CMAKE_GENERATOR_PLATFORM "x64" CACHE STRING "Platform (x64 matches bundled SDL)" FORCE)
 endif()
 
-project(crimsonshooter)
+project(cremisi)
 
 if(WIN32 AND MSVC AND CMAKE_SIZEOF_VOID_P EQUAL 4)
     message(FATAL_ERROR
