@@ -8,6 +8,7 @@
 #include "ai/pathfindingcomponent.h"
 #include "base/backgroundstickercomponent.h"
 #include "base/collidercomponent.h"
+#include "base/collisiongridcomponent.h"
 #include "base/decaycomponent.h"
 #include "base/fsmcomponent.h"
 #include "base/predicatecomponent.h"

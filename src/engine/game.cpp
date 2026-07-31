@@ -29,6 +29,7 @@ std::set<Uint8> Game::pressedMouseButtons;
 SDL_GameController* Game::gameController = nullptr;
 std::vector<ColliderComponent*> Game::colliders;
 float Game::deltaTime = 0.0f;
+uint64_t Game::tick = 0;
 bool Game::debugColliders = false;
 bool Game::debugPaths = false;
 float Game::fps = 0.0f;
@@ -72,6 +73,7 @@ void Game::mainLoop()
         deltaTime = (frameStart - lastFrameTime) / 1000.0f;
         lastFrameTime = frameStart;
         
+        tick++;
         frameCount++;
         if (frameStart - lastFPSTime >= 1000) {
             fps = frameCount * 1000.0f / (frameStart - lastFPSTime);

@@ -1,4 +1,5 @@
 #include "collidercomponent.h"
+#include "collisiongridcomponent.h"
 #include "engine/game.h"
 #include "engine/texturemanager.h"
 #include "engine/navgrid.h"
@@ -58,27 +59,36 @@ void ColliderComponent::init()
     entity->addGroup(groupColliders);
     transform = &entity->getComponent<TransformComponent>();
 
+    // computed eagerly so the collider rect is never garbage/uninitialized
+    // if something queries the collision grid before this entity's own
+    // first update() runs.
+    syncColliderRect();
 }
 
-void ColliderComponent::update()
+void ColliderComponent::syncColliderRect()
 {
-    
-    if(blockedBySolids){
-        resolveAgainstSolids();
-    }
-
     collider.x = (int)transform->pos.x + paddingX;
     collider.y = (int)transform->pos.y + paddingY;
     collider.w = static_cast<int>(transform->width * scale);
     collider.h = static_cast<int>(transform->height  * scale);
+}
+
+void ColliderComponent::update()
+{
+
+    if(blockedBySolids){
+        resolveAgainstSolids();
+    }
+
+    syncColliderRect();
 
     if(onCollisionCb == nullptr){
         return;
     }
 
-    auto& otherColliders = entity->m_manager.getGroup(groupColliders);
+    auto nearby = CollisionGridComponent::get(entity->m_manager).query(collider.x, collider.y, collider.w, collider.h);
 
-    for(auto& c : otherColliders){
+    for(auto& c : nearby){
 
         if(c  != entity && c->hasComponent<ColliderComponent>()){
             ColliderComponent& targetCollider = c->getComponent<ColliderComponent>();
@@ -203,15 +213,25 @@ void ColliderComponent::resolveAgainstSolids()
                          static_cast<int>(py) + paddingY, w, h };
     };
 
-    auto& all = entity->m_manager.getGroup(groupColliders);
     auto hitsSolid = [&](const SDL_Rect& r) {
-        for(auto& c : all){
-            if(c == entity || !c->hasComponent<ColliderComponent>()){
-                continue;
-            }
-            ColliderComponent& other = c->getComponent<ColliderComponent>();
-            if(other.isSolid && isBlockedBy(other.tag) && Collision::AABB(r, other.collider)){
-                return true;
+        if(!NavGrid::ready()){
+            return false;
+        }
+
+        int c0, r0, c1, r1;
+        NavGrid::worldToCell(Vector2D{ static_cast<float>(r.x), static_cast<float>(r.y) }, c0, r0);
+        NavGrid::worldToCell(Vector2D{ static_cast<float>(r.x + r.w), static_cast<float>(r.y + r.h) }, c1, r1);
+
+        for(int cr = r0; cr <= r1; ++cr){
+            for(int cc = c0; cc <= c1; ++cc){
+                for(ColliderComponent* solid : NavGrid::solidsAt(cc, cr)){
+                    if(solid == this || !isBlockedBy(solid->tag)){
+                        continue;
+                    }
+                    if(Collision::AABB(r, solid->collider)){
+                        return true;
+                    }
+                }
             }
         }
         return false;

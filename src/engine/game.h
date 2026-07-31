@@ -73,6 +73,7 @@ public:
     static SDL_GameController* gameController;
     static std::vector<ColliderComponent*> colliders;
     static float deltaTime;
+    static uint64_t tick;
     static bool debugColliders;
     static bool debugPaths;
     static SceneManager* sceneManager;

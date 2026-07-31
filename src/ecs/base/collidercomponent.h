@@ -14,7 +14,7 @@ public:
     int paddingX = 0;
     int paddingY = 0;
     float scale = 1;
-    SDL_Rect collider;
+    SDL_Rect collider{};
     std::string tag;
     TransformComponent* transform;
 
@@ -41,6 +41,7 @@ public:
 
 private:
 
+    void syncColliderRect();
     void resolveAgainstSolids();
     void resolveCircleAgainstSolids();
 
